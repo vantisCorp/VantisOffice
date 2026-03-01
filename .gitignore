@@ -1,0 +1,44 @@
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+Cargo.lock
+
+# Build
+/build/
+/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Keys and secrets
+*.key
+*.pem
+*.p12
+secrets/
+.keys/
+
+# Test coverage
+*.profraw
+*.profdata
+
+# Documentation build
+docs/_build/
+docs/site/

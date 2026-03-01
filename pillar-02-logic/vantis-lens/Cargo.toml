@@ -1,0 +1,33 @@
+[package]
+name = "vantis-lens"
+version = "0.1.0"
+edition = "2021"
+authors = ["Vantis Team"]
+description = "Secure PDF viewer with automatic sterilization for VantisOffice"
+license = "Proprietary"
+
+[dependencies]
+# Core dependencies
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+thiserror = "1.0"
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# PDF processing (placeholder - would use poppler or pdfium in production)
+# poppler = "0.3"
+# pdfium = "0.1"
+
+[dev-dependencies]
+tokio-test = "0.4"
+
+[[bin]]
+name = "vantis-lens"
+path = "src/main.rs"
+
+[lib]
+name = "vantis_lens"
+path = "src/lib.rs"

@@ -1,0 +1,17 @@
+[package]
+name = "vantis-ark"
+version = "0.1.0"
+edition = "2021"
+authors = ["Vantis Corporation"]
+license = "Proprietary"
+repository = "https://github.com/vantisCorp/VantisOffice"
+description = "Distributed backup with Shamir Secret Sharing for VantisOffice"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.0", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+thiserror = "1.0"
+md5 = "0.7"
+rand = "0.8"

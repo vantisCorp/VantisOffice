@@ -1,0 +1,42 @@
+[package]
+name = "vantis-grid"
+version = "0.1.0"
+edition = "2021"
+authors = ["Vantis Team"]
+description = "AI-powered spreadsheet application for VantisOffice"
+license = "Proprietary"
+
+[dependencies]
+# Core dependencies
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+regex = "1.10"
+thiserror = "1.0"
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# Math and ML (for Neural Engine)
+# Note: Using simpler math libraries to avoid dependency conflicts
+nalgebra = "0.32"
+statrs = "0.16"
+
+# Data processing - simplified to avoid conflicts
+# polars and arrow removed due to dependency conflicts
+# Will implement basic data processing natively
+
+# Cryptography (for secure collaboration)
+rust-crypto = "0.2"
+
+[dev-dependencies]
+tokio-test = "0.4"
+
+[[bin]]
+name = "vantis-grid"
+path = "src/main.rs"
+
+[lib]
+name = "vantis_grid"
+path = "src/lib.rs"
