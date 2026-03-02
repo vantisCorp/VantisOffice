@@ -446,9 +446,10 @@ mod tests {
     #[test]
     fn test_anomaly_detection() {
         let engine = NeuralEngine::new();
-        let data = vec![1.0, 2.0, 3.0, 100.0, 5.0]; // 100.0 is an anomaly
+        let data = vec![1.0, 2.0, 3.0, 4.0, 100.0, 6.0, 7.0]; // 100.0 is an anomaly
         
         let trend = engine.analyze_trends(&data).unwrap();
         assert!(!trend.anomalies.is_empty());
+        assert!(trend.anomalies.iter().any(|a| a.value == 100.0));
     }
 }
