@@ -1,0 +1,30 @@
+[package]
+name = "vantis-link"
+version = "0.1.0"
+edition = "2021"
+authors = ["Vantis Corporation"]
+license = "Proprietary"
+repository = "https://github.com/vantisCorp/VantisOffice"
+description = "P2P collaboration with CRDT for VantisOffice"
+
+[dependencies]
+# Core dependencies
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+thiserror = "1.0"
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# Cryptography (for E2E encryption)
+openssl = "0.10"
+argon2 = "0.5"
+chacha20poly1305 = "0.10"
+
+# P2P networking (placeholder - would use libp2p in production)
+# libp2p = "0.53"
+
+[dev-dependencies]
+tokio-test = "0.4"

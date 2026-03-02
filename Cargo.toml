@@ -1,0 +1,53 @@
+[workspace]
+resolver = "2"
+members = [
+    "pillar-01-iron/flux-vector-engine",
+    "pillar-01-iron/vantis-core-io",
+    "pillar-01-iron/vantis-vault",
+    "pillar-01-iron/wasm-sandbox",
+    "pillar-02-logic/vantis-grid",
+    "pillar-02-logic/vantis-canvas",
+    "pillar-02-logic/vantis-lens",
+    "pillar-02-logic/vantis-writer",
+    "pillar-03-sync/vantis-link",
+    "pillar-03-sync/vantis-flow",
+    "pillar-03-sync/vantis-chronos",
+    "pillar-04-continuity/vantis-ark",
+    "pillar-04-continuity/vantis-bridge",
+]
+
+[workspace.package]
+version = "0.1.0"
+authors = ["Vantis Corporation"]
+license = "Proprietary"
+repository = "https://github.com/vantisCorp/VantisOffice"
+edition = "2021"
+
+[workspace.dependencies]
+# Core dependencies
+tokio = { version = "1.35", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+thiserror = "1.0"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+# Cryptography
+openssl = "0.10"
+argon2 = "0.5"
+chacha20poly1305 = "0.10"
+
+# Async
+futures = "0.3"
+async-trait = "0.1"
+
+# UI
+winit = "0.29"
+vulkano = "0.34"
+
+# WASM
+wasmtime = "15.0"
+
+# Time
+chrono = "0.4"

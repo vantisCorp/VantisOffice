@@ -1,0 +1,40 @@
+[package]
+name = "flux-vector-engine"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Core dependencies
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Graphics and Vulkan
+vulkano = "0.34"
+vulkano-win = "0.34"
+vulkano-shaders = "0.34"
+image = "0.24"
+winit = "0.29"
+
+# Math
+nalgebra = "0.32"
+nalgebra-glm = "0.18"
+
+# Async
+tokio = { version = "1.35", features = ["full"] }
+futures = "0.3"
+
+# Time
+chrono = "0.4"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bin]]
+name = "flux-demo"
+path = "src/main.rs"
