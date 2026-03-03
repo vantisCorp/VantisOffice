@@ -515,7 +515,7 @@ mod tests {
     
     #[test]
     fn test_animation_creation() {
-        let animation = Animation::new(
+        let mut animation = Animation::new(
             "test".to_string(),
             AnimationType::FadeIn,
             Duration::from_millis(1000)
@@ -539,7 +539,7 @@ mod tests {
     
     #[test]
     fn test_easing_functions() {
-        let animation = Animation::new(
+        let mut animation = Animation::new(
             "test".to_string(),
             AnimationType::FadeIn,
             Duration::from_millis(1000)

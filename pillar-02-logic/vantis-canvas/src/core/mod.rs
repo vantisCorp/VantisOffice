@@ -240,6 +240,7 @@ pub struct Shape {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(PartialEq)]
 pub enum ShapeType {
     Rectangle,
     RoundedRectangle { radius: f64 },

@@ -32,6 +32,7 @@ rust-crypto = "0.2"
 
 [dev-dependencies]
 tokio-test = "0.4"
+criterion = "0.5"
 
 [[bin]]
 name = "vantis-grid"
@@ -40,3 +41,7 @@ path = "src/main.rs"
 [lib]
 name = "vantis_grid"
 path = "src/lib.rs"
+
+[[bench]]
+name = "grid_benchmark"
+harness = false

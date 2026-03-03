@@ -12,4 +12,11 @@ tokio = { version = "1.35", features = ["full"] }
 uuid = { version = "1.0", features = ["v4", "serde"] }
 chrono = { version = "0.4", features = ["serde"] }
 openssl = "0.10"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "vault_benchmark"
+harness = false
 argon2 = "0.5"
