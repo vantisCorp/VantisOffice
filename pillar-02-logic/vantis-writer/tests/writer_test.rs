@@ -1,6 +1,7 @@
 //! Integration tests for Vantis Writer
 
-use vantis_writer::{init, Document, Editor, Paragraph};
+use vantis_writer::{init};
+use vantis_writer::core::{Document, Editor, Paragraph};
 
 #[test]
 fn test_writer_initialization() {
