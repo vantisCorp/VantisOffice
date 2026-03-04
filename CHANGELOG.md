@@ -7,6 +7,10 @@ Format oparty na [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), a pro
 ## [0.5.0] - 2025-03-04
 
 ### Dodano
+- **Dokumentacja API** na GitHub Pages
+  - 699 stron HTML dokumentacji dla wszystkich 14 modułów
+  - Niestandardowa strona lądowania zorganizowana według 4 filarów
+  - Dostępna na: https://vantiscorp.github.io/VantisOffice/
 - **Testy dla vantis-lens** (21 testów)
   - PDF document creation, page management
   - Sterilization (metadata, JavaScript, external links removal)
