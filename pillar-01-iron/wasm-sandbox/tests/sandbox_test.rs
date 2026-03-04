@@ -1,6 +1,8 @@
 //! Integration tests for WASM Sandbox
 
-use wasm_sandbox::{init, Capability, Sandbox};
+use wasm_sandbox::{init};
+use wasm_sandbox::security::Capability;
+use wasm_sandbox::runtime::Sandbox;
 
 #[test]
 fn test_sandbox_initialization() {
