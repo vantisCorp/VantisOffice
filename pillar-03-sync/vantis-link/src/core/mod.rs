@@ -92,7 +92,7 @@ pub struct User {
     pub cursor: Option<Cursor>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum UserRole {
     Owner,
     Admin,
@@ -230,7 +230,7 @@ pub struct Change {
     pub crdt_operation: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum ChangeType {
     Insert,
     Delete,

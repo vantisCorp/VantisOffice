@@ -117,7 +117,7 @@ pub struct Annotation {
     pub is_visible: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum AnnotationType {
     Text,
     Highlight,
