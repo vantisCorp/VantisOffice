@@ -1976,7 +1976,7 @@ Clues:
 | Document | Format | Status | Link |
 |----------|--------|--------|------|
 | **Architecture Docs** | Markdown | ✅ | [docs/architecture.md](docs/architecture.md) |
-| **API Reference** | RustDoc | ✅ | [docs/api.md](docs/api.md) |
+| **API Reference** | RustDoc | ✅ | [vantiscorp.github.io/VantisOffice](https://vantiscorp.github.io/VantisOffice/) ⭐ |
 | **Benchmark Report** | PDF | ✅ | [docs/BENCHMARKS_COMPLETE.md](docs/BENCHMARKS_COMPLETE.md) |
 | **Security Guide** | Markdown | ✅ | [docs/security.md](docs/security.md) |
 | **Contributing Guide** | Markdown | ✅ | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) |
