@@ -363,7 +363,7 @@ impl Default for Style {
 }
 
 /// Color representation
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Color {
     /// Red component (0-255)
     pub r: u8,
