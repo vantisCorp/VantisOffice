@@ -4,6 +4,40 @@ Wszystkie istotne zmiany w VantisOffice będą dokumentowane w tym pliku.
 
 Format oparty na [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), a projekt przestrzega [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2025-03-04
+
+### Dodano
+- **Testy dla vantis-lens** (21 testów)
+  - PDF document creation, page management
+  - Sterilization (metadata, JavaScript, external links removal)
+  - Annotations (creation, positioning, types)
+  - Complete sterilization workflow integration tests
+- **Testy dla vantis-link** (28 testów)
+  - User management (creation, roles, online status)
+  - Session management (users, max limits, metadata)
+  - Document operations (insert, delete, replace changes)
+  - Collaboration workflow integration tests
+- **PartialEq derives** dla AnnotationType, UserRole, ChangeType
+
+### Bezpieczeństwo
+- **Usunięto rust-crypto** z vantis-grid (2 krytyczne podatności)
+  - Zastąpiono nowoczesnymi bibliotekami RustCrypto: sha2, aes, rand
+- **Zaktualizowano wasmtime** z 15.0 do 24.0 (4 krytyczne podatności)
+  - Wszystkie podatności WASM sandbox naprawione
+- **Audit bezpieczeństwa**: 0 podatności (z 9 wcześniej)
+
+### Zmieniono
+- **Łącznie 187 testów** w 12 modułach (z 138)
+- **100% pass rate** dla wszystkich testów
+- **12 modułów z testami** (z 10)
+
+### Statystyki
+- Testy: 187 (100% passing)
+- Moduły z testami: 12/14 (86%)
+- Bezpieczeństwo: 0 podatności
+
+---
+
 ## [0.4.0] - 2025-03-04
 
 ### Dodano
