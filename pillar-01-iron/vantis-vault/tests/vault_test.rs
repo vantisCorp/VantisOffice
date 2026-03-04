@@ -1,6 +1,7 @@
 //! Integration tests for Vantis Vault
 
-use vantis_vault::{init, EncryptionProfile, KeySlot, Vault};
+use vantis_vault::{init};
+use vantis_vault::api::{EncryptionProfile, KeySlot, Vault};
 
 #[test]
 fn test_vault_initialization() {
