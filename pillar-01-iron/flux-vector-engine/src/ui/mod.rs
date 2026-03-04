@@ -1,11 +1,11 @@
 //! UI components and widgets
 
+pub use animation::{Animation, AnimationEngine, EasingFunction};
 pub use component::{Component, ComponentContext, Event, EventType};
-pub use animation::{Animation, EasingFunction, AnimationEngine};
-pub use widgets::{Widget, Button, TextField, ListView};
+pub use widgets::{Button, ListView, TextField, Widget};
 
-mod component;
 mod animation;
+mod component;
 mod widgets;
 
 /// Initialize UI subsystems

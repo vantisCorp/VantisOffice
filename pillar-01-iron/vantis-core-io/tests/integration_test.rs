@@ -12,7 +12,7 @@ fn test_initialization() {
 fn test_file_handle_creation() {
     let handle = FileHandle::open("test.txt", OpenFlags::Read);
     assert!(handle.is_ok(), "File handle creation should succeed");
-    
+
     let handle = handle.unwrap();
     assert_eq!(handle.path(), "test.txt");
 }

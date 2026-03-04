@@ -11,14 +11,12 @@ pub struct ZeroCopyBuffer {
 impl ZeroCopyBuffer {
     /// Create a new zero-copy buffer
     pub fn new(len: usize) -> anyhow::Result<Self> {
-        let ptr = unsafe {
-            std::alloc::alloc(std::alloc::Layout::from_size_align(len, 8)?)
-        };
-        
+        let ptr = unsafe { std::alloc::alloc(std::alloc::Layout::from_size_align(len, 8)?) };
+
         if ptr.is_null() {
             anyhow::bail!("Failed to allocate memory");
         }
-        
+
         Ok(ZeroCopyBuffer { ptr, len })
     }
 

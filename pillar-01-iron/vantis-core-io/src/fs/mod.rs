@@ -7,13 +7,13 @@ use anyhow::Result;
 pub enum FileSystemError {
     #[error("File not found: {0}")]
     NotFound(String),
-    
+
     #[error("Permission denied: {0}")]
     PermissionDenied(String),
-    
+
     #[error("IO error: {0}")]
     IoError(#[from] std::io::Error),
-    
+
     #[error("Corrupted file: {0}")]
     Corrupted(String),
 }

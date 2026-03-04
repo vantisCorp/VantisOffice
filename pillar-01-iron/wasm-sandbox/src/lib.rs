@@ -3,10 +3,10 @@
 //! This library provides a zero-trust execution environment for plugins and macros
 //! using WebAssembly technology.
 
-pub mod runtime;
-pub mod security;
 pub mod api;
 pub mod plugins;
+pub mod runtime;
+pub mod security;
 
 use anyhow::Result;
 
@@ -14,10 +14,10 @@ use anyhow::Result;
 pub fn init() -> Result<()> {
     // Initialize Wasmtime
     runtime::init()?;
-    
+
     // Initialize security systems
     security::init()?;
-    
+
     Ok(())
 }
 

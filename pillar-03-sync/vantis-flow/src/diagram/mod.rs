@@ -1,11 +1,14 @@
 //! Diagram module for Vantis Flow
 
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use uuid::Uuid;
-use chrono::{DateTime, Utc};
 
-use crate::{FlowError, FlowResult, core::{Canvas, Element, ElementType, Connection, ConnectionType, Style, Color}};
+use crate::{
+    core::{Canvas, Color, Connection, ConnectionType, Element, ElementType, Style},
+    FlowError, FlowResult,
+};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MindMap {
@@ -203,7 +206,7 @@ impl DiagramRenderer {
             options: RenderOptions::default(),
         }
     }
-    
+
     pub fn render_to_svg(&self, canvas: &Canvas) -> FlowResult<String> {
         let mut result = String::new();
         result.push_str("<svg>");

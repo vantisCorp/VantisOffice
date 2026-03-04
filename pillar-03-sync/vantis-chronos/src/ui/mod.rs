@@ -1,7 +1,7 @@
 //! UI module for calendar views and editors
 
-use crate::core::{Calendar, Event, Color, DateRange, TimeRange};
-use chrono::{DateTime, Utc, NaiveDate, Weekday};
+use crate::core::{Calendar, Color, DateRange, Event, TimeRange};
+use chrono::{DateTime, NaiveDate, Utc, Weekday};
 
 /// Calendar view
 #[derive(Debug, Clone)]
@@ -19,7 +19,7 @@ impl CalendarView {
             settings: ViewSettings::default(),
         }
     }
-    
+
     pub fn render(&self) -> String {
         match self.view_type {
             ViewType::Day => self.render_day_view(),
@@ -30,44 +30,50 @@ impl CalendarView {
             ViewType::Timeline => self.render_timeline_view(),
         }
     }
-    
+
     fn render_day_view(&self) -> String {
-        format!("Day View for {}\nEvents: {}", 
+        format!(
+            "Day View for {}\nEvents: {}",
             self.calendar.name,
             self.calendar.events.len()
         )
     }
-    
+
     fn render_week_view(&self) -> String {
-        format!("Week View for {}\nEvents: {}", 
+        format!(
+            "Week View for {}\nEvents: {}",
             self.calendar.name,
             self.calendar.events.len()
         )
     }
-    
+
     fn render_month_view(&self) -> String {
-        format!("Month View for {}\nEvents: {}", 
+        format!(
+            "Month View for {}\nEvents: {}",
             self.calendar.name,
             self.calendar.events.len()
         )
     }
-    
+
     fn render_year_view(&self) -> String {
-        format!("Year View for {}\nEvents: {}", 
+        format!(
+            "Year View for {}\nEvents: {}",
             self.calendar.name,
             self.calendar.events.len()
         )
     }
-    
+
     fn render_agenda_view(&self) -> String {
-        format!("Agenda View for {}\nEvents: {}", 
+        format!(
+            "Agenda View for {}\nEvents: {}",
             self.calendar.name,
             self.calendar.events.len()
         )
     }
-    
+
     fn render_timeline_view(&self) -> String {
-        format!("Timeline View for {}\nEvents: {}", 
+        format!(
+            "Timeline View for {}\nEvents: {}",
             self.calendar.name,
             self.calendar.events.len()
         )
@@ -92,22 +98,24 @@ pub struct EventEditor {
 
 impl EventEditor {
     pub fn new() -> Self {
-        EventEditor {
-            event: None,
-        }
+        EventEditor { event: None }
     }
-    
+
     pub fn with_event(event: Event) -> Self {
-        EventEditor {
-            event: Some(event),
-        }
+        EventEditor { event: Some(event) }
     }
-    
+
     pub fn create_event(&self, title: String, start: DateTime<Utc>, end: DateTime<Utc>) -> Event {
         Event::new(title, start, end)
     }
-    
-    pub fn update_event(&self, event: &mut Event, title: Option<String>, start: Option<DateTime<Utc>>, end: Option<DateTime<Utc>>) {
+
+    pub fn update_event(
+        &self,
+        event: &mut Event,
+        title: Option<String>,
+        start: Option<DateTime<Utc>>,
+        end: Option<DateTime<Utc>>,
+    ) {
         if let Some(new_title) = title {
             event.title = new_title;
         }
@@ -137,22 +145,24 @@ impl TimelineView {
             end_date,
         }
     }
-    
+
     pub fn render(&self) -> String {
         let mut output = String::from("Timeline View\n");
-        output.push_str(&format!("Period: {} to {}\n\n", 
+        output.push_str(&format!(
+            "Period: {} to {}\n\n",
             self.start_date.format("%Y-%m-%d"),
             self.end_date.format("%Y-%m-%d")
         ));
-        
+
         for event in &self.events {
-            output.push_str(&format!("  - {} ({} to {})\n",
+            output.push_str(&format!(
+                "  - {} ({} to {})\n",
                 event.title,
                 event.start.format("%Y-%m-%d %H:%M"),
                 event.end.format("%Y-%m-%d %H:%M")
             ));
         }
-        
+
         output
     }
 }
@@ -166,23 +176,21 @@ pub struct AgendaView {
 
 impl AgendaView {
     pub fn new(events: Vec<Event>, date: NaiveDate) -> Self {
-        AgendaView {
-            events,
-            date,
-        }
+        AgendaView { events, date }
     }
-    
+
     pub fn render(&self) -> String {
         let mut output = format!("Agenda for {}\n\n", self.date);
-        
+
         for event in &self.events {
-            output.push_str(&format!("  {} - {}: {}\n",
+            output.push_str(&format!(
+                "  {} - {}: {}\n",
                 event.start.format("%H:%M"),
                 event.end.format("%H:%M"),
                 event.title
             ));
         }
-        
+
         output
     }
 }

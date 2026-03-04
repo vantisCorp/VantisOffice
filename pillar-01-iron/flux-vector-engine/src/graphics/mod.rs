@@ -1,14 +1,14 @@
 //! Graphics and vector rendering components
 
-pub use vector_engine::{VectorEngine, Path, Paint, Color, FillType, StrokeCap, StrokeJoin};
+pub use fonts::FontManager;
 pub use shaders::ShaderManager;
 pub use textures::TextureManager;
-pub use fonts::FontManager;
+pub use vector_engine::{Color, FillType, Paint, Path, StrokeCap, StrokeJoin, VectorEngine};
 
-mod vector_engine;
+mod fonts;
 mod shaders;
 mod textures;
-mod fonts;
+mod vector_engine;
 
 /// Initialize graphics subsystems
 pub fn init() -> Result<(), super::RenderError> {

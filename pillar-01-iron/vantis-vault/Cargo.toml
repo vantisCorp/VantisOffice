@@ -19,4 +19,3 @@ criterion = "0.5"
 [[bench]]
 name = "vault_benchmark"
 harness = false
-argon2 = "0.5"

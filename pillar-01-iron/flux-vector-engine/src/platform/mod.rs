@@ -1,11 +1,11 @@
 //! Platform-specific rendering backends
 
-pub use vulkan_backend::VulkanBackend;
+pub use backend_type::BackendType;
 pub use egl_backend::EGLBackend;
 pub use metal_backend::MetalBackend;
-pub use backend_type::BackendType;
+pub use vulkan_backend::VulkanBackend;
 
-mod vulkan_backend;
+mod backend_type;
 mod egl_backend;
 mod metal_backend;
-mod backend_type;
+mod vulkan_backend;

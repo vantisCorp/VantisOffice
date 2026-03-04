@@ -1,5 +1,5 @@
 //! Animation module for transitions and effects
-//! 
+//!
 //! Provides smooth animations and transitions for presentations
 
 use std::collections::HashMap;
@@ -20,55 +20,55 @@ impl AnimationManager {
             enabled: true,
         }
     }
-    
+
     pub fn enable(&mut self) {
         self.enabled = true;
     }
-    
+
     pub fn disable(&mut self) {
         self.enabled = false;
     }
-    
+
     pub fn is_enabled(&self) -> bool {
         self.enabled
     }
-    
+
     /// Add an animation
     pub fn add_animation(&mut self, animation: Animation) -> Result<(), String> {
         if !self.enabled {
             return Err("Animation manager is disabled".to_string());
         }
-        
+
         let id = animation.id.clone();
         self.animations.insert(id, animation);
         Ok(())
     }
-    
+
     /// Remove an animation
     pub fn remove_animation(&mut self, id: &str) {
         self.animations.remove(id);
     }
-    
+
     /// Update animations
     pub fn update(&mut self, delta_time: Duration) -> Result<(), String> {
         if !self.enabled {
             return Ok(());
         }
-        
+
         for animation in self.animations.values_mut() {
             animation.update(delta_time)?;
         }
-        
+
         self.timeline.update(delta_time)?;
-        
+
         Ok(())
     }
-    
+
     /// Get animation by ID
     pub fn get_animation(&self, id: &str) -> Option<&Animation> {
         self.animations.get(id)
     }
-    
+
     /// Get animation by ID (mutable)
     pub fn get_animation_mut(&mut self, id: &str) -> Option<&mut Animation> {
         self.animations.get_mut(id)
@@ -183,50 +183,50 @@ impl Animation {
             elapsed: Duration::from_millis(0),
         }
     }
-    
+
     pub fn with_easing(mut self, easing: EasingFunction) -> Self {
         self.easing = easing;
         self
     }
-    
+
     pub fn with_delay(mut self, delay: Duration) -> Self {
         self.delay = delay;
         self
     }
-    
+
     pub fn with_repeat(mut self, repeat: RepeatMode) -> Self {
         self.repeat = repeat;
         self
     }
-    
+
     pub fn start(&mut self) {
         self.state = AnimationState::Running;
         self.elapsed = Duration::from_millis(0);
     }
-    
+
     pub fn pause(&mut self) {
         if self.state == AnimationState::Running {
             self.state = AnimationState::Paused;
         }
     }
-    
+
     pub fn resume(&mut self) {
         if self.state == AnimationState::Paused {
             self.state = AnimationState::Running;
         }
     }
-    
+
     pub fn stop(&mut self) {
         self.state = AnimationState::Cancelled;
     }
-    
+
     pub fn update(&mut self, delta_time: Duration) -> Result<(), String> {
         if self.state != AnimationState::Running {
             return Ok(());
         }
-        
+
         self.elapsed += delta_time;
-        
+
         if self.elapsed >= self.duration {
             match self.repeat {
                 RepeatMode::Once => {
@@ -241,24 +241,24 @@ impl Animation {
                 }
             }
         }
-        
+
         Ok(())
     }
-    
+
     pub fn get_progress(&self) -> f64 {
         if self.duration.as_millis() == 0 {
             return 1.0;
         }
-        
+
         let progress = self.elapsed.as_secs_f64() / self.duration.as_secs_f64();
         progress.min(1.0).max(0.0)
     }
-    
+
     pub fn get_eased_progress(&self) -> f64 {
         let progress = self.get_progress();
         self.apply_easing(progress)
     }
-    
+
     fn apply_easing(&self, t: f64) -> f64 {
         match self.easing {
             EasingFunction::Linear => t,
@@ -321,9 +321,7 @@ impl Animation {
             }
             EasingFunction::EaseInSine => 1.0 - (t * std::f64::consts::PI / 2.0).cos(),
             EasingFunction::EaseOutSine => (t * std::f64::consts::PI / 2.0).sin(),
-            EasingFunction::EaseInOutSine => {
-                -(std::f64::consts::PI * t).cos() / 2.0 + 0.5
-            }
+            EasingFunction::EaseInOutSine => -(std::f64::consts::PI * t).cos() / 2.0 + 0.5,
             EasingFunction::EaseInExpo => {
                 if t == 0.0 {
                     0.0
@@ -376,9 +374,12 @@ impl Animation {
                 if t == 0.0 || t == 1.0 {
                     t
                 } else if t < 0.5 {
-                    -0.5 * 2.0_f64.powf(10.0 * (2.0 * t - 1.0)) * ((2.0 * t - 1.1) * 2.0 * std::f64::consts::PI).sin()
+                    -0.5 * 2.0_f64.powf(10.0 * (2.0 * t - 1.0))
+                        * ((2.0 * t - 1.1) * 2.0 * std::f64::consts::PI).sin()
                 } else {
-                    0.5 * 2.0_f64.powf(-10.0 * (2.0 * t - 1.0)) * ((2.0 * t - 1.1) * 2.0 * std::f64::consts::PI).sin() + 1.0
+                    0.5 * 2.0_f64.powf(-10.0 * (2.0 * t - 1.0))
+                        * ((2.0 * t - 1.1) * 2.0 * std::f64::consts::PI).sin()
+                        + 1.0
                 }
             }
             EasingFunction::EaseInBack => {
@@ -411,11 +412,11 @@ impl Animation {
             }
         }
     }
-    
+
     fn bounce_out(t: f64) -> f64 {
         const N1: f64 = 7.5625;
         const D1: f64 = 2.75;
-        
+
         if t < 1.0 / D1 {
             N1 * t * t
         } else if t < 2.0 / D1 {
@@ -465,35 +466,35 @@ impl Timeline {
             playing: false,
         }
     }
-    
+
     pub fn add_animation(&mut self, animation: Animation) {
         self.animations.push(animation);
     }
-    
+
     pub fn play(&mut self) {
         self.playing = true;
     }
-    
+
     pub fn pause(&mut self) {
         self.playing = false;
     }
-    
+
     pub fn stop(&mut self) {
         self.playing = false;
         self.current_time = Duration::from_millis(0);
     }
-    
+
     pub fn update(&mut self, delta_time: Duration) -> Result<(), String> {
         if !self.playing {
             return Ok(());
         }
-        
+
         self.current_time += delta_time;
-        
+
         for animation in &mut self.animations {
             animation.update(delta_time)?;
         }
-        
+
         Ok(())
     }
 }
@@ -512,55 +513,57 @@ pub fn init() -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_animation_creation() {
         let mut animation = Animation::new(
             "test".to_string(),
             AnimationType::FadeIn,
-            Duration::from_millis(1000)
+            Duration::from_millis(1000),
         );
         assert_eq!(animation.id, "test");
     }
-    
+
     #[test]
     fn test_animation_progress() {
         let mut animation = Animation::new(
             "test".to_string(),
             AnimationType::FadeIn,
-            Duration::from_millis(1000)
+            Duration::from_millis(1000),
         );
         animation.start();
         animation.elapsed = Duration::from_millis(500);
-        
+
         let progress = animation.get_progress();
         assert!((progress - 0.5).abs() < 0.01);
     }
-    
+
     #[test]
     fn test_easing_functions() {
         let mut animation = Animation::new(
             "test".to_string(),
             AnimationType::FadeIn,
-            Duration::from_millis(1000)
+            Duration::from_millis(1000),
         );
         animation.elapsed = Duration::from_millis(500);
-        
+
         let linear = animation.apply_easing(0.5);
         assert!((linear - 0.5).abs() < 0.01);
-        
-        let eased = animation.with_easing(EasingFunction::EaseIn).apply_easing(0.5);
+
+        let eased = animation
+            .with_easing(EasingFunction::EaseIn)
+            .apply_easing(0.5);
         assert!(eased <= 0.5);
     }
-    
+
     #[test]
     fn test_timeline() {
         let mut timeline = Timeline::new();
         assert!(!timeline.playing);
-        
+
         timeline.play();
         assert!(timeline.playing);
-        
+
         timeline.pause();
         assert!(!timeline.playing);
     }

@@ -1,7 +1,7 @@
 //! Scheduler module for backup scheduling
 
-use serde::{Serialize, Deserialize};
-use chrono::{DateTime, Utc, Datelike, Timelike, Weekday as ChronoWeekday};
+use chrono::{DateTime, Datelike, Timelike, Utc, Weekday as ChronoWeekday};
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 /// Backup scheduler
@@ -15,14 +15,14 @@ impl BackupScheduler {
             schedules: Vec::new(),
         }
     }
-    
+
     pub fn add_schedule(&mut self, schedule: Schedule) {
         self.schedules.push(schedule);
     }
-    
+
     pub fn get_due_tasks(&self, now: DateTime<Utc>) -> Vec<BackupTask> {
         let mut tasks = Vec::new();
-        
+
         for schedule in &self.schedules {
             if self.is_due(schedule, now) {
                 tasks.push(BackupTask {
@@ -41,26 +41,28 @@ impl BackupScheduler {
                 });
             }
         }
-        
+
         tasks
     }
-    
+
     fn is_due(&self, schedule: &Schedule, now: DateTime<Utc>) -> bool {
         match schedule.frequency {
-            ScheduleFrequency::Hourly => {
-                now.minute() == 0 && now.second() == 0
-            }
+            ScheduleFrequency::Hourly => now.minute() == 0 && now.second() == 0,
             ScheduleFrequency::Daily => {
                 now.hour() == schedule.config.hour && now.minute() == 0 && now.second() == 0
             }
             ScheduleFrequency::Weekly => {
                 let weekday = now.weekday();
-                schedule.config.weekdays.contains(&weekday.into()) &&
-                now.hour() == schedule.config.hour && now.minute() == 0 && now.second() == 0
+                schedule.config.weekdays.contains(&weekday.into())
+                    && now.hour() == schedule.config.hour
+                    && now.minute() == 0
+                    && now.second() == 0
             }
             ScheduleFrequency::Monthly => {
-                now.day() == schedule.config.day_of_month &&
-                now.hour() == schedule.config.hour && now.minute() == 0 && now.second() == 0
+                now.day() == schedule.config.day_of_month
+                    && now.hour() == schedule.config.hour
+                    && now.minute() == 0
+                    && now.second() == 0
             }
         }
     }

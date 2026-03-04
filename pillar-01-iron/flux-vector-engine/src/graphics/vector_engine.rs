@@ -16,28 +16,28 @@ impl VectorEngine {
             paints: Vec::new(),
         }
     }
-    
+
     /// Add a path
     pub fn add_path(&mut self, path: Path) {
         self.paths.push(path);
     }
-    
+
     /// Add a paint
     pub fn add_paint(&mut self, paint: Paint) {
         self.paints.push(paint);
     }
-    
+
     /// Clear all paths and paints
     pub fn clear(&mut self) {
         self.paths.clear();
         self.paints.clear();
     }
-    
+
     /// Get all paths
     pub fn paths(&self) -> &[Path] {
         &self.paths
     }
-    
+
     /// Get all paints
     pub fn paints(&self) -> &[Paint] {
         &self.paints
@@ -59,37 +59,38 @@ impl Path {
             closed: false,
         }
     }
-    
+
     /// Move to position
     pub fn move_to(&mut self, x: f32, y: f32) {
         self.commands.push(PathCommand::MoveTo(x, y));
     }
-    
+
     /// Line to position
     pub fn line_to(&mut self, x: f32, y: f32) {
         self.commands.push(PathCommand::LineTo(x, y));
     }
-    
+
     /// Quadratic curve
     pub fn quad_to(&mut self, cx: f32, cy: f32, x: f32, y: f32) {
         self.commands.push(PathCommand::QuadTo(cx, cy, x, y));
     }
-    
+
     /// Cubic curve
     pub fn cubic_to(&mut self, c1x: f32, c1y: f32, c2x: f32, c2y: f32, x: f32, y: f32) {
-        self.commands.push(PathCommand::CubicTo(c1x, c1y, c2x, c2y, x, y));
+        self.commands
+            .push(PathCommand::CubicTo(c1x, c1y, c2x, c2y, x, y));
     }
-    
+
     /// Close the path
     pub fn close(&mut self) {
         self.closed = true;
     }
-    
+
     /// Get path commands
     pub fn commands(&self) -> &[PathCommand] {
         &self.commands
     }
-    
+
     /// Check if path is closed
     pub fn is_closed(&self) -> bool {
         self.closed
@@ -156,7 +157,7 @@ impl Color {
             a: 255,
         }
     }
-    
+
     /// Create RGBA color
     pub fn rgba(rgba: u32) -> Self {
         Self {
@@ -166,7 +167,7 @@ impl Color {
             a: (rgba & 0xFF) as u8,
         }
     }
-    
+
     /// Create color from components
     pub fn new(r: u8, g: u8, b: u8, a: u8) -> Self {
         Self { r, g, b, a }

@@ -4,11 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::fs::File;
 use std::io::Write;
 
-use crate::{
-    FlowError, FlowResult,
-    core::Canvas,
-    diagram::DiagramRenderer,
-};
+use crate::{core::Canvas, diagram::DiagramRenderer, FlowError, FlowResult};
 
 /// Export format
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -54,8 +50,13 @@ impl FlowExporter {
             options: ExportOptions::default(),
         }
     }
-    
-    pub fn export_canvas(&self, canvas: &Canvas, format: ExportFormat, path: &str) -> FlowResult<()> {
+
+    pub fn export_canvas(
+        &self,
+        canvas: &Canvas,
+        format: ExportFormat,
+        path: &str,
+    ) -> FlowResult<()> {
         match format {
             ExportFormat::Svg => {
                 let svg = self.export_canvas_to_svg(canvas)?;
@@ -73,12 +74,12 @@ impl FlowExporter {
         }
         Ok(())
     }
-    
+
     pub fn export_canvas_to_svg(&self, canvas: &Canvas) -> FlowResult<String> {
         let renderer = DiagramRenderer::new();
         renderer.render_to_svg(canvas)
     }
-    
+
     pub fn export_canvas_to_json(&self, canvas: &Canvas) -> FlowResult<String> {
         let json = serde_json::to_string_pretty(canvas)
             .map_err(|e| FlowError::ExportError(format!("JSON serialization error: {}", e)))?;

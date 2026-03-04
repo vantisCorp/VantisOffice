@@ -1,7 +1,7 @@
 //! Animation system
 
-use std::time::Duration;
 use serde::{Deserialize, Serialize};
+use std::time::Duration;
 
 /// Animation
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -20,37 +20,37 @@ impl Animation {
             keyframes: Vec::new(),
         }
     }
-    
+
     /// Set easing function
     pub fn with_easing(mut self, easing: EasingFunction) -> Self {
         self.easing = easing;
         self
     }
-    
+
     /// Set keyframes
     pub fn with_keyframes(mut self, keyframes: Vec<(f32, f32)>) -> Self {
         self.keyframes = keyframes;
         self
     }
-    
+
     /// Evaluate animation at time t
     pub fn evaluate(&self, t: f32) -> f32 {
         let t = t.clamp(0.0, 1.0);
         let eased_t = self.easing.apply(t);
-        
+
         if self.keyframes.is_empty() {
             return eased_t;
         }
-        
+
         // Interpolate between keyframes
         let total_keyframes = self.keyframes.len() - 1;
         let segment = (eased_t * total_keyframes as f32).floor() as usize;
         let segment_t = (eased_t * total_keyframes as f32) - segment as f32;
-        
+
         if segment >= total_keyframes {
             return self.keyframes[total_keyframes].1;
         }
-        
+
         let (start_val, end_val) = (self.keyframes[segment].1, self.keyframes[segment + 1].1);
         start_val + (end_val - start_val) * segment_t
     }
@@ -148,9 +148,7 @@ impl EasingFunction {
             }
             EasingFunction::EaseInSine => 1.0 - (t * std::f32::consts::PI / 2.0).cos(),
             EasingFunction::EaseOutSine => (t * std::f32::consts::PI / 2.0).sin(),
-            EasingFunction::EaseInOutSine => {
-                -(std::f32::consts::PI).cos() - 1.0 / 2.0
-            }
+            EasingFunction::EaseInOutSine => -(std::f32::consts::PI).cos() - 1.0 / 2.0,
             EasingFunction::EaseInExpo => {
                 if t == 0.0 {
                     0.0
@@ -189,23 +187,31 @@ impl EasingFunction {
                 if t == 0.0 || t == 1.0 {
                     t
                 } else {
-                    -(2.0f32.powf(10.0 * t - 10.0)) * ((t * 10.0 - 10.75) * (2.0 * std::f32::consts::PI / 3.0)).sin()
+                    -(2.0f32.powf(10.0 * t - 10.0))
+                        * ((t * 10.0 - 10.75) * (2.0 * std::f32::consts::PI / 3.0)).sin()
                 }
             }
             EasingFunction::EaseOutElastic => {
                 if t == 0.0 || t == 1.0 {
                     t
                 } else {
-                    2.0f32.powf(-10.0 * t) * ((t * 10.0 - 0.75) * (2.0 * std::f32::consts::PI / 3.0)).sin() + 1.0
+                    2.0f32.powf(-10.0 * t)
+                        * ((t * 10.0 - 0.75) * (2.0 * std::f32::consts::PI / 3.0)).sin()
+                        + 1.0
                 }
             }
             EasingFunction::EaseInOutElastic => {
                 if t == 0.0 || t == 1.0 {
                     t
                 } else if t < 0.5 {
-                    -(2.0f32.powf(20.0 * t - 10.0)) * ((t * 20.0 - 11.125) * (2.0 * std::f32::consts::PI / 4.5)).sin() / 2.0
+                    -(2.0f32.powf(20.0 * t - 10.0))
+                        * ((t * 20.0 - 11.125) * (2.0 * std::f32::consts::PI / 4.5)).sin()
+                        / 2.0
                 } else {
-                    2.0f32.powf(-20.0 * t + 10.0) * ((t * 20.0 - 11.125) * (2.0 * std::f32::consts::PI / 4.5)).sin() / 2.0 + 1.0
+                    2.0f32.powf(-20.0 * t + 10.0)
+                        * ((t * 20.0 - 11.125) * (2.0 * std::f32::consts::PI / 4.5)).sin()
+                        / 2.0
+                        + 1.0
                 }
             }
             EasingFunction::EaseInBack => {
@@ -276,17 +282,17 @@ impl AnimationEngine {
             animations: Vec::new(),
         }
     }
-    
+
     /// Add an animation
     pub fn add_animation(&mut self, animation: Animation) {
         self.animations.push(animation);
     }
-    
+
     /// Update animations
     pub fn update(&mut self, _dt: f32) {
         // Update animation states
     }
-    
+
     /// Get animations
     pub fn animations(&self) -> &[Animation] {
         &self.animations

@@ -1,7 +1,7 @@
 //! Shamir Secret Sharing implementation
 
-use serde::{Serialize, Deserialize};
 use chrono::{DateTime, Utc, Weekday as ChronoWeekday};
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 /// Secret sharing
@@ -10,7 +10,7 @@ pub struct SecretSharing;
 impl SecretSharing {
     pub fn split(secret: &[u8], config: &SplitConfig) -> Vec<BackupPart> {
         let mut parts = Vec::new();
-        
+
         for i in 0..config.parts {
             let part = BackupPart {
                 id: Uuid::new_v4().to_string(),
@@ -21,15 +21,19 @@ impl SecretSharing {
             };
             parts.push(part);
         }
-        
+
         parts
     }
-    
+
     pub fn recover(parts: &[BackupPart], config: &RecoverConfig) -> Result<Vec<u8>, String> {
         if parts.len() < config.threshold {
-            return Err(format!("Need at least {} parts, got {}", config.threshold, parts.len()));
+            return Err(format!(
+                "Need at least {} parts, got {}",
+                config.threshold,
+                parts.len()
+            ));
         }
-        
+
         // Simplified recovery - just return the first part's data
         Ok(parts[0].data.clone())
     }
@@ -54,10 +58,7 @@ pub struct SplitConfig {
 
 impl SplitConfig {
     pub fn new(parts: usize, threshold: usize) -> Self {
-        SplitConfig {
-            parts,
-            threshold,
-        }
+        SplitConfig { parts, threshold }
     }
 }
 
@@ -69,9 +70,7 @@ pub struct RecoverConfig {
 
 impl RecoverConfig {
     pub fn new(threshold: usize) -> Self {
-        RecoverConfig {
-            threshold,
-        }
+        RecoverConfig { threshold }
     }
 }
 

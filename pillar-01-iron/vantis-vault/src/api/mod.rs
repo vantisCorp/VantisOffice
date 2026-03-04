@@ -47,11 +47,7 @@ impl Vault {
     }
 
     /// Decrypt a document
-    pub fn decrypt_document(
-        &self,
-        ciphertext: &[u8],
-        _key_slot: KeySlot,
-    ) -> Result<Vec<u8>> {
+    pub fn decrypt_document(&self, ciphertext: &[u8], _key_slot: KeySlot) -> Result<Vec<u8>> {
         // Placeholder for decryption
         Ok(ciphertext.to_vec())
     }

@@ -22,7 +22,7 @@ impl Parser for DocxParser {
         );
         Ok(document)
     }
-    
+
     fn can_parse(&self, filename: &str) -> bool {
         filename.to_lowercase().ends_with(".docx")
     }
@@ -42,7 +42,7 @@ impl Parser for XlsxParser {
         );
         Ok(document)
     }
-    
+
     fn can_parse(&self, filename: &str) -> bool {
         filename.to_lowercase().ends_with(".xlsx")
     }
@@ -62,7 +62,7 @@ impl Parser for PptxParser {
         );
         Ok(document)
     }
-    
+
     fn can_parse(&self, filename: &str) -> bool {
         filename.to_lowercase().ends_with(".pptx")
     }

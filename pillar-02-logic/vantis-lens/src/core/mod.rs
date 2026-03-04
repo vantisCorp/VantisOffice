@@ -1,8 +1,8 @@
 //! Core data structures for Vantis Lens
 
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use serde::{Serialize, Deserialize};
 
 /// PDF Document
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -80,23 +80,23 @@ impl PdfDocument {
             is_sterilized: false,
         }
     }
-    
+
     pub fn page_count(&self) -> usize {
         self.pages.len()
     }
-    
+
     pub fn get_page(&self, index: usize) -> Option<&PdfPage> {
         self.pages.get(index)
     }
-    
+
     pub fn get_page_mut(&mut self, index: usize) -> Option<&mut PdfPage> {
         self.pages.get_mut(index)
     }
-    
+
     pub fn add_page(&mut self, page: PdfPage) {
         self.pages.push(page);
     }
-    
+
     pub fn is_valid(&self) -> bool {
         !self.pages.is_empty()
     }
@@ -163,12 +163,12 @@ impl Annotation {
             is_visible: true,
         }
     }
-    
+
     pub fn with_content(mut self, content: String) -> Self {
         self.content = content;
         self
     }
-    
+
     pub fn with_position(mut self, x: f64, y: f64, width: f64, height: f64) -> Self {
         self.rect = AnnotationRect {
             x,
@@ -178,7 +178,7 @@ impl Annotation {
         };
         self
     }
-    
+
     pub fn with_color(mut self, color: String) -> Self {
         self.color = Some(color);
         self

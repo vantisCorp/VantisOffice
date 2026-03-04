@@ -48,7 +48,8 @@ impl Document {
     /// Update document metadata
     fn update_metadata(&mut self) {
         self.metadata.modified_at = chrono::Utc::now();
-        self.metadata.word_count = self.paragraphs
+        self.metadata.word_count = self
+            .paragraphs
             .iter()
             .map(|p| p.text.split_whitespace().count())
             .sum();

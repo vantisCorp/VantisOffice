@@ -1,39 +1,26 @@
 //! Vantis Flow - Planning and Diagrams Module
 
+pub mod collaboration;
 pub mod core;
 pub mod diagram;
-pub mod planning;
-pub mod collaboration;
 pub mod export;
+pub mod planning;
 
-pub use core::{
-    Canvas, Element, ElementType,
-    Connection, ConnectionType,
-    Style, Color, Stroke,
-};
+pub use core::{Canvas, Color, Connection, ConnectionType, Element, ElementType, Stroke, Style};
 
 pub use diagram::{
-    MindMap, MindMapNode, MindMapLayout,
-    Flowchart, FlowchartNode, FlowchartEdge, FlowchartNodeType,
-    DiagramRenderer,
+    DiagramRenderer, Flowchart, FlowchartEdge, FlowchartNode, FlowchartNodeType, MindMap,
+    MindMapLayout, MindMapNode,
 };
 
 pub use planning::{
-    Task, TaskStatus, TaskPriority,
-    Project, GanttChart, KanbanBoard,
-    Timeline, Milestone,
-    TaskDependency, DependencyType,
+    DependencyType, GanttChart, KanbanBoard, Milestone, Project, Task, TaskDependency,
+    TaskPriority, TaskStatus, Timeline,
 };
 
-pub use collaboration::{
-    FlowSession, FlowUser, FlowChange,
-    FlowCRDT, ConflictResolver,
-};
+pub use collaboration::{ConflictResolver, FlowCRDT, FlowChange, FlowSession, FlowUser};
 
-pub use export::{
-    FlowExporter, ExportFormat,
-    export_to_svg, export_to_json,
-};
+pub use export::{export_to_json, export_to_svg, ExportFormat, FlowExporter};
 
 use thiserror::Error;
 
@@ -42,28 +29,28 @@ use thiserror::Error;
 pub enum FlowError {
     #[error("Canvas error: {0}")]
     CanvasError(String),
-    
+
     #[error("Element error: {0}")]
     ElementError(String),
-    
+
     #[error("Connection error: {0}")]
     ConnectionError(String),
-    
+
     #[error("Diagram error: {0}")]
     DiagramError(String),
-    
+
     #[error("Planning error: {0}")]
     PlanningError(String),
-    
+
     #[error("Collaboration error: {0}")]
     CollaborationError(String),
-    
+
     #[error("Export error: {0}")]
     ExportError(String),
-    
+
     #[error("IO error: {0}")]
     IoError(#[from] std::io::Error),
-    
+
     #[error("Serialization error: {0}")]
     SerializationError(#[from] serde_json::Error),
 }

@@ -9,12 +9,15 @@
 
 pub mod core;
 pub mod graphics;
-pub mod ui;
 pub mod platform;
+pub mod ui;
 
-pub use core::{WindowConfig, VSyncMode, RenderError, RenderResult};
-pub use graphics::{VectorEngine, Path, Paint, Color, FillType};
-pub use ui::{Button, TextField, ListView, Component, ComponentContext, Event, EventType, Animation, EasingFunction};
+pub use core::{RenderError, RenderResult, VSyncMode, WindowConfig};
+pub use graphics::{Color, FillType, Paint, Path, VectorEngine};
+pub use ui::{
+    Animation, Button, Component, ComponentContext, EasingFunction, Event, EventType, ListView,
+    TextField,
+};
 
 /// Flux Vector Engine version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -25,14 +28,14 @@ pub fn init() -> Result<(), RenderError> {
     tracing_subscriber::fmt()
         .with_max_level(tracing::Level::INFO)
         .init();
-    
+
     tracing::info!("Flux Vector Engine v{} initializing...", VERSION);
-    
+
     // Initialize subsystems
     core::init()?;
     graphics::init()?;
     ui::init()?;
-    
+
     tracing::info!("Flux Vector Engine initialized successfully");
     Ok(())
 }

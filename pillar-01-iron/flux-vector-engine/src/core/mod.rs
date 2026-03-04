@@ -1,6 +1,6 @@
 //! Core rendering components
 
-pub use config::{WindowConfig, VSyncMode, RenderConfig};
+pub use config::{RenderConfig, VSyncMode, WindowConfig};
 pub use error::{RenderError, RenderResult};
 
 mod config;

@@ -1,9 +1,9 @@
 //! Core data structures for Vantis Ark
 
-use serde::{Serialize, Deserialize};
 use chrono::{DateTime, Utc};
-use uuid::Uuid;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use uuid::Uuid;
 
 /// Backup
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -139,18 +139,19 @@ impl StorageBackend for InMemoryStorage {
         // For now, we'll just return Ok
         Ok(())
     }
-    
+
     fn retrieve(&self, key: &str) -> Result<Vec<u8>, String> {
-        self.data.get(key)
+        self.data
+            .get(key)
             .cloned()
             .ok_or_else(|| format!("Key '{}' not found", key))
     }
-    
+
     fn delete(&self, key: &str) -> Result<(), String> {
         // Note: This would need interior mutability in a real implementation
         Ok(())
     }
-    
+
     fn exists(&self, key: &str) -> bool {
         self.data.contains_key(key)
     }
@@ -163,25 +164,23 @@ pub struct BackupManager {
 
 impl BackupManager {
     pub fn new(storage: Box<dyn StorageBackend>) -> Self {
-        BackupManager {
-            storage,
-        }
+        BackupManager { storage }
     }
-    
+
     pub fn create_backup(&self, name: String, data: Vec<u8>) -> Result<Backup, String> {
         let mut backup = Backup::new(name, data);
         backup.metadata.size = backup.data.len();
         backup.metadata.checksum = format!("{:x}", md5::compute(&backup.data));
         Ok(backup)
     }
-    
+
     pub fn get_backup(&self, backup_id: &str) -> Result<Backup, String> {
         let data = self.storage.retrieve(backup_id)?;
         let backup: Backup = serde_json::from_slice(&data)
             .map_err(|e| format!("Failed to deserialize backup: {}", e))?;
         Ok(backup)
     }
-    
+
     pub fn delete_backup(&self, backup_id: &str) -> Result<(), String> {
         self.storage.delete(backup_id)
     }

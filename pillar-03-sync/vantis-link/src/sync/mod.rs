@@ -1,10 +1,10 @@
 //! Sync module for real-time synchronization
-//! 
+//!
 //! Provides synchronization between peers
 
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use serde::{Serialize, Deserialize};
 
 /// Sync Manager
 pub struct SyncManager {
@@ -19,97 +19,116 @@ impl SyncManager {
             enabled: true,
         }
     }
-    
+
     pub fn enable(&mut self) {
         self.enabled = true;
     }
-    
+
     pub fn disable(&mut self) {
         self.enabled = false;
     }
-    
+
     pub fn is_enabled(&self) -> bool {
         self.enabled
     }
-    
+
     /// Create a new sync session
     pub fn create_session(&self, document_id: String) -> Result<String, String> {
         if !self.enabled {
             return Err("Sync manager is disabled".to_string());
         }
-        
+
         let session_id = uuid::Uuid::new_v4().to_string();
         let session = SyncSession::new(document_id.clone(), session_id.clone());
-        
-        let mut sessions = self.sessions.write()
+
+        let mut sessions = self
+            .sessions
+            .write()
             .map_err(|e| format!("Failed to acquire write lock: {}", e))?;
-        
+
         sessions.insert(session_id.clone(), session);
-        
+
         Ok(session_id)
     }
-    
+
     /// Join a sync session
     pub fn join_session(&self, session_id: String, user_id: String) -> Result<SyncStatus, String> {
         if !self.enabled {
             return Err("Sync manager is disabled".to_string());
         }
-        
-        let mut sessions = self.sessions.write()
+
+        let mut sessions = self
+            .sessions
+            .write()
             .map_err(|e| format!("Failed to acquire write lock: {}", e))?;
-        
-        let session = sessions.get_mut(&session_id)
+
+        let session = sessions
+            .get_mut(&session_id)
             .ok_or_else(|| format!("Session '{}' not found", session_id))?;
-        
+
         session.add_peer(user_id.clone());
-        
+
         Ok(SyncStatus::Connected)
     }
-    
+
     /// Leave a sync session
     pub fn leave_session(&self, session_id: String, user_id: String) -> Result<(), String> {
-        let mut sessions = self.sessions.write()
+        let mut sessions = self
+            .sessions
+            .write()
             .map_err(|e| format!("Failed to acquire write lock: {}", e))?;
-        
-        let session = sessions.get_mut(&session_id)
+
+        let session = sessions
+            .get_mut(&session_id)
             .ok_or_else(|| format!("Session '{}' not found", session_id))?;
-        
+
         session.remove_peer(&user_id);
-        
+
         Ok(())
     }
-    
+
     /// Sync changes
-    pub fn sync_changes(&self, session_id: String, changes: Vec<crate::core::Change>) -> Result<SyncResult, String> {
+    pub fn sync_changes(
+        &self,
+        session_id: String,
+        changes: Vec<crate::core::Change>,
+    ) -> Result<SyncResult, String> {
         if !self.enabled {
             return Err("Sync manager is disabled".to_string());
         }
-        
-        let mut sessions = self.sessions.write()
+
+        let mut sessions = self
+            .sessions
+            .write()
             .map_err(|e| format!("Failed to acquire write lock: {}", e))?;
-        
-        let session = sessions.get_mut(&session_id)
+
+        let session = sessions
+            .get_mut(&session_id)
             .ok_or_else(|| format!("Session '{}' not found", session_id))?;
-        
+
         // Check for conflicts
         let conflicts = self.detect_conflicts(session, &changes)?;
-        
+
         if !conflicts.is_empty() {
             return Ok(SyncResult::Conflicts(conflicts));
         }
-        
+
         // Apply changes
         for change in changes {
             session.add_change(change);
         }
-        
+
         Ok(SyncResult::Success)
     }
-    
+
     /// Detect conflicts
-    fn detect_conflicts(&self, session: &SyncSession, changes: &[crate::core::Change]) -> Result<Vec<SyncConflict>, String> {
+    fn detect_conflicts(
+        &self,
+        session: &SyncSession,
+        changes: &[crate::core::Change],
+    ) -> Result<Vec<SyncConflict>, String> {
         let mut conflicts = Vec::new();
-        
+
         for change in changes {
             for existing_change in &session.changes {
                 // Check for overlapping changes
@@ -122,29 +141,36 @@ impl SyncManager {
                 }
             }
         }
-        
+
         Ok(conflicts)
     }
-    
+
     /// Check if changes overlap
-    fn changes_overlap(&self, change1: &crate::core::Change, change2: &crate::core::Change) -> bool {
+    fn changes_overlap(
+        &self,
+        change1: &crate::core::Change,
+        change2: &crate::core::Change,
+    ) -> bool {
         let start1 = change1.position;
         let end1 = change1.position + change1.length;
         let start2 = change2.position;
         let end2 = change2.position + change2.length;
-        
+
         // Check if ranges overlap
         !(end1 <= start2 || end2 <= start1)
     }
-    
+
     /// Get sync status
     pub fn get_sync_status(&self, session_id: String) -> Result<SyncStatus, String> {
-        let sessions = self.sessions.read()
+        let sessions = self
+            .sessions
+            .read()
             .map_err(|e| format!("Failed to acquire read lock: {}", e))?;
-        
-        let session = sessions.get(&session_id)
+
+        let session = sessions
+            .get(&session_id)
             .ok_or_else(|| format!("Session '{}' not found", session_id))?;
-        
+
         if session.peers.is_empty() {
             Ok(SyncStatus::Disconnected)
         } else {
@@ -176,17 +202,17 @@ impl SyncSession {
             last_sync: now,
         }
     }
-    
+
     pub fn add_peer(&mut self, peer_id: String) {
         if !self.peers.contains(&peer_id) {
             self.peers.push(peer_id);
         }
     }
-    
+
     pub fn remove_peer(&mut self, peer_id: &str) {
         self.peers.retain(|p| p != peer_id);
     }
-    
+
     pub fn add_change(&mut self, change: crate::core::Change) {
         self.changes.push(change);
         self.last_sync = chrono::Utc::now();

@@ -1,7 +1,7 @@
 //! Markdown parser and live preview
 
 use anyhow::Result;
-use pulldown_cmark::{Parser, Event, Tag};
+use pulldown_cmark::{Event, Parser, Tag};
 
 /// Markdown parser
 pub struct MarkdownParser {
@@ -17,7 +17,7 @@ impl MarkdownParser {
         options.insert(pulldown_cmark::Options::ENABLE_FOOTNOTES);
         options.insert(pulldown_cmark::Options::ENABLE_TASKLISTS);
         options.insert(pulldown_cmark::Options::ENABLE_SMART_PUNCTUATION);
-        
+
         MarkdownParser { options }
     }
 

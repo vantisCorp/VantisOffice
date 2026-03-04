@@ -1,8 +1,8 @@
 //! Core data structures for Vantis Canvas
 
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use serde::{Serialize, Deserialize};
 
 /// Canvas - infinite canvas for presentations
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -25,7 +25,11 @@ pub struct CanvasDimensions {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Background {
     Solid(String),
-    Gradient { start: String, end: String, direction: GradientDirection },
+    Gradient {
+        start: String,
+        end: String,
+        direction: GradientDirection,
+    },
     Image(String),
     None,
 }
@@ -69,21 +73,21 @@ impl Canvas {
             },
         }
     }
-    
+
     pub fn add_slide(&mut self) -> &mut Slide {
         let slide = Slide::new(self.slides.len());
         self.slides.push(slide);
         self.slides.last_mut().unwrap()
     }
-    
+
     pub fn get_active_slide(&self) -> Option<&Slide> {
         self.slides.get(self.active_slide)
     }
-    
+
     pub fn get_active_slide_mut(&mut self) -> Option<&mut Slide> {
         self.slides.get_mut(self.active_slide)
     }
-    
+
     pub fn set_active_slide(&mut self, index: usize) -> Result<(), String> {
         if index < self.slides.len() {
             self.active_slide = index;
@@ -130,13 +134,13 @@ impl Slide {
             notes: String::new(),
         }
     }
-    
+
     pub fn add_layer(&mut self) -> &mut Layer {
         let layer = Layer::new(self.layers.len());
         self.layers.push(layer);
         self.layers.last_mut().unwrap()
     }
-    
+
     pub fn add_shape(&mut self, shape: Shape) {
         if let Some(layer) = self.layers.last_mut() {
             layer.add_shape(shape);
@@ -146,7 +150,7 @@ impl Slide {
             self.layers.push(layer);
         }
     }
-    
+
     pub fn add_text(&mut self, text: Text) {
         if let Some(layer) = self.layers.last_mut() {
             layer.add_text(text);
@@ -156,7 +160,7 @@ impl Slide {
             self.layers.push(layer);
         }
     }
-    
+
     pub fn add_image(&mut self, image: Image) {
         if let Some(layer) = self.layers.last_mut() {
             layer.add_image(image);
@@ -212,15 +216,15 @@ impl Layer {
             images: Vec::new(),
         }
     }
-    
+
     pub fn add_shape(&mut self, shape: Shape) {
         self.shapes.push(shape);
     }
-    
+
     pub fn add_text(&mut self, text: Text) {
         self.texts.push(text);
     }
-    
+
     pub fn add_image(&mut self, image: Image) {
         self.images.push(image);
     }
@@ -239,8 +243,7 @@ pub struct Shape {
     pub effects: Vec<Effect>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[derive(PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub enum ShapeType {
     Rectangle,
     RoundedRectangle { radius: f64 },
@@ -270,8 +273,15 @@ pub struct Size {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Fill {
     Solid(String),
-    Gradient { start: String, end: String, direction: GradientDirection },
-    Pattern { pattern: String, color: String },
+    Gradient {
+        start: String,
+        end: String,
+        direction: GradientDirection,
+    },
+    Pattern {
+        pattern: String,
+        color: String,
+    },
     Image(String),
     None,
 }
@@ -294,12 +304,28 @@ pub enum StrokeStyle {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Effect {
-    Shadow { offset_x: f64, offset_y: f64, blur: f64, color: String },
-    Glow { blur: f64, color: String },
-    Blur { radius: f64 },
-    Brightness { amount: f64 },
-    Contrast { amount: f64 },
-    Saturation { amount: f64 },
+    Shadow {
+        offset_x: f64,
+        offset_y: f64,
+        blur: f64,
+        color: String,
+    },
+    Glow {
+        blur: f64,
+        color: String,
+    },
+    Blur {
+        radius: f64,
+    },
+    Brightness {
+        amount: f64,
+    },
+    Contrast {
+        amount: f64,
+    },
+    Saturation {
+        amount: f64,
+    },
 }
 
 impl Shape {
@@ -308,29 +334,32 @@ impl Shape {
             id: uuid::Uuid::new_v4().to_string(),
             shape_type,
             position: Position { x: 0.0, y: 0.0 },
-            size: Size { width: 100.0, height: 100.0 },
+            size: Size {
+                width: 100.0,
+                height: 100.0,
+            },
             rotation: 0.0,
             fill: None,
             stroke: None,
             effects: Vec::new(),
         }
     }
-    
+
     pub fn with_position(mut self, x: f64, y: f64) -> Self {
         self.position = Position { x, y };
         self
     }
-    
+
     pub fn with_size(mut self, width: f64, height: f64) -> Self {
         self.size = Size { width, height };
         self
     }
-    
+
     pub fn with_fill(mut self, fill: Fill) -> Self {
         self.fill = Some(fill);
         self
     }
-    
+
     pub fn with_stroke(mut self, stroke: Stroke) -> Self {
         self.stroke = Some(stroke);
         self
@@ -408,12 +437,12 @@ impl Text {
             effects: Vec::new(),
         }
     }
-    
+
     pub fn with_position(mut self, x: f64, y: f64) -> Self {
         self.position = Position { x, y };
         self
     }
-    
+
     pub fn with_font(mut self, family: String, size: f64) -> Self {
         self.font.family = family;
         self.font.size = size;
@@ -439,18 +468,21 @@ impl Image {
             id: uuid::Uuid::new_v4().to_string(),
             path,
             position: Position { x: 0.0, y: 0.0 },
-            size: Size { width: 100.0, height: 100.0 },
+            size: Size {
+                width: 100.0,
+                height: 100.0,
+            },
             rotation: 0.0,
             opacity: 1.0,
             effects: Vec::new(),
         }
     }
-    
+
     pub fn with_position(mut self, x: f64, y: f64) -> Self {
         self.position = Position { x, y };
         self
     }
-    
+
     pub fn with_size(mut self, width: f64, height: f64) -> Self {
         self.size = Size { width, height };
         self
@@ -465,27 +497,27 @@ pub fn init() -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_canvas_creation() {
         let canvas = Canvas::new("Test Canvas".to_string());
         assert_eq!(canvas.name, "Test Canvas");
         assert_eq!(canvas.slides.len(), 0);
     }
-    
+
     #[test]
     fn test_slide_creation() {
         let mut canvas = Canvas::new("Test".to_string());
         canvas.add_slide();
         assert_eq!(canvas.slides.len(), 1);
     }
-    
+
     #[test]
     fn test_shape_creation() {
         let shape = Shape::new(ShapeType::Rectangle);
         assert_eq!(shape.shape_type, ShapeType::Rectangle);
     }
-    
+
     #[test]
     fn test_text_creation() {
         let text = Text::new("Hello World".to_string());

@@ -1,8 +1,8 @@
 //! Core data structures for Vantis Grid
 
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use serde::{Serialize, Deserialize};
 
 /// Represents a cell value
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -47,21 +47,21 @@ impl Cell {
             dependents: Vec::new(),
         }
     }
-    
+
     pub fn with_value(mut self, value: CellValue) -> Self {
         self.value = value;
         self
     }
-    
+
     pub fn with_formula(mut self, formula: String) -> Self {
         self.formula = Some(formula);
         self
     }
-    
+
     pub fn is_empty(&self) -> bool {
         matches!(self.value, CellValue::Empty)
     }
-    
+
     pub fn reference(&self) -> String {
         format!("{}{}", column_to_letter(self.column), self.row + 1)
     }
@@ -157,7 +157,7 @@ impl Column {
             style: None,
         }
     }
-    
+
     pub fn letter(&self) -> String {
         column_to_letter(self.index)
     }
@@ -187,51 +187,53 @@ impl Worksheet {
             frozen_columns: 0,
         }
     }
-    
+
     pub fn get_cell(&self, row: usize, column: usize) -> Option<&Cell> {
         self.cells.get(&(row, column))
     }
-    
+
     pub fn get_cell_mut(&mut self, row: usize, column: usize) -> &mut Cell {
-        self.cells.entry((row, column)).or_insert_with(|| Cell::new(row, column))
+        self.cells
+            .entry((row, column))
+            .or_insert_with(|| Cell::new(row, column))
     }
-    
+
     pub fn set_cell_value(&mut self, row: usize, column: usize, value: CellValue) {
         let cell = self.get_cell_mut(row, column);
         cell.value = value;
     }
-    
+
     pub fn set_cell_formula(&mut self, row: usize, column: usize, formula: String) {
         let cell = self.get_cell_mut(row, column);
         cell.formula = Some(formula);
     }
-    
+
     pub fn add_row(&mut self) -> &mut Row {
         let index = self.rows.len();
         let row = Row::new(index);
         self.rows.push(row);
         self.rows.last_mut().unwrap()
     }
-    
+
     pub fn add_column(&mut self) -> &mut Column {
         let index = self.columns.len();
         let column = Column::new(index);
         self.columns.push(column);
         self.columns.last_mut().unwrap()
     }
-    
+
     pub fn ensure_rows(&mut self, count: usize) {
         while self.rows.len() < count {
             self.add_row();
         }
     }
-    
+
     pub fn ensure_columns(&mut self, count: usize) {
         while self.columns.len() < count {
             self.add_column();
         }
     }
-    
+
     pub fn resize(&mut self, rows: usize, columns: usize) {
         self.ensure_rows(rows);
         self.ensure_columns(columns);
@@ -272,21 +274,21 @@ impl Workbook {
             },
         }
     }
-    
+
     pub fn add_worksheet(&mut self, name: String) -> &mut Worksheet {
         let worksheet = Worksheet::new(name);
         self.worksheets.push(worksheet);
         self.worksheets.last_mut().unwrap()
     }
-    
+
     pub fn get_active_worksheet(&self) -> Option<&Worksheet> {
         self.worksheets.get(self.active_worksheet)
     }
-    
+
     pub fn get_active_worksheet_mut(&mut self) -> Option<&mut Worksheet> {
         self.worksheets.get_mut(self.active_worksheet)
     }
-    
+
     pub fn set_active_worksheet(&mut self, index: usize) -> Result<(), String> {
         if index < self.worksheets.len() {
             self.active_worksheet = index;
@@ -309,35 +311,42 @@ impl Grid {
     pub fn new(name: String) -> Self {
         let mut workbook = Workbook::new(name);
         workbook.add_worksheet("Sheet1".to_string());
-        
+
         Grid {
             workbook: Arc::new(RwLock::new(workbook)),
             calculation_enabled: true,
             auto_save: true,
         }
     }
-    
+
     pub fn with_worksheets(name: String, worksheet_names: Vec<String>) -> Self {
         let mut workbook = Workbook::new(name);
         for ws_name in worksheet_names {
             workbook.add_worksheet(ws_name);
         }
-        
+
         Grid {
             workbook: Arc::new(RwLock::new(workbook)),
             calculation_enabled: true,
             auto_save: true,
         }
     }
-    
+
     pub fn get_workbook(&self) -> Arc<RwLock<Workbook>> {
         Arc::clone(&self.workbook)
     }
-    
-    pub fn set_cell_value(&self, row: usize, column: usize, value: CellValue) -> Result<(), String> {
-        let mut workbook = self.workbook.write()
+
+    pub fn set_cell_value(
+        &self,
+        row: usize,
+        column: usize,
+        value: CellValue,
+    ) -> Result<(), String> {
+        let mut workbook = self
+            .workbook
+            .write()
             .map_err(|e| format!("Failed to acquire write lock: {}", e))?;
-        
+
         if let Some(worksheet) = workbook.get_active_worksheet_mut() {
             worksheet.set_cell_value(row, column, value);
             Ok(())
@@ -345,11 +354,13 @@ impl Grid {
             Err("No active worksheet".to_string())
         }
     }
-    
+
     pub fn get_cell_value(&self, row: usize, column: usize) -> Result<CellValue, String> {
-        let workbook = self.workbook.read()
+        let workbook = self
+            .workbook
+            .read()
             .map_err(|e| format!("Failed to acquire read lock: {}", e))?;
-        
+
         if let Some(worksheet) = workbook.get_active_worksheet() {
             if let Some(cell) = worksheet.get_cell(row, column) {
                 Ok(cell.value.clone())
@@ -369,7 +380,11 @@ pub fn column_to_letter(index: usize) -> String {
     } else {
         let first = (index - 26) / 26;
         let second = index % 26;
-        format!("{}{}", (b'A' + first as u8) as char, (b'A' + second as u8) as char)
+        format!(
+            "{}{}",
+            (b'A' + first as u8) as char,
+            (b'A' + second as u8) as char
+        )
     }
 }
 
@@ -389,7 +404,7 @@ pub fn letter_to_column(letter: &str) -> Result<usize, String> {
 pub fn parse_cell_reference(reference: &str) -> Result<(usize, usize), String> {
     let mut letters = String::new();
     let mut numbers = String::new();
-    
+
     for c in reference.chars() {
         if c.is_ascii_alphabetic() {
             letters.push(c);
@@ -399,15 +414,16 @@ pub fn parse_cell_reference(reference: &str) -> Result<(usize, usize), String> {
             return Err(format!("Invalid cell reference: {}", reference));
         }
     }
-    
+
     if letters.is_empty() || numbers.is_empty() {
         return Err(format!("Invalid cell reference: {}", reference));
     }
-    
+
     let column = letter_to_column(&letters)?;
-    let row: usize = numbers.parse()
+    let row: usize = numbers
+        .parse()
         .map_err(|e| format!("Invalid row number: {}", e))?;
-    
+
     Ok((row - 1, column))
 }
 
@@ -420,7 +436,7 @@ pub fn init() -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_column_to_letter() {
         assert_eq!(column_to_letter(0), "A");
@@ -428,7 +444,7 @@ mod tests {
         assert_eq!(column_to_letter(25), "Z");
         assert_eq!(column_to_letter(26), "AA");
     }
-    
+
     #[test]
     fn test_letter_to_column() {
         assert_eq!(letter_to_column("A").unwrap(), 0);
@@ -436,14 +452,14 @@ mod tests {
         assert_eq!(letter_to_column("Z").unwrap(), 25);
         assert_eq!(letter_to_column("AA").unwrap(), 26);
     }
-    
+
     #[test]
     fn test_parse_cell_reference() {
         assert_eq!(parse_cell_reference("A1").unwrap(), (0, 0));
         assert_eq!(parse_cell_reference("B2").unwrap(), (1, 1));
         assert_eq!(parse_cell_reference("Z100").unwrap(), (99, 25));
     }
-    
+
     #[test]
     fn test_grid_creation() {
         let grid = Grid::new("Test".to_string());

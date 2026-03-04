@@ -1,7 +1,7 @@
 //! Core data structures for Vantis Bridge
 
-use serde::{Serialize, Deserialize};
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 /// Document
@@ -120,7 +120,7 @@ impl ConversionResult {
             sanitization_result: None,
         }
     }
-    
+
     pub fn failure(errors: Vec<String>) -> Self {
         ConversionResult {
             success: false,

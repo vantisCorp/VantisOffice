@@ -1,7 +1,7 @@
 //! Unit tests for Vantis-Core-IO
 
-use vantis_core_io::{init, FileHandle, OpenFlags, VirtualFileSystem};
 use vantis_core_io::crypto::sha3_hash;
+use vantis_core_io::{init, FileHandle, OpenFlags, VirtualFileSystem};
 
 #[test]
 fn test_initialization() {
@@ -13,7 +13,7 @@ fn test_initialization() {
 fn test_file_handle_creation() {
     let handle = FileHandle::open("test.txt", OpenFlags::Read);
     assert!(handle.is_ok(), "File handle creation should succeed");
-    
+
     let handle = handle.unwrap();
     assert_eq!(handle.path(), "test.txt");
 }
@@ -52,7 +52,7 @@ fn test_open_flags_readwrite() {
 fn test_virtual_filesystem() {
     let fs = VirtualFileSystem::new();
     assert!(fs.is_ok());
-    
+
     let _vfs = fs.unwrap();
     // VirtualFileSystem is created successfully
 }
@@ -77,7 +77,7 @@ fn test_sha3_hashing() {
     let data = b"Hello, VantisOffice!";
     let hash = sha3_hash(data);
     assert!(hash.is_ok());
-    
+
     let hash = hash.unwrap();
     assert_eq!(hash.len(), 32); // SHA3-256 produces 32 bytes
     assert_ne!(hash, vec![0u8; 32]);
@@ -105,7 +105,7 @@ fn test_hash_empty_data() {
     let data = b"";
     let hash = sha3_hash(data);
     assert!(hash.is_ok());
-    
+
     let hash = hash.unwrap();
     assert_eq!(hash.len(), 32);
 }
@@ -115,7 +115,7 @@ fn test_hash_large_data() {
     let data = vec![0u8; 10000];
     let hash = sha3_hash(&data);
     assert!(hash.is_ok());
-    
+
     let hash = hash.unwrap();
     assert_eq!(hash.len(), 32);
 }
@@ -147,7 +147,7 @@ fn test_file_handle_readwrite() {
     let data = b"Hello, Vantis!";
     let result = handle.write(data);
     assert!(result.is_ok());
-    
+
     let result = handle.read_all();
     assert!(result.is_ok());
 }

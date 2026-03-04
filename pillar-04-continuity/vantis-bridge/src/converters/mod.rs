@@ -1,6 +1,6 @@
 //! Converters module for converting to Vantis formats
 
-use crate::core::{Document, DocumentType, ConversionResult};
+use crate::core::{ConversionResult, Document, DocumentType};
 
 /// Converter trait
 pub trait Converter {
@@ -20,10 +20,10 @@ impl Converter for DocxConverter {
             DocumentType::VantisWriter,
             document.content,
         );
-        
+
         Ok(ConversionResult::success(converted_document))
     }
-    
+
     fn target_type(&self) -> DocumentType {
         DocumentType::VantisWriter
     }
@@ -41,10 +41,10 @@ impl Converter for XlsxConverter {
             DocumentType::VantisGrid,
             document.content,
         );
-        
+
         Ok(ConversionResult::success(converted_document))
     }
-    
+
     fn target_type(&self) -> DocumentType {
         DocumentType::VantisGrid
     }
@@ -62,10 +62,10 @@ impl Converter for PptxConverter {
             DocumentType::VantisCanvas,
             document.content,
         );
-        
+
         Ok(ConversionResult::success(converted_document))
     }
-    
+
     fn target_type(&self) -> DocumentType {
         DocumentType::VantisCanvas
     }

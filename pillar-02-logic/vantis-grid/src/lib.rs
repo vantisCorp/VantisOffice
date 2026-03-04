@@ -1,5 +1,5 @@
 //! Vantis Grid - AI-powered spreadsheet application
-//! 
+//!
 //! Features:
 //! - Neural Engine for trend prediction
 //! - Support for 10GB+ datasets
@@ -7,17 +7,17 @@
 //! - Advanced formulas and functions
 //! - GPU-accelerated calculations
 
+pub mod collaboration;
 pub mod core;
 pub mod engine;
-pub mod formulas;
-pub mod collaboration;
 pub mod export;
+pub mod formulas;
 
-pub use core::{Grid, Cell, Row, Column, Worksheet, Workbook, CellValue};
+pub use collaboration::{ChangeTracker, CollaborationManager};
+pub use core::{Cell, CellValue, Column, Grid, Row, Workbook, Worksheet};
 pub use engine::{NeuralEngine, PredictionModel, TrendAnalysis};
-pub use formulas::{FormulaEngine, FunctionRegistry};
-pub use collaboration::{CollaborationManager, ChangeTracker};
 pub use export::{ExportFormat, Exporter};
+pub use formulas::{FormulaEngine, FunctionRegistry};
 
 /// Vantis Grid version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -28,7 +28,7 @@ pub fn init() -> Result<(), GridError> {
     core::init()?;
     engine::init()?;
     formulas::init()?;
-    
+
     Ok(())
 }
 
@@ -37,28 +37,28 @@ pub fn init() -> Result<(), GridError> {
 pub enum GridError {
     #[error("Cell reference error: {0}")]
     CellReference(String),
-    
+
     #[error("Formula error: {0}")]
     Formula(String),
-    
+
     #[error("Calculation error: {0}")]
     Calculation(String),
-    
+
     #[error("Export error: {0}")]
     Export(String),
-    
+
     #[error("Neural engine error: {0}")]
     NeuralEngine(String),
-    
+
     #[error("Collaboration error: {0}")]
     Collaboration(String),
-    
+
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
-    
+
     #[error("Serialization error: {0}")]
     Serialization(String),
-    
+
     #[error("General error: {0}")]
     General(String),
 }

@@ -1,7 +1,7 @@
 //! Core data structures for Vantis Link
 
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use serde::{Serialize, Deserialize};
 use uuid::Uuid;
 
 /// Collaboration Session
@@ -42,34 +42,34 @@ impl Session {
             },
         }
     }
-    
+
     pub fn add_user(&mut self, user: User) -> Result<(), String> {
         if self.users.contains_key(&user.id) {
             return Err(format!("User {} already in session", user.id));
         }
-        
+
         if let Some(max) = self.metadata.max_users {
             if self.users.len() >= max {
                 return Err("Session is full".to_string());
             }
         }
-        
+
         self.users.insert(user.id.clone(), user);
         Ok(())
     }
-    
+
     pub fn remove_user(&mut self, user_id: &str) {
         self.users.remove(user_id);
     }
-    
+
     pub fn get_user(&self, user_id: &str) -> Option<&User> {
         self.users.get(user_id)
     }
-    
+
     pub fn user_count(&self) -> usize {
         self.users.len()
     }
-    
+
     pub fn is_full(&self) -> bool {
         if let Some(max) = self.metadata.max_users {
             self.users.len() >= max
@@ -134,22 +134,22 @@ impl User {
             cursor: None,
         }
     }
-    
+
     pub fn with_email(mut self, email: String) -> Self {
         self.email = Some(email);
         self
     }
-    
+
     pub fn with_role(mut self, role: UserRole) -> Self {
         self.role = role;
         self
     }
-    
+
     pub fn update_cursor(&mut self, cursor: Cursor) {
         self.cursor = Some(cursor);
         self.last_seen = chrono::Utc::now();
     }
-    
+
     pub fn set_online(&mut self, online: bool) {
         self.is_online = online;
         self.last_seen = chrono::Utc::now();
@@ -183,7 +183,7 @@ impl Document {
             is_encrypted: false,
         }
     }
-    
+
     pub fn apply_change(&mut self, change: Change) -> Result<(), String> {
         // Apply change to content
         match change.change_type {
@@ -199,18 +199,19 @@ impl Document {
             ChangeType::Replace => {
                 let end = change.position + change.length;
                 if end <= self.content.len() {
-                    self.content.replace_range(change.position..end, &change.content);
+                    self.content
+                        .replace_range(change.position..end, &change.content);
                 }
             }
         }
-        
+
         self.version += 1;
         self.modified_at = chrono::Utc::now();
         self.changes.push(change);
-        
+
         Ok(())
     }
-    
+
     pub fn get_change(&self, index: usize) -> Option<&Change> {
         self.changes.get(index)
     }

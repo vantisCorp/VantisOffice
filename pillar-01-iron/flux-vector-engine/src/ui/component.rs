@@ -6,10 +6,10 @@ use serde::{Deserialize, Serialize};
 pub trait Component {
     /// Render the component
     fn render(&self, _ctx: &mut ComponentContext);
-    
+
     /// Handle events
     fn handle_event(&mut self, _event: &Event);
-    
+
     /// Update the component
     fn update(&mut self, _dt: f32);
 }
@@ -26,7 +26,7 @@ impl ComponentContext {
             bounds: (x, y, width, height),
         }
     }
-    
+
     /// Get bounds
     pub fn bounds(&self) -> (f32, f32, f32, f32) {
         self.bounds
@@ -44,11 +44,7 @@ pub struct Event {
 impl Event {
     /// Create a new event
     pub fn new(event_type: EventType, x: f32, y: f32) -> Self {
-        Self {
-            event_type,
-            x,
-            y,
-        }
+        Self { event_type, x, y }
     }
 }
 

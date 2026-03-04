@@ -2,11 +2,11 @@
 //!
 //! Features Babel Typography, Deep Focus Mode, and native Markdown support.
 
-pub mod core;
-pub mod typography;
-pub mod markdown;
-pub mod focus;
 pub mod ai;
+pub mod core;
+pub mod focus;
+pub mod markdown;
+pub mod typography;
 pub mod ui;
 
 use anyhow::Result;
@@ -15,13 +15,13 @@ use anyhow::Result;
 pub fn init() -> Result<()> {
     // Initialize typography engine
     typography::init()?;
-    
+
     // Initialize markdown parser
     markdown::init()?;
-    
+
     // Initialize AI assistant
     ai::init()?;
-    
+
     Ok(())
 }
 

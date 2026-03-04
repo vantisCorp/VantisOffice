@@ -17,26 +17,26 @@ impl FontManager {
             default_font: None,
         }
     }
-    
+
     /// Load font from bytes
     pub fn load_font(&mut self, name: String, _data: &[u8]) -> Result<(), String> {
         let font = Arc::new(Font::new(name.clone()));
         self.fonts.insert(name.clone(), font);
         Ok(())
     }
-    
+
     /// Get font by name
     pub fn get_font(&self, name: &str) -> Option<&Arc<Font>> {
         self.fonts.get(name)
     }
-    
+
     /// Set default font
     pub fn set_default_font(&mut self, name: &str) {
         if let Some(font) = self.fonts.get(name).cloned() {
             self.default_font = Some(font);
         }
     }
-    
+
     /// Get default font
     pub fn default_font(&self) -> Option<&Arc<Font>> {
         self.default_font.as_ref()
@@ -54,7 +54,7 @@ impl Font {
     pub fn new(name: String) -> Self {
         Self { name }
     }
-    
+
     /// Get font name
     pub fn name(&self) -> &str {
         &self.name

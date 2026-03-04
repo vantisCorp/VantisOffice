@@ -1,6 +1,6 @@
 //! Integration tests for Vantis Writer
 
-use vantis_writer::{init, Document, Paragraph, Editor};
+use vantis_writer::{init, Document, Editor, Paragraph};
 
 #[test]
 fn test_writer_initialization() {
@@ -25,7 +25,7 @@ fn test_paragraph_creation() {
 fn test_add_paragraph() {
     let mut document = Document::new("Test".to_string());
     let paragraph = Paragraph::new("First paragraph".to_string());
-    
+
     let result = document.add_paragraph(paragraph);
     assert!(result.is_ok(), "Adding paragraph should succeed");
     assert_eq!(document.paragraphs.len(), 1);
@@ -43,6 +43,6 @@ fn test_word_count() {
     let mut document = Document::new("Test".to_string());
     let paragraph = Paragraph::new("Hello World Test".to_string());
     document.add_paragraph(paragraph).unwrap();
-    
+
     assert_eq!(document.metadata.word_count, 3);
 }

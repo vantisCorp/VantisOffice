@@ -1,10 +1,10 @@
 //! Encryption module for end-to-end encryption
-//! 
+//!
 //! Provides secure communication with E2E encryption
 
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use serde::{Serialize, Deserialize};
 
 /// Encryption Manager
 pub struct EncryptionManager {
@@ -21,55 +21,60 @@ impl EncryptionManager {
             algorithm,
         }
     }
-    
+
     pub fn enable(&mut self) {
         self.enabled = true;
     }
-    
+
     pub fn disable(&mut self) {
         self.enabled = false;
     }
-    
+
     pub fn is_enabled(&self) -> bool {
         self.enabled
     }
-    
+
     /// Generate a new encryption key
     pub fn generate_key(&self, key_id: String) -> Result<EncryptionKey, String> {
         if !self.enabled {
             return Err("Encryption manager is disabled".to_string());
         }
-        
+
         let key = EncryptionKey::new(key_id.clone(), self.algorithm);
-        
-        let mut keys = self.keys.write()
+
+        let mut keys = self
+            .keys
+            .write()
             .map_err(|e| format!("Failed to acquire write lock: {}", e))?;
-        
+
         keys.insert(key_id, key.clone());
-        
+
         Ok(key)
     }
-    
+
     /// Encrypt data
     pub fn encrypt(&self, data: &str, key_id: &str) -> Result<String, String> {
         if !self.enabled {
             return Err("Encryption manager is disabled".to_string());
         }
-        
-        let keys = self.keys.read()
+
+        let keys = self
+            .keys
+            .read()
             .map_err(|e| format!("Failed to acquire read lock: {}", e))?;
-        
-        let key = keys.get(key_id)
+
+        let key = keys
+            .get(key_id)
             .ok_or_else(|| format!("Key '{}' not found", key_id))?;
-        
+
         self.encrypt_internal(data, key)
     }
-    
+
     /// Internal encryption
     fn encrypt_internal(&self, data: &str, key: &EncryptionKey) -> Result<String, String> {
         // This would use actual cryptographic libraries like openssl or sodium
         // For now, we'll create a placeholder implementation
-        
+
         match self.algorithm {
             EncryptionAlgorithm::Aes256Gcm => {
                 // Placeholder for AES-256-GCM encryption
@@ -85,27 +90,34 @@ impl EncryptionManager {
             }
         }
     }
-    
+
     /// Decrypt data
     pub fn decrypt(&self, encrypted_data: &str, key_id: &str) -> Result<String, String> {
         if !self.enabled {
             return Err("Encryption manager is disabled".to_string());
         }
-        
-        let keys = self.keys.read()
+
+        let keys = self
+            .keys
+            .read()
             .map_err(|e| format!("Failed to acquire read lock: {}", e))?;
-        
-        let key = keys.get(key_id)
+
+        let key = keys
+            .get(key_id)
             .ok_or_else(|| format!("Key '{}' not found", key_id))?;
-        
+
         self.decrypt_internal(encrypted_data, key)
     }
-    
+
     /// Internal decryption
-    fn decrypt_internal(&self, encrypted_data: &str, _key: &EncryptionKey) -> Result<String, String> {
+    fn decrypt_internal(
+        &self,
+        encrypted_data: &str,
+        _key: &EncryptionKey,
+    ) -> Result<String, String> {
         // This would use actual cryptographic libraries
         // For now, we'll create a placeholder implementation
-        
+
         if encrypted_data.starts_with("AES256GCM:") {
             let parts: Vec<&str> = encrypted_data.split(':').collect();
             if parts.len() >= 3 {
@@ -122,24 +134,26 @@ impl EncryptionManager {
                 return Ok(base64::decode(parts[2]).unwrap_or_default());
             }
         }
-        
+
         Err("Invalid encrypted data format".to_string())
     }
-    
+
     /// Get key by ID
     pub fn get_key(&self, key_id: &str) -> Option<EncryptionKey> {
         let keys = self.keys.read().ok()?;
         keys.get(key_id).cloned()
     }
-    
+
     /// Delete a key
     pub fn delete_key(&self, key_id: &str) -> Result<(), String> {
-        let mut keys = self.keys.write()
+        let mut keys = self
+            .keys
+            .write()
             .map_err(|e| format!("Failed to acquire write lock: {}", e))?;
-        
+
         keys.remove(key_id)
             .ok_or_else(|| format!("Key '{}' not found", key_id))?;
-        
+
         Ok(())
     }
 }
@@ -165,7 +179,7 @@ impl EncryptionKey {
             expires_at: None,
         }
     }
-    
+
     fn generate_key_data(algorithm: EncryptionAlgorithm) -> String {
         // This would generate actual cryptographic keys
         // Placeholder implementation
@@ -184,7 +198,7 @@ impl EncryptionKey {
             }
         }
     }
-    
+
     pub fn with_expiration(mut self, expires_at: chrono::DateTime<chrono::Utc>) -> Self {
         self.expires_at = Some(expires_at);
         self
@@ -210,7 +224,7 @@ mod base64 {
         // Placeholder base64 encoding
         format!("BASE64:{}", data)
     }
-    
+
     pub fn decode(data: &str) -> Result<String, String> {
         // Placeholder base64 decoding
         if data.starts_with("BASE64:") {

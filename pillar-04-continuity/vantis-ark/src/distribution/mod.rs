@@ -1,9 +1,9 @@
 //! Distribution module for station management and part distribution
 
-use serde::{Serialize, Deserialize};
 use chrono::{DateTime, Utc};
-use uuid::Uuid;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use uuid::Uuid;
 
 /// Station
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -44,21 +44,22 @@ impl StationManager {
             stations: HashMap::new(),
         }
     }
-    
+
     pub fn add_station(&mut self, station: Station) {
         self.stations.insert(station.id.clone(), station);
     }
-    
+
     pub fn get_station(&self, station_id: &str) -> Option<&Station> {
         self.stations.get(station_id)
     }
-    
+
     pub fn get_healthy_stations(&self) -> Vec<&Station> {
-        self.stations.values()
+        self.stations
+            .values()
             .filter(|s| s.health_status == HealthStatus::Healthy)
             .collect()
     }
-    
+
     pub fn remove_station(&mut self, station_id: &str) -> Option<Station> {
         self.stations.remove(station_id)
     }
@@ -71,15 +72,17 @@ pub struct Distributor {
 
 impl Distributor {
     pub fn new(config: DistributionConfig) -> Self {
-        Distributor {
-            config,
-        }
+        Distributor { config }
     }
-    
-    pub fn distribute(&self, parts: &[crate::shamir::BackupPart], stations: &[&Station]) -> DistributionResult {
+
+    pub fn distribute(
+        &self,
+        parts: &[crate::shamir::BackupPart],
+        stations: &[&Station],
+    ) -> DistributionResult {
         let mut successful = 0;
         let mut failed = 0;
-        
+
         for (i, part) in parts.iter().enumerate() {
             if i < stations.len() {
                 // In a real implementation, this would upload to the station
@@ -88,7 +91,7 @@ impl Distributor {
                 failed += 1;
             }
         }
-        
+
         DistributionResult {
             total_parts: parts.len(),
             successful,
@@ -112,9 +115,7 @@ pub struct DistributionConfig {
 
 impl DistributionConfig {
     pub fn new(replication_factor: usize) -> Self {
-        DistributionConfig {
-            replication_factor,
-        }
+        DistributionConfig { replication_factor }
     }
 }
 
@@ -129,17 +130,18 @@ impl HealthMonitor {
             stations: HashMap::new(),
         }
     }
-    
+
     pub fn check_health(&mut self, station_id: &str, status: HealthStatus) {
         self.stations.insert(station_id.to_string(), status);
     }
-    
+
     pub fn get_health(&self, station_id: &str) -> Option<HealthStatus> {
         self.stations.get(station_id).copied()
     }
-    
+
     pub fn get_unhealthy_stations(&self) -> Vec<&str> {
-        self.stations.iter()
+        self.stations
+            .iter()
             .filter(|(_, status)| **status != HealthStatus::Healthy)
             .map(|(id, _)| id.as_str())
             .collect()

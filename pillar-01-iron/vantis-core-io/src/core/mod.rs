@@ -1,8 +1,8 @@
 //! Core I/O operations and memory management
 
 pub mod allocator;
-pub mod syscalls;
 pub mod memory;
+pub mod syscalls;
 
 use anyhow::Result;
 use std::path::Path;

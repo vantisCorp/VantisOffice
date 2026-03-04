@@ -24,12 +24,16 @@ pub struct ExportResult {
 pub struct VantisExporter;
 
 impl VantisExporter {
-    pub fn export(&self, document: &Document, format: ExportFormat) -> Result<ExportResult, String> {
+    pub fn export(
+        &self,
+        document: &Document,
+        format: ExportFormat,
+    ) -> Result<ExportResult, String> {
         // Placeholder implementation
         // In production, this would convert the document to the specified format
         let data = document.content.clone();
         let size = data.len();
-        
+
         Ok(ExportResult {
             success: true,
             data,
@@ -37,14 +41,14 @@ impl VantisExporter {
             size,
         })
     }
-    
+
     pub fn export_to_json(&self, document: &Document) -> Result<ExportResult, String> {
         let json = serde_json::to_string(document)
             .map_err(|e| format!("Failed to serialize document: {}", e))?;
-        
+
         let size = json.len();
         let data = json.into_bytes();
-        
+
         Ok(ExportResult {
             success: true,
             data,

@@ -2,9 +2,8 @@
 //! Tests document parsing, conversion, sanitization, and export
 
 use vantis_bridge::{
-    Document, ConversionConfig, ConversionResult, DocumentType, SanitizationResult,
-    Sanitizer, SanitizationConfig,
-    VantisExporter, ExportFormat, ExportResult,
+    ConversionConfig, ConversionResult, Document, DocumentType, ExportFormat, ExportResult,
+    SanitizationConfig, SanitizationResult, Sanitizer, VantisExporter,
 };
 
 #[test]
@@ -12,9 +11,9 @@ fn test_document_creation() {
     let document = Document::new(
         "test_document".to_string(),
         DocumentType::Docx,
-        b"Test content".to_vec()
+        b"Test content".to_vec(),
     );
-    
+
     assert_eq!(document.name, "test_document");
     assert_eq!(document.document_type, DocumentType::Docx);
     assert!(!document.id.is_empty());
@@ -23,7 +22,7 @@ fn test_document_creation() {
 #[test]
 fn test_conversion_config_default() {
     let config = ConversionConfig::default();
-    
+
     assert!(config.remove_metadata);
     assert!(config.remove_macros);
     assert!(config.remove_scripts);
@@ -33,7 +32,7 @@ fn test_conversion_config_default() {
 #[test]
 fn test_sanitization_config_default() {
     let config = SanitizationConfig::default();
-    
+
     assert!(config.remove_metadata);
     assert!(config.remove_macros);
     assert!(config.remove_scripts);
@@ -56,7 +55,7 @@ fn test_sanitization_result() {
         total_size_before: 1000,
         total_size_after: 950,
     };
-    
+
     assert!(result.metadata_removed);
     assert_eq!(result.macros_removed, 2);
     assert_eq!(result.scripts_removed, 1);
@@ -80,7 +79,7 @@ fn test_export_result() {
         size: 17,
         success: true,
     };
-    
+
     assert_eq!(result.format, ExportFormat::Json);
     assert_eq!(result.size, 17);
     assert!(result.success);
@@ -101,13 +100,13 @@ fn test_conversion_result() {
         document: Some(Document::new(
             "test".to_string(),
             DocumentType::Docx,
-            b"content".to_vec()
+            b"content".to_vec(),
         )),
         warnings: vec![],
         errors: vec![],
         sanitization_result: None,
     };
-    
+
     assert!(result.success);
     assert!(result.document.is_some());
 }
@@ -118,22 +117,22 @@ fn test_full_conversion_workflow() {
     let mut document = Document::new(
         "test_document".to_string(),
         DocumentType::Docx,
-        b"Test content".to_vec()
+        b"Test content".to_vec(),
     );
-    
+
     // Create sanitization config
     let sanitization_config = SanitizationConfig::default();
-    
+
     // Create sanitizer
     let sanitizer = Sanitizer::new(sanitization_config);
-    
+
     // Sanitize document
     let result = sanitizer.sanitize(&mut document);
-    
+
     // Verify document was created
     assert_eq!(document.name, "test_document");
     assert_eq!(document.document_type, DocumentType::Docx);
-    
+
     // Verify sanitization result
     assert!(result.metadata_removed);
 }

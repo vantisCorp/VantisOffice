@@ -15,7 +15,7 @@ impl Sandbox {
         let mut config = Config::new();
         config.wasm_simd(true);
         config.wasm_multi_memory(true);
-        
+
         Ok(Sandbox {
             engine: Engine::new(&config)?,
             module: None,
@@ -45,12 +45,16 @@ impl ExecutionContext {
     pub fn new(engine: &Engine) -> Result<Self> {
         let store = Store::new(engine, ());
         let linker = Linker::new(engine);
-        
+
         Ok(ExecutionContext { store, linker })
     }
 
     /// Execute a function
-    pub fn execute(&mut self, _func_name: &str, _args: &[wasmtime::Val]) -> Result<Vec<wasmtime::Val>> {
+    pub fn execute(
+        &mut self,
+        _func_name: &str,
+        _args: &[wasmtime::Val],
+    ) -> Result<Vec<wasmtime::Val>> {
         // Implementation would execute the function
         Ok(vec![])
     }

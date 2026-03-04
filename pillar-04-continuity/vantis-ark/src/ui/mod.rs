@@ -32,7 +32,7 @@ impl Dashboard {
             recent_recoveries: Vec::new(),
         }
     }
-    
+
     pub fn render(&self) -> String {
         format!(
             "=== Vantis Ark Dashboard ===\n\
@@ -64,11 +64,9 @@ pub enum BackupStatus {
 
 impl StatusDisplay {
     pub fn new(status: BackupStatus) -> Self {
-        StatusDisplay {
-            status,
-        }
+        StatusDisplay { status }
     }
-    
+
     pub fn render(&self) -> String {
         match self.status {
             BackupStatus::Idle => "Status: Idle".to_string(),
@@ -101,7 +99,7 @@ impl RecoveryUI {
             progress: 0.0,
         }
     }
-    
+
     pub fn render(&self) -> String {
         format!(
             "Recovery Status: {:?}\nProgress: {:.1}%",
@@ -127,16 +125,14 @@ impl SettingsUI {
             replication_factor: 3,
         }
     }
-    
+
     pub fn render(&self) -> String {
         format!(
             "=== Backup Settings ===\n\
              Parts: {}\n\
              Threshold: {}\n\
              Replication Factor: {}",
-            self.backup_parts,
-            self.backup_threshold,
-            self.replication_factor
+            self.backup_parts, self.backup_threshold, self.replication_factor
         )
     }
 }

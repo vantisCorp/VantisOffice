@@ -7,17 +7,17 @@
 //! - Macro/script removal
 //! - Format validation
 
-pub mod core;
-pub mod parsers;
 pub mod converters;
-pub mod sanitization;
+pub mod core;
 pub mod export;
+pub mod parsers;
+pub mod sanitization;
 
-pub use core::{Document, ConversionConfig, ConversionResult, DocumentType, SanitizationResult};
-pub use parsers::{DocxParser, XlsxParser, PptxParser, Parser};
-pub use converters::{DocxConverter, XlsxConverter, PptxConverter, Converter};
-pub use sanitization::{Sanitizer, SanitizationConfig};
-pub use export::{VantisExporter, ExportFormat, ExportResult};
+pub use converters::{Converter, DocxConverter, PptxConverter, XlsxConverter};
+pub use core::{ConversionConfig, ConversionResult, Document, DocumentType, SanitizationResult};
+pub use export::{ExportFormat, ExportResult, VantisExporter};
+pub use parsers::{DocxParser, Parser, PptxParser, XlsxParser};
+pub use sanitization::{SanitizationConfig, Sanitizer};
 
 /// Vantis Bridge version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -29,7 +29,7 @@ pub fn init() -> Result<(), BridgeError> {
     parsers::init()?;
     converters::init()?;
     sanitization::init()?;
-    
+
     Ok(())
 }
 
@@ -38,22 +38,22 @@ pub fn init() -> Result<(), BridgeError> {
 pub enum BridgeError {
     #[error("Parser error: {0}")]
     Parser(String),
-    
+
     #[error("Converter error: {0}")]
     Converter(String),
-    
+
     #[error("Sanitization error: {0}")]
     Sanitization(String),
-    
+
     #[error("Export error: {0}")]
     Export(String),
-    
+
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
-    
+
     #[error("Serialization error: {0}")]
     Serialization(String),
-    
+
     #[error("General error: {0}")]
     General(String),
 }

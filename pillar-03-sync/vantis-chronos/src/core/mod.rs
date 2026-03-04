@@ -1,7 +1,7 @@
 //! Core data structures for Vantis Chronos
 
-use serde::{Serialize, Deserialize};
-use chrono::{DateTime, Utc, NaiveDate, NaiveTime, Duration};
+use chrono::{DateTime, Duration, NaiveDate, NaiveTime, Utc};
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 /// Calendar
@@ -31,26 +31,24 @@ impl Calendar {
             updated_at: now,
         }
     }
-    
+
     pub fn add_event(&mut self, event: Event) {
         self.events.push(event);
         self.updated_at = Utc::now();
     }
-    
+
     pub fn remove_event(&mut self, event_id: &str) -> Option<Event> {
         let pos = self.events.iter().position(|e| e.id == event_id)?;
         self.updated_at = Utc::now();
         Some(self.events.remove(pos))
     }
-    
+
     pub fn get_event(&self, event_id: &str) -> Option<&Event> {
         self.events.iter().find(|e| e.id == event_id)
     }
-    
+
     pub fn query_events(&self, query: &EventQuery) -> Vec<&Event> {
-        self.events.iter()
-            .filter(|e| query.matches(e))
-            .collect()
+        self.events.iter().filter(|e| query.matches(e)).collect()
     }
 }
 
@@ -93,11 +91,11 @@ impl Event {
             updated_at: now,
         }
     }
-    
+
     pub fn duration(&self) -> Duration {
         self.end.signed_duration_since(self.start)
     }
-    
+
     pub fn overlaps(&self, other: &Event) -> bool {
         self.start < other.end && self.end > other.start
     }
@@ -161,32 +159,32 @@ impl EventQuery {
             status: None,
         }
     }
-    
+
     pub fn matches(&self, event: &Event) -> bool {
         if let Some(start) = self.start_date {
             if event.end < start {
                 return false;
             }
         }
-        
+
         if let Some(end) = self.end_date {
             if event.start > end {
                 return false;
             }
         }
-        
+
         if let Some(title) = &self.title_contains {
             if !event.title.to_lowercase().contains(&title.to_lowercase()) {
                 return false;
             }
         }
-        
+
         if let Some(status) = self.status {
             if event.status != status {
                 return false;
             }
         }
-        
+
         true
     }
 }
@@ -217,7 +215,7 @@ impl Color {
     pub fn new(red: u8, green: u8, blue: u8) -> Self {
         Color { red, green, blue }
     }
-    
+
     pub fn to_hex(&self) -> String {
         format!("#{:02X}{:02X}{:02X}", self.red, self.green, self.blue)
     }

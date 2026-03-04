@@ -3,10 +3,10 @@
 //! This library provides hardware-level encryption for all VantisOffice documents
 //! using TPM 2.0 chip technology.
 
-pub mod tpm;
+pub mod api;
 pub mod crypto;
 pub mod recovery;
-pub mod api;
+pub mod tpm;
 
 use anyhow::Result;
 
@@ -14,10 +14,10 @@ use anyhow::Result;
 pub fn init() -> Result<()> {
     // Initialize TPM provider
     tpm::init()?;
-    
+
     // Initialize crypto primitives
     crypto::init()?;
-    
+
     Ok(())
 }
 

@@ -1,6 +1,6 @@
 //! Sanitization module for security controls
 
-use crate::core::{Document, ConversionConfig, SanitizationResult};
+use crate::core::{ConversionConfig, Document, SanitizationResult};
 
 /// Sanitizer
 pub struct Sanitizer {
@@ -9,44 +9,42 @@ pub struct Sanitizer {
 
 impl Sanitizer {
     pub fn new(config: SanitizationConfig) -> Self {
-        Sanitizer {
-            config,
-        }
+        Sanitizer { config }
     }
-    
+
     pub fn sanitize(&self, document: &mut Document) -> SanitizationResult {
         let size_before = document.content.len();
         let mut macros_removed = 0;
         let mut scripts_removed = 0;
         let mut embedded_files_removed = 0;
         let mut metadata_removed = false;
-        
+
         // Remove metadata
         if self.config.remove_metadata {
             document.metadata = crate::core::DocumentMetadata::default();
             metadata_removed = true;
         }
-        
+
         // Remove macros
         if self.config.remove_macros && document.metadata.has_macros {
             document.metadata.has_macros = false;
             macros_removed = 1;
         }
-        
+
         // Remove scripts
         if self.config.remove_scripts && document.metadata.has_scripts {
             document.metadata.has_scripts = false;
             scripts_removed = 1;
         }
-        
+
         // Remove embedded files
         if self.config.remove_embedded_files && document.metadata.has_embedded_files {
             document.metadata.has_embedded_files = false;
             embedded_files_removed = 1;
         }
-        
+
         let size_after = document.content.len();
-        
+
         SanitizationResult {
             metadata_removed,
             macros_removed,

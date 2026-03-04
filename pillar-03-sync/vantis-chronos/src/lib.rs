@@ -10,17 +10,23 @@
 
 pub mod core;
 pub mod encryption;
+pub mod notifications;
 pub mod scheduling;
 pub mod sync;
 pub mod ui;
-pub mod notifications;
 
-pub use core::{Calendar, Event, Recurrence, Reminder, EventQuery, DateRange, TimeRange, Color};
-pub use encryption::{EventEncryption, KeyManager, InvitationSystem, SharingSystem, EncryptionLevel};
-pub use scheduling::{Suggester, ConflictDetector, Availability, ScheduleOptimizer, SuggestionCriteria};
-pub use sync::{FlowSync, LinkSync, ExternalSync, EventMerger, ConflictResolver};
-pub use ui::{CalendarView, ViewType, EventEditor, TimelineView, AgendaView, ViewSettings};
-pub use notifications::{NotificationManager, ReminderManager, InvitationManager, ConflictAlertManager};
+pub use core::{Calendar, Color, DateRange, Event, EventQuery, Recurrence, Reminder, TimeRange};
+pub use encryption::{
+    EncryptionLevel, EventEncryption, InvitationSystem, KeyManager, SharingSystem,
+};
+pub use notifications::{
+    ConflictAlertManager, InvitationManager, NotificationManager, ReminderManager,
+};
+pub use scheduling::{
+    Availability, ConflictDetector, ScheduleOptimizer, Suggester, SuggestionCriteria,
+};
+pub use sync::{ConflictResolver, EventMerger, ExternalSync, FlowSync, LinkSync};
+pub use ui::{AgendaView, CalendarView, EventEditor, TimelineView, ViewSettings, ViewType};
 
 /// Vantis Chronos version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -31,7 +37,7 @@ pub fn init() -> Result<(), ChronosError> {
     core::init()?;
     encryption::init()?;
     scheduling::init()?;
-    
+
     Ok(())
 }
 
@@ -40,31 +46,31 @@ pub fn init() -> Result<(), ChronosError> {
 pub enum ChronosError {
     #[error("Event error: {0}")]
     Event(String),
-    
+
     #[error("Calendar error: {0}")]
     Calendar(String),
-    
+
     #[error("Encryption error: {0}")]
     Encryption(String),
-    
+
     #[error("Scheduling error: {0}")]
     Scheduling(String),
-    
+
     #[error("Sync error: {0}")]
     Sync(String),
-    
+
     #[error("UI error: {0}")]
     Ui(String),
-    
+
     #[error("Notification error: {0}")]
     Notification(String),
-    
+
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
-    
+
     #[error("Serialization error: {0}")]
     Serialization(String),
-    
+
     #[error("General error: {0}")]
     General(String),
 }
