@@ -55,13 +55,13 @@
 - [x] Add PartialEq derive to AnnotationType, UserRole, ChangeType
 - [x] All tests passing
 
-## ✅ Phase 23: Release v0.5.0 - IN PROGRESS ✅
+## ✅ Phase 23: Release v0.5.0 - COMPLETED ✅
 
 - [x] Update version in Cargo.toml to 0.5.0
 - [x] Update CHANGELOG.md
-- [ ] Create git tag v0.5.0
-- [ ] Push tag to GitHub
-- [ ] Create GitHub release
+- [x] Create git tag v0.5.0
+- [x] Push tag to GitHub
+- [x] Create GitHub release: https://github.com/vantisCorp/VantisOffice/releases/tag/v0.5.0
 
 ## 📊 Test Results Summary
 
@@ -83,7 +83,7 @@
 
 ## 📈 Statistics
 
-- **Version**: 0.5.0 (in progress)
+- **Version**: 0.5.0 (released 2025-03-04)
 - **Total Modules**: 14
 - **Modules with Tests**: 12 (86%)
 - **Passing Tests**: 187
@@ -101,6 +101,6 @@
 
 ## 🔗 Links
 
-- **GitHub Release**: https://github.com/vantisCorp/VantisOffice/releases/tag/v0.4.0
+- **GitHub Release**: https://github.com/vantisCorp/VantisOffice/releases/tag/v0.5.0
 - **Repository**: https://github.com/vantisCorp/VantisOffice
 - **Documentation**: See README.md
