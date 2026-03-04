@@ -4,6 +4,40 @@ Wszystkie istotne zmiany w VantisOffice będą dokumentowane w tym pliku.
 
 Format oparty na [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), a projekt przestrzega [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2025-03-04
+
+### Dodano
+- **Benchmarki wydajnościowe** dla 4 modułów (64 nowe benchmarki)
+  - Vantis Lens (16 benchmarków) - PDF rendering, sterilization, signing
+  - Vantis Bridge (18 benchmarków) - format conversion, sanitization
+  - WASM Sandbox (16 benchmarków) - plugin execution, capabilities
+  - Flux Vector Engine (15 benchmarków) - GPU rendering, vector graphics
+- **Testy jednostkowe dla Vantis Chronos** (30 testów)
+  - Event management, calendar queries, recurrence
+  - Encryption, key management, conflict detection
+  - Scheduling optimization, availability checking
+
+### Naprawiono
+- **138 testów przechodzących** w 10 modułach (100% pass rate)
+  - Naprawiono vantis-chronos (269 błędów → 0)
+  - Naprawiono importy vantis-vault, vantis-writer, wasm-sandbox
+  - Wszystkie testy działają poprawnie
+- **Formatowanie kodu** - 121 plików sformatowanych rustfmt
+- **Warningi kompilatora** - naprawiono wszystkie warningi w testach
+
+### Zmieniono
+- Łącznie 207 benchmarków w 13 modułach (z 143 w 9 modułach)
+- Zaktualizowano BENCHMARKS_COMPLETE.md do wersji 2.0
+- Ulepszona dokumentacja z nowymi wykresami i tabelami
+
+### Ulepszone
+- Pokrycie benchmarków na poziomie 93% (13/14 modułów)
+- Zwiększona czytelność dokumentacji technicznej
+- Jakość kodu - wszystkie testy przechodzą
+- Pokrycie testami: 138 testów w 10 modułach
+
+---
+
 ## [Unreleased]
 
 ### Dodano
