@@ -38,3 +38,7 @@ criterion = "0.5"
 [[bin]]
 name = "flux-demo"
 path = "src/main.rs"
+
+[[bench]]
+name = "flux_benchmark"
+harness = false

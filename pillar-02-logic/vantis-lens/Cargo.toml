@@ -23,6 +23,11 @@ tokio = { version = "1.35", features = ["full"] }
 
 [dev-dependencies]
 tokio-test = "0.4"
+criterion = "0.5"
+
+[[bench]]
+name = "lens_benchmark"
+harness = false
 
 [[bin]]
 name = "vantis-lens"

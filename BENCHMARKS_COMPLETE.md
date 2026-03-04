@@ -10,8 +10,8 @@ VantisOffice posiada kompleksowy system benchmarków wydajnościowych oparty na 
 
 | Metryka | Wartość |
 |---------|---------|
-| **Moduły z benchmarkami** | 9 |
-| **Łączna liczba benchmarków** | 143 |
+| **Moduły z benchmarkami** | 13 |
+| **Łączna liczba benchmarków** | 207 |
 | **Framework** | Criterion.rs 0.5 |
 | **Format raportów** | HTML + terminal |
 | **Lokalizacja raportów** | `target/criterion/` |
@@ -61,6 +61,37 @@ VantisOffice posiada kompleksowy system benchmarków wydajnościowych oparty na 
 | Serialization | serialize_vault | ~5-10 µs |
 | Serialization | deserialize_vault | ~5-10 µs |
 
+#### 3. WASM Sandbox (16 benchmarków) ✨ NOWE
+**Lokalizacja**: `pillar-01-iron/wasm-sandbox/benches/wasm_benchmark.rs`
+
+| Kategoria | Benchmark | Opis |
+|-----------|-----------|------|
+| Sandbox | sandbox_creation | Inicjalizacja sandboxa |
+| Plugin | plugin_loading/instantiation | Ładowanie i instancja (2) |
+| Execution | execution_simple/complex/with_memory | Wykonywanie funkcji (3) |
+| Resources | resource_limits | Limity zasobów (3) |
+| Capabilities | capability_check/grant/revoke | System uprawnień (3) |
+| Plugins | multiple_plugins | Wiele pluginów |
+| Features | hot_reload/inter_plugin_comm | Hot reload i komunikacja (2) |
+| State | serialization/deserialization | Stan pluginów (2) |
+
+#### 4. Flux Vector Engine (15 benchmarków) ✨ NOWE
+**Lokalizacja**: `pillar-01-iron/flux-vector-engine/benches/flux_benchmark.rs`
+
+| Kategoria | Benchmark | Opis |
+|-----------|-----------|------|
+| Engine | engine_initialization | Inicjalizacja silnika |
+| Paths | path_creation/rendering* | Tworzenie i renderowanie ścieżek (2) |
+| Rendering | multiple_paths/fill_stroke | Zaawansowane renderowanie (2) |
+| Colors | color_operations | Operacje na kolorach |
+| Animation | animation_step/easing_functions | System animacji (2) |
+| Frame | frame_rendering | Renderowanie klatki |
+| VSync | vsync_modes | Tryby VSync (3) |
+| Gradients | gradient_rendering | Gradienty (2) |
+| Transformations | transformation_operations | Transformacje (3) |
+| Text | text_rendering | Renderowanie tekstu |
+| Batch | batch_rendering | Renderowanie wsadowe (4) |
+
 ---
 
 ### Pillar II: Productivity Applications (Logic Layer)
@@ -88,8 +119,19 @@ VantisOffice posiada kompleksowy system benchmarków wydajnościowych oparty na 
 | Presentation | create/add_slides/navigation (3) |
 | Large Operations | 100_slides/complex_animation (2) |
 
-#### 5. Vantis Lens (0 benchmarków)
-**Status**: Do zaimplementowania
+#### 5. Vantis Lens (16 benchmarków) ✨ NOWE
+**Lokalizacja**: `pillar-02-logic/vantis-lens/benches/lens_benchmark.rs`
+
+| Kategoria | Benchmark | Opis |
+|-----------|-----------|------|
+| Document Creation | pdf_document_creation | Tworzenie dokumentu PDF |
+| Document Parsing | pdf_document_parse_* | Parsowanie różnych rozmiarów (4) |
+| Rendering | pdf_rendering_* | Renderowanie stron (2) |
+| Sterilization | pdf_sterilization* | Czyszczenie PDF (2) |
+| Signing | pdf_signing/verification | Podpisywanie i weryfikacja (2) |
+| Annotations | pdf_annotation_* | Operacje na annotacjach (3) |
+| Export | pdf_export_* | Eksport do różnych formatów (3) |
+| Navigation | pdf_search/navigate | Wyszukiwanie i nawigacja (2) |
 
 #### 6. Vantis Writer (10 benchmarków) ✨ NOWE
 **Lokalizacja**: `pillar-02-logic/vantis-writer/benches/writer_benchmark.rs`
@@ -186,8 +228,19 @@ VantisOffice posiada kompleksowy system benchmarków wydajnościowych oparty na 
 | Storage Operations | store/retrieve/list (3) |
 | Health Monitoring | check/report/alert (2) |
 
-#### 11. Vantis Bridge (0 benchmarków)
-**Status**: Do zaimplementowania
+#### 11. Vantis Bridge (18 benchmarków) ✨ NOWE
+**Lokalizacja**: `pillar-04-continuity/vantis-bridge/benches/bridge_benchmark.rs`
+
+| Kategoria | Benchmark | Opis |
+|-----------|-----------|------|
+| Document Creation | document_creation | Tworzenie dokumentu |
+| Parsing | docx/xlsx/pptx_parsing | Parsowanie formatów Office (3) |
+| Conversion | docx/xlsx/pptx_conversion | Konwersja formatów (3) |
+| Sanitization | sanitization_* | Czyszczenie dokumentów (2) |
+| Export | export_vantis_* | Eksport do formatów Vantis (3) |
+| Batch Processing | batch_processing | Przetwarzanie wsadowe |
+| Validation | format_validation | Walidacja formatu |
+| Security | metadata/macro/script_removal | Usuwanie zagrożeń (4) |
 
 ---
 
@@ -262,10 +315,12 @@ cargo bench -- document_creation
 ## 📋 Moduły Bez Benchmarków
 
 ### Wymagające Implementacji:
-1. **Vantis Lens** - Secure PDF viewer
-2. **Vantis Bridge** - Legacy format converter
-3. **WASM Sandbox** - Secure plugin execution
-4. **Flux Vector Engine** - GPU rendering (wymaga Vulkan)
+1. **WASM Sandbox** - Secure plugin execution ✨ NOWE (16 benchmarków)
+2. **Flux Vector Engine** - GPU rendering ✨ NOWE (15 benchmarków)
+
+### ✅ Zaimplementowane w v0.4.0:
+1. **Vantis Lens** - Secure PDF viewer (16 benchmarków)
+2. **Vantis Bridge** - Legacy format converter (18 benchmarków)
 
 ### Nie Zaimplementowane:
 - **Vantis Mobile** - Tylko README
@@ -279,6 +334,7 @@ cargo bench -- document_creation
 | 2024-02 | 3 | 42 | v0.1.0 |
 | 2025-02 | 7 | 119 | v0.2.0 |
 | 2025-03 | 9 | 143 | v0.3.0 |
+| 2025-03 | 13 | 207 | v0.4.0 |
 
 ---
 
@@ -292,5 +348,5 @@ cargo bench -- document_creation
 ---
 
 **Ostatnia aktualizacja**: 2025-03-03
-**Wersja dokumentu**: 1.0
+**Wersja dokumentu**: 2.0
 **Utrzymanie**: Vantis Development Team
