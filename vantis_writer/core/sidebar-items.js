@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["Document","DocumentMetadata","Editor","Paragraph","ParagraphStyle"]};

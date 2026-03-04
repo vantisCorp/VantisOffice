@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DependencyType","ProjectStatus","TaskPriority","TaskStatus"],"struct":["GanttChart","KanbanBoard","KanbanColumn","KanbanTask","Milestone","Project","Task","TaskDependency","Timeline"]};

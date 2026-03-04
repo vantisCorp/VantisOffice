@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["VERSION"],"enum":["GridError"],"fn":["init"],"mod":["collaboration","core","engine","export","formulas"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["VERSION"],"enum":["ChronosError"],"fn":["init"],"mod":["core","encryption","notifications","scheduling","sync","ui"]};

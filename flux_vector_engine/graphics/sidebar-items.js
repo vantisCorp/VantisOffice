@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["FillType","StrokeCap","StrokeJoin"],"fn":["init"],"struct":["Color","FontManager","Paint","Path","ShaderManager","TextureManager","VectorEngine"]};

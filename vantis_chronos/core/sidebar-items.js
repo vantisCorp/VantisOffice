@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["EventStatus","RecurrencePattern","ReminderMethod"],"fn":["init"],"struct":["Calendar","Color","DateRange","Event","EventQuery","Recurrence","Reminder","TimeRange"]};

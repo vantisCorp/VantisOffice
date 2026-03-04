@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ConflictSeverity"],"fn":["init"],"struct":["Availability","Conflict","ConflictDetector","MeetingSuggestion","ScheduleOptimizer","Suggester","SuggestionCriteria"]};

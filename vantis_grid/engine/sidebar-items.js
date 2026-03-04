@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["AnomalySeverity","ModelType","SuggestionType","TrendDirection"],"fn":["init"],"struct":["Anomaly","NeuralEngine","PredictionModel","Suggestion","TrendAnalysis"]};

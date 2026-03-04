@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ConflictType","SyncResult","SyncStatus"],"fn":["init"],"struct":["SyncConflict","SyncManager","SyncSession"]};

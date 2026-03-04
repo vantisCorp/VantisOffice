@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ViewType"],"struct":["AgendaView","CalendarView","EventEditor","TimelineView","ViewSettings"]};

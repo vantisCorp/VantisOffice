@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Background","ConnectionType","ElementType","FontStyle","FontWeight","GradientType","LineCap","LineJoin","LineStyle","TextAlignment","VerticalAlignment"],"struct":["Canvas","CanvasStyle","Color","Connection","Element","Font","Gradient","GradientStop","Shadow","Stroke","Style"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Justification","KerningMode"],"fn":["init"],"struct":["BabelEngine","FontConfig","TypographySettings"]};

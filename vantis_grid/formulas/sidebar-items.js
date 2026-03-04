@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["FormulaError"],"fn":["init"],"struct":["FormulaEngine","FunctionRegistry"],"trait":["EvaluationContext","Function"]};

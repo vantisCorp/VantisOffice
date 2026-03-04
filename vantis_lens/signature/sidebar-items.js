@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ComplianceLevel","SignatureStatus"],"fn":["init"],"struct":["DigitalSignature","SignatureLocation","SignatureManager"]};

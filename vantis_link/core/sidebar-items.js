@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ChangeType","UserRole"],"fn":["init"],"struct":["Change","Cursor","Document","Position","Selection","Session","SessionMetadata","User"]};

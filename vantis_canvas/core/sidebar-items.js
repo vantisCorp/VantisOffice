@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Background","BlendMode","Effect","Fill","FontStyle","FontWeight","GradientDirection","ShapeType","StrokeStyle","TextAlignment","TransitionType"],"fn":["init"],"struct":["Canvas","CanvasDimensions","CanvasMetadata","Font","Image","Layer","Position","Shape","Size","Slide","Stroke","Text"]};

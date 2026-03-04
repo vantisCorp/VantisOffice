@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["RecoveryStatus"],"fn":["init"],"struct":["Backup","BackupConfig","BackupManager","BackupMetadata","InMemoryStorage","Recovery","RecoveryConfig"],"trait":["StorageBackend"]};

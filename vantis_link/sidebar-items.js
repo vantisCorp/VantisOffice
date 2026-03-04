@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["VERSION"],"enum":["LinkError"],"fn":["init"],"mod":["core","crdt","discovery","encryption","sync","transport"]};

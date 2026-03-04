@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ConflictSeverity","InvitationStatus","NotificationType"],"struct":["ConflictAlert","ConflictAlertManager","Invitation","InvitationManager","Notification","NotificationManager","Reminder","ReminderManager"]};

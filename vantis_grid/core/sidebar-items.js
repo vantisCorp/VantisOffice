@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["CellValue","TextAlignment","VerticalAlignment"],"fn":["column_to_letter","init","letter_to_column","parse_cell_reference"],"struct":["Cell","CellStyle","Column","Grid","Row","Workbook","WorkbookMetadata","Worksheet"]};

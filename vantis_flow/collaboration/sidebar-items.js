@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ChangeType","ConflictResolver","PeerStatus","SessionStatus"],"struct":["Cursor","FlowCRDT","FlowChange","FlowSession","FlowUser","Peer","SyncManager","UserPermissions"]};

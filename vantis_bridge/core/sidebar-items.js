@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DocumentType"],"fn":["init"],"struct":["ConversionConfig","ConversionResult","Document","DocumentMetadata","SanitizationResult"]};

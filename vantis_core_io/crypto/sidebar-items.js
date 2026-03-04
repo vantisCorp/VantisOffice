@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["EncryptionLevel","IntegrityCheck"],"fn":["init","sha3_hash","verify_integrity"]};

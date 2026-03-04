@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["AnnotationType"],"fn":["init"],"struct":["Annotation","AnnotationRect","PdfDocument","PdfMetadata","PdfPage","PdfSecurity"]};

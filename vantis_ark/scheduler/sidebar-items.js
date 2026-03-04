@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ScheduleFrequency","TaskStatus"],"struct":["BackupScheduler","BackupTask","RetentionPolicy","Schedule","ScheduleConfig","TaskConfig","TaskResult"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["StorageAlgorithm","TransportAlgorithm"],"struct":["KeyManager","StorageEncryption","TransportEncryption"]};

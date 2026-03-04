@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["VERSION"],"enum":["FlowError"],"mod":["collaboration","core","diagram","export","planning"],"type":["FlowResult"]};

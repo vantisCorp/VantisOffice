@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["EncryptionLevel","InvitationStatus","SharingPermissions"],"fn":["init"],"struct":["EventEncryption","Invitation","InvitationSystem","KeyManager","PGPKey","PGPKeyPair","SharedCalendar","SharingSystem"]};

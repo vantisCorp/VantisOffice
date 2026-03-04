@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ConflictResolutionStrategy"],"struct":["ConflictResolver","EventMerger","ExternalSync","FlowSync","FlowSyncResult","LinkSync","LinkSyncResult"]};

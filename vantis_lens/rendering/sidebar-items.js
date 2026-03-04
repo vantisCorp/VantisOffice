@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["RenderTarget"],"fn":["init"],"struct":["PdfRenderer","RenderContext","RenderOptions"]};

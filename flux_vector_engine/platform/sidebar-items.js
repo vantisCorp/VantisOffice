@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["BackendType"],"struct":["EGLBackend","MetalBackend","VulkanBackend"]};

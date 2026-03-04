@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["init"],"struct":["DocxParser","PptxParser","XlsxParser"],"trait":["Parser"]};

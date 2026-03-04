@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["CanvasChangeType","CollaborationError"],"fn":["init"],"struct":["AppliedChange","CRDTState","CanvasChange","CanvasCollaboration","CollaborationSession","CollaborationToken","Cursor","ElementVersion","User"]};

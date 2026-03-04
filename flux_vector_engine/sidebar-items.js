@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["VERSION"],"fn":["capabilities","init"],"mod":["core","graphics","platform","ui"],"struct":["EngineCapabilities"]};

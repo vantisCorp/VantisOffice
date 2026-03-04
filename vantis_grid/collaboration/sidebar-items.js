@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ChangeType","CollaborationError"],"fn":["init"],"struct":["AppliedChange","CRDTState","CellChange","CellVersion","ChangeTracker","CollaborationManager","CollaborationSession","CollaborationToken","Cursor","SessionStats","User"]};
