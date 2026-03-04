@@ -9,7 +9,7 @@
 - [x] Flux Vector Engine benchmarks (15 benchmarks)
 
 ### Testy dodane
-- [x] Vantis Chronos unit tests (30 unit tests)
+- [x] Vantis Chronos unit tests (26 unit tests - FIXED & PASSING)
 - [ ] Flux Vector Engine tests
 - [ ] Fix WASM Sandbox tests (timeout issues)
 
