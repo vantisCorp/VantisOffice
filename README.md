@@ -300,7 +300,7 @@ flow_benchmark_task_management                 150.0 ops/s   ✓
 | Metryka | Wartość | Status |
 |---------|--------|--------|
 | **Moduły Zaimplementowane** | 13/14 | █▓▓▓▓▓▓▓▓▓▓▓▓ 93% |
-| **Testy** | 182 | 100% pass rate |
+| **Testy** | 195 | 100% pass rate |
 | **Benchmarki** | 143 | W 9 modułach |
 | **Linie Kodu** | 50,000+ | Aktywny rozwój |
 | **Wydanie** | v0.3.0 | Stabilny |
@@ -850,7 +850,7 @@ flow_benchmark_task_management                 150.0 ops/s   ✓
 | Metric | Value | Status |
 |--------|-------|--------|
 | **Modules Implemented** | 13/14 | █▓▓▓▓▓▓▓▓▓▓▓▓ 93% |
-| **Tests** | 182 | 100% pass rate |
+| **Tests** | 195 | 100% pass rate |
 | **Benchmarks** | 143 | Across 9 modules |
 | **Lines of Code** | 50,000+ | Active development |
 | **Release** | v0.3.0 | Stable |
