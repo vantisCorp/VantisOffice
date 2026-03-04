@@ -36,7 +36,9 @@ impl Sandbox {
 
 /// Execution context for running WASM code
 pub struct ExecutionContext {
+    #[allow(dead_code)]
     store: Store<()>,
+    #[allow(dead_code)]
     linker: Linker<()>,
 }
 
