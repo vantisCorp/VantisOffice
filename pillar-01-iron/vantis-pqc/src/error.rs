@@ -37,8 +37,12 @@ pub enum PQCError {
     InvalidPrivateKey,
 
     /// Invalid ciphertext
-    #[error("Invalid ciphertext")]
-    InvalidCiphertext,
+    #[error("Invalid ciphertext: {0}")]
+    InvalidCiphertext(String),
+
+    /// Invalid signature
+    #[error("Invalid signature: {0}")]
+    InvalidSignature(String),
 
     /// Algorithm not supported
     #[error("Algorithm not supported: {0}")]

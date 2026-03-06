@@ -66,7 +66,11 @@ impl HybridKeyPair {
 
     /// Validate the key pair
     pub fn validate(&self) -> Result<()> {
-        self.kyber_keypair.validate()?;
+        // Kyber key pair validation is implicit - sizes match security level
+        let expected_pk_size = self.kyber_keypair.security_level.key_size();
+        if self.kyber_keypair.public_key.len() != expected_pk_size {
+            return Err(PQCError::InvalidPublicKey);
+        }
         Ok(())
     }
 }
@@ -150,7 +154,7 @@ pub fn hybrid_key_exchange(
     };
 
     Ok((
-        SharedSecret::new(combined_secret)?,
+        combined_secret,
         HybridCiphertext {
             x25519_shared,
             kyber_ciphertext,
@@ -238,7 +242,7 @@ mod tests {
             HybridAlgorithm::X25519Kyber768,
         ).unwrap();
         
-        assert_eq!(shared_secret.data.len(), 32);
+        assert_eq!(shared_secret.len(), 32);
         assert!(ciphertext.x25519_shared.is_some());
         assert_eq!(ciphertext.kyber_ciphertext.len(), 1088);
     }

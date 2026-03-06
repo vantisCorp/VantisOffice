@@ -19,7 +19,7 @@ anyhow = { workspace = true }
 thiserror = { workspace = true }
 
 # Post-quantum cryptography libraries
-pqcrypto-kyber = "0.7"
+pqcrypto-kyber = { version = "0.8", features = ["serialization"] }
 pqcrypto-traits = "0.3"
 
 # FFI dependencies
@@ -29,6 +29,9 @@ libc = "0.2"
 rand = "0.8"
 zeroize = "1.5"
 hex = "0.4"
+
+# Dilithium signatures
+pqcrypto-dilithium = { version = "0.5", features = ["serialization"] }
 
 [dev-dependencies]
 criterion = "0.5"

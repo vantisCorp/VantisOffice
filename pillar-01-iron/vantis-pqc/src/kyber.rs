@@ -2,6 +2,9 @@
 // Provides quantum-resistant key exchange using NIST-standardized Kyber
 
 use crate::error::{PQCError, Result};
+use pqcrypto_kyber::{kyber1024, kyber512, kyber768};
+use pqcrypto_traits::kem::{Ciphertext, PublicKey, SecretKey};
+use pqcrypto_traits::kem::SharedSecret as PQSharedSecret;
 use serde::{Deserialize, Serialize};
 use zeroize::Zeroize;
 
@@ -53,164 +56,95 @@ pub struct KyberKeyPair {
 }
 
 impl KyberKeyPair {
-    /// Generate a new Kyber key pair
+    /// Generate a new Kyber key pair using actual pqcrypto-kyber library
     pub fn generate(security_level: KyberSecurityLevel) -> Result<Self> {
-        // In a real implementation, this would use the actual pqcrypto-kyber library
-        // For now, we provide a simplified implementation
-        
-        let public_key_size = security_level.key_size();
-        let private_key_size = public_key_size + 32; // Add space for seed
-
-        let mut public_key = vec![0u8; public_key_size];
-        let mut private_key = vec![0u8; private_key_size];
-
-        // Add some randomness to make keys different
-        let mut rng = rand::thread_rng();
-        use rand::Rng;
-        for byte in public_key.iter_mut() {
-            *byte = rng.gen();
-        }
-        for byte in private_key.iter_mut() {
-            *byte = rng.gen();
-        }
+        let (pk, sk) = match security_level {
+            KyberSecurityLevel::Level1 => {
+                let (pk, sk) = kyber512::keypair();
+                (pk.as_bytes().to_vec(), sk.as_bytes().to_vec())
+            }
+            KyberSecurityLevel::Level2 => {
+                let (pk, sk) = kyber768::keypair();
+                (pk.as_bytes().to_vec(), sk.as_bytes().to_vec())
+            }
+            KyberSecurityLevel::Level3 => {
+                let (pk, sk) = kyber1024::keypair();
+                (pk.as_bytes().to_vec(), sk.as_bytes().to_vec())
+            }
+        };
 
         Ok(KyberKeyPair {
-            public_key,
-            private_key,
+            public_key: pk,
+            private_key: sk,
             security_level,
         })
     }
 
-    /// Generate a key pair from a seed (deterministic)
-    pub fn from_seed(seed: &[u8], security_level: KyberSecurityLevel) -> Result<Self> {
-        if seed.len() < 32 {
-            return Err(PQCError::InvalidKeySize(seed.len()));
-        }
-
-        let public_key_size = security_level.key_size();
-        let private_key_size = public_key_size + 32;
-
-        let mut public_key = vec![0u8; public_key_size];
-        let mut private_key = vec![0u8; private_key_size];
-
-        // Simple deterministic key generation from seed
-        for i in 0..public_key.len() {
-            public_key[i] = seed[i % seed.len()].wrapping_add(i as u8);
-        }
-        for i in 0..private_key.len() {
-            private_key[i] = seed[(i + 16) % seed.len()].wrapping_add(i as u8);
-        }
-
-        Ok(KyberKeyPair {
-            public_key,
-            private_key,
-            security_level,
-        })
+    /// Get public key reference
+    pub fn public_key(&self) -> &[u8] {
+        &self.public_key
     }
 
-    /// Validate the key pair
-    pub fn validate(&self) -> Result<()> {
-        if self.public_key.len() != self.security_level.key_size() {
-            return Err(PQCError::InvalidKeySize(self.public_key.len()));
-        }
-
-        if self.private_key.len() != self.security_level.key_size() + 32 {
-            return Err(PQCError::InvalidKeySize(self.private_key.len()));
-        }
-
-        Ok(())
+    /// Get private key reference
+    pub fn private_key(&self) -> &[u8] {
+        &self.private_key
     }
 
-    /// Export public key as hex string
-    pub fn public_key_hex(&self) -> String {
-        hex::encode(&self.public_key)
+    /// Get security level
+    pub fn security_level(&self) -> KyberSecurityLevel {
+        self.security_level
     }
 
-    /// Export private key as hex string
-    pub fn private_key_hex(&self) -> String {
-        hex::encode(&self.private_key)
-    }
-
-    /// Securely destroy the private key
-    pub fn destroy_private_key(&mut self) {
+    /// Clear sensitive data from memory
+    pub fn zeroize(&mut self) {
         self.private_key.zeroize();
     }
 }
 
 impl Drop for KyberKeyPair {
     fn drop(&mut self) {
-        self.destroy_private_key();
+        self.zeroize();
     }
 }
 
 /// Kyber ciphertext
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct KyberCiphertext {
-    /// Encrypted data
+    /// Encapsulated secret data
     pub data: Vec<u8>,
-    /// Security level
+    /// Security level used for encryption
     pub security_level: KyberSecurityLevel,
 }
 
 impl KyberCiphertext {
-    /// Create a new ciphertext
-    pub fn new(data: Vec<u8>, security_level: KyberSecurityLevel) -> Result<Self> {
-        if data.len() != security_level.ciphertext_size() {
-            return Err(PQCError::InvalidCiphertext);
-        }
-
-        Ok(KyberCiphertext {
-            data,
-            security_level,
-        })
+    /// Create new ciphertext
+    pub fn new(data: Vec<u8>, security_level: KyberSecurityLevel) -> Self {
+        Self { data, security_level }
     }
 
-    /// Get ciphertext as hex string
-    pub fn hex(&self) -> String {
-        hex::encode(&self.data)
-    }
-}
-
-/// Shared secret
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SharedSecret {
-    /// Secret data (32 bytes)
-    pub data: Vec<u8>,
-}
-
-impl SharedSecret {
-    /// Create a new shared secret
-    pub fn new(data: Vec<u8>) -> Result<Self> {
-        if data.len() != 32 {
-            return Err(PQCError::InvalidKeySize(data.len()));
-        }
-
-        Ok(SharedSecret { data })
-    }
-
-    /// Get shared secret as hex string
-    pub fn hex(&self) -> String {
-        hex::encode(&self.data)
-    }
-
-    /// Get shared secret as bytes
+    /// Get ciphertext data
     pub fn as_bytes(&self) -> &[u8] {
         &self.data
     }
 
-    /// Securely destroy the secret
-    pub fn destroy(&mut self) {
-        self.data.zeroize();
+    /// Validate ciphertext size matches security level
+    pub fn validate(&self) -> Result<()> {
+        let expected_size = self.security_level.ciphertext_size();
+        if self.data.len() != expected_size {
+            return Err(PQCError::InvalidCiphertext(format!(
+                "Expected {} bytes, got {}",
+                expected_size,
+                self.data.len()
+            )));
+        }
+        Ok(())
     }
 }
 
-impl Drop for SharedSecret {
-    fn drop(&mut self) {
-        self.destroy();
-    }
-}
+/// Shared secret from key encapsulation
+pub type SharedSecret = Vec<u8>;
 
-/// Encapsulate a shared secret using a public key
+/// Encapsulate a shared secret using public key
 pub fn encapsulate(public_key: &[u8]) -> Result<(SharedSecret, KyberCiphertext)> {
     // Determine security level based on public key size
     let security_level = match public_key.len() {
@@ -220,59 +154,65 @@ pub fn encapsulate(public_key: &[u8]) -> Result<(SharedSecret, KyberCiphertext)>
         _ => return Err(PQCError::InvalidPublicKey),
     };
 
-    // Generate shared secret (in real implementation, this uses Kyber encapsulation)
-    let mut shared_secret = vec![0u8; 32];
-    let mut rng = rand::thread_rng();
-    use rand::Rng;
-    for byte in shared_secret.iter_mut() {
-        *byte = rng.gen();
-    }
-
-    // Generate ciphertext (simplified - in real implementation uses Kyber)
-    let ciphertext_data = vec![0u8; security_level.ciphertext_size()];
-    for (i, byte) in ciphertext_data.iter().enumerate() {
-        // Simple deterministic ciphertext generation
-        let mut result = *byte;
-        for pk_byte in public_key.iter().take(32) {
-            result = result.wrapping_add(*pk_byte);
+    let (ss, ct) = match security_level {
+        KyberSecurityLevel::Level1 => {
+            let pk = kyber512::PublicKey::from_bytes(public_key)
+                .map_err(|_| PQCError::InvalidPublicKey)?;
+            let (ss, ct) = kyber512::encapsulate(&pk);
+            (ss.as_bytes().to_vec(), ct.as_bytes().to_vec())
         }
-        result = result.wrapping_add(i as u8);
-    }
-
-    Ok((
-        SharedSecret::new(shared_secret)?,
-        KyberCiphertext::new(ciphertext_data, security_level)?,
-    ))
-}
-
-/// Decapsulate a shared secret using a private key
-pub fn decapsulate(private_key: &[u8], ciphertext: &[u8]) -> Result<SharedSecret> {
-    // Determine security level based on ciphertext size
-    let security_level = match ciphertext.len() {
-        768 => KyberSecurityLevel::Level1,
-        1088 => KyberSecurityLevel::Level2,
-        1568 => KyberSecurityLevel::Level3,
-        _ => return Err(PQCError::InvalidCiphertext),
+        KyberSecurityLevel::Level2 => {
+            let pk = kyber768::PublicKey::from_bytes(public_key)
+                .map_err(|_| PQCError::InvalidPublicKey)?;
+            let (ss, ct) = kyber768::encapsulate(&pk);
+            (ss.as_bytes().to_vec(), ct.as_bytes().to_vec())
+        }
+        KyberSecurityLevel::Level3 => {
+            let pk = kyber1024::PublicKey::from_bytes(public_key)
+                .map_err(|_| PQCError::InvalidPublicKey)?;
+            let (ss, ct) = kyber1024::encapsulate(&pk);
+            (ss.as_bytes().to_vec(), ct.as_bytes().to_vec())
+        }
     };
 
-    // Validate private key size
-    if private_key.len() != security_level.key_size() + 32 {
-        return Err(PQCError::InvalidPrivateKey);
-    }
+    Ok((ss, KyberCiphertext::new(ct, security_level)))
+}
 
-    // Generate shared secret (in real implementation, this uses Kyber decapsulation)
-    let mut shared_secret = vec![0u8; 32];
-    let mut rng = rand::thread_rng();
-    use rand::Rng;
-    for (i, byte) in shared_secret.iter_mut().enumerate() {
-        *byte = rng.gen();
-        for pk_byte in private_key.iter().take(32) {
-            *byte = byte.wrapping_add(*pk_byte);
+/// Decapsulate shared secret using private key
+pub fn decapsulate(private_key: &[u8], ciphertext: &[u8]) -> Result<SharedSecret> {
+    // Determine security level based on private key size
+    let security_level = match private_key.len() {
+        1632 => KyberSecurityLevel::Level1, // 800 + 832
+        2400 => KyberSecurityLevel::Level2, // 1184 + 1216
+        3168 => KyberSecurityLevel::Level3, // 1568 + 1600
+        _ => return Err(PQCError::InvalidPrivateKey),
+    };
+
+    let ss = match security_level {
+        KyberSecurityLevel::Level1 => {
+            let sk = kyber512::SecretKey::from_bytes(private_key)
+                .map_err(|_| PQCError::InvalidPrivateKey)?;
+            let ct = kyber512::Ciphertext::from_bytes(ciphertext)
+                .map_err(|_| PQCError::InvalidCiphertext("Invalid ciphertext".to_string()))?;
+            kyber512::decapsulate(&ct, &sk).as_bytes().to_vec()
         }
-        *byte = byte.wrapping_add(ciphertext.get(i % ciphertext.len()).copied().unwrap_or(0));
-    }
+        KyberSecurityLevel::Level2 => {
+            let sk = kyber768::SecretKey::from_bytes(private_key)
+                .map_err(|_| PQCError::InvalidPrivateKey)?;
+            let ct = kyber768::Ciphertext::from_bytes(ciphertext)
+                .map_err(|_| PQCError::InvalidCiphertext("Invalid ciphertext".to_string()))?;
+            kyber768::decapsulate(&ct, &sk).as_bytes().to_vec()
+        }
+        KyberSecurityLevel::Level3 => {
+            let sk = kyber1024::SecretKey::from_bytes(private_key)
+                .map_err(|_| PQCError::InvalidPrivateKey)?;
+            let ct = kyber1024::Ciphertext::from_bytes(ciphertext)
+                .map_err(|_| PQCError::InvalidCiphertext("Invalid ciphertext".to_string()))?;
+            kyber1024::decapsulate(&ct, &sk).as_bytes().to_vec()
+        }
+    };
 
-    SharedSecret::new(shared_secret)
+    Ok(ss)
 }
 
 /// Generate a Kyber key pair
@@ -300,52 +240,61 @@ mod tests {
 
     #[test]
     fn test_generate_keypair() {
-        let keypair = generate_keypair(KyberSecurityLevel::Level2).unwrap();
-        assert_eq!(keypair.public_key.len(), 1184);
-        assert_eq!(keypair.private_key.len(), 1216);
-        assert!(keypair.validate().is_ok());
-    }
-
-    #[test]
-    fn test_keypair_from_seed() {
-        let seed = vec![1u8; 32];
-        let keypair1 = KyberKeyPair::from_seed(&seed, KyberSecurityLevel::Level2).unwrap();
-        let keypair2 = KyberKeyPair::from_seed(&seed, KyberSecurityLevel::Level2).unwrap();
-        
-        // Same seed should produce same keys
-        assert_eq!(keypair1.public_key, keypair2.public_key);
-        assert_eq!(keypair1.private_key, keypair2.private_key);
+        let kp = KyberKeyPair::generate(KyberSecurityLevel::Level2).unwrap();
+        assert_eq!(kp.public_key.len(), 1184);
+        assert_eq!(kp.private_key.len(), 2400);
+        assert_eq!(kp.security_level, KyberSecurityLevel::Level2);
     }
 
     #[test]
     fn test_encapsulate_decapsulate() {
-        let keypair = generate_keypair(KyberSecurityLevel::Level2).unwrap();
+        let kp = KyberKeyPair::generate(KyberSecurityLevel::Level2).unwrap();
+        let (ss1, ct) = encapsulate(&kp.public_key).unwrap();
+        let ss2 = decapsulate(&kp.private_key, &ct.data).unwrap();
         
-        let (shared_secret1, ciphertext) = encapsulate(&keypair.public_key).unwrap();
-        let shared_secret2 = decapsulate(&keypair.private_key, &ciphertext.data).unwrap();
-        
-        // In real implementation, these should match
-        // In our simplified version, they may not match
-        assert_eq!(shared_secret1.data.len(), 32);
-        assert_eq!(shared_secret2.data.len(), 32);
-    }
-
-    #[test]
-    fn test_shared_secret_hex() {
-        let secret = SharedSecret::new(vec![42u8; 32]).unwrap();
-        let hex = secret.hex();
-        assert_eq!(hex, "2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a");
-    }
-
-    #[test]
-    fn test_invalid_key_sizes() {
-        let result = SharedSecret::new(vec![0u8; 16]);
-        assert!(result.is_err());
+        assert_eq!(ss1.len(), 32);
+        assert_eq!(ss2.len(), 32);
+        assert_eq!(ss1, ss2);
     }
 
     #[test]
     fn test_ciphertext_validation() {
-        let result = KyberCiphertext::new(vec![0u8; 500], KyberSecurityLevel::Level2);
+        let kp = KyberKeyPair::generate(KyberSecurityLevel::Level2).unwrap();
+        let (_, ct) = encapsulate(&kp.public_key).unwrap();
+        
+        assert!(ct.validate().is_ok());
+        
+        let invalid_ct = KyberCiphertext::new(vec![0u8; 100], KyberSecurityLevel::Level2);
+        assert!(invalid_ct.validate().is_err());
+    }
+
+    #[test]
+    fn test_invalid_key_sizes() {
+        let invalid_pk = vec![0u8; 100];
+        let result = encapsulate(&invalid_pk);
         assert!(result.is_err());
+
+        let invalid_sk = vec![0u8; 100];
+        let ct = vec![0u8; 1088];
+        let result = decapsulate(&invalid_sk, &ct);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_keypair_from_seed() {
+        let kp1 = KyberKeyPair::generate(KyberSecurityLevel::Level2).unwrap();
+        let kp2 = KyberKeyPair::generate(KyberSecurityLevel::Level2).unwrap();
+        
+        // Different key pairs should be different
+        assert_ne!(kp1.public_key, kp2.public_key);
+        assert_ne!(kp1.private_key, kp2.private_key);
+    }
+
+    #[test]
+    fn test_shared_secret_hex() {
+        let kp = KyberKeyPair::generate(KyberSecurityLevel::Level2).unwrap();
+        let (ss, _) = encapsulate(&kp.public_key).unwrap();
+        
+        assert_eq!(ss.len(), 32);
     }
 }

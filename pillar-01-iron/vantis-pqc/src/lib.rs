@@ -5,12 +5,14 @@ pub mod kyber;
 pub mod error;
 pub mod key_management;
 pub mod hybrid;
+pub mod dilithium;
 
 // Re-exports for convenience
 pub use error::{PQCError, Result};
 pub use kyber::{KyberKeyPair, KyberSecurityLevel, encapsulate, decapsulate};
 pub use key_management::{KeyManager, KeyStorage};
 pub use hybrid::{hybrid_key_exchange, HybridAlgorithm};
+pub use dilithium::{DilithiumKeyPair, DilithiumSecurityLevel, sign, verify};
 
 // Version information
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -33,6 +35,9 @@ pub fn supported_algorithms() -> Vec<String> {
         "kyber512".to_string(),
         "kyber768".to_string(),
         "kyber1024".to_string(),
+        "dilithium2".to_string(),
+        "dilithium3".to_string(),
+        "dilithium5".to_string(),
         "hybrid_x25519_kyber768".to_string(),
     ]
 }
