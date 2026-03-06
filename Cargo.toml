@@ -3,6 +3,7 @@ resolver = "2"
 members = [
     "pillar-01-iron/flux-vector-engine",
     "pillar-01-iron/vantis-core-io",
+    "pillar-01-iron/vantis-pqc",
     "pillar-01-iron/vantis-vault",
     "pillar-01-iron/wasm-sandbox",
     "pillar-02-logic/vantis-grid",

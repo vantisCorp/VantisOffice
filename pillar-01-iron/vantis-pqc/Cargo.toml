@@ -1,0 +1,38 @@
+[package]
+name = "vantis-pqc"
+version = "0.1.0"
+edition = "2021"
+authors = ["Vantis Corporation"]
+license = "Proprietary"
+repository = "https://github.com/vantisCorp/VantisOffice"
+description = "Post-quantum cryptography implementation for VantisOffice"
+
+[lib]
+name = "vantis_pqc"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# Core dependencies
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+
+# Post-quantum cryptography libraries
+pqcrypto-kyber = "0.7"
+pqcrypto-traits = "0.3"
+
+# FFI dependencies
+libc = "0.2"
+
+# Utilities
+rand = "0.8"
+zeroize = "1.5"
+hex = "0.4"
+
+[dev-dependencies]
+criterion = "0.5"
+
+# [[bench]]
+# name = "pqc_bench"
+# harness = false
