@@ -14,6 +14,7 @@ members = [
     "pillar-03-sync/vantis-chronos",
     "pillar-04-continuity/vantis-ark",
     "pillar-04-continuity/vantis-bridge",
+    "pillar-04-continuity/vantis-mobile",
 ]
 
 [workspace.package]
