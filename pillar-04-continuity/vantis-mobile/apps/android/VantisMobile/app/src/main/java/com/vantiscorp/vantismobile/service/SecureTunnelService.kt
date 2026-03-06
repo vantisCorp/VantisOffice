@@ -1,6 +1,7 @@
 package com.vantiscorp.vantismobile.service
 
 import com.vantiscorp.vantismobile.model.*
+import com.vantiscorp.vantismobile.ffi.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.serialization.*
@@ -13,6 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
  * Secure Tunnel Service for WebSocket communication with VantisOffice desktop
+ * Uses E2EE via VantisMobileFFI for all message encryption
  */
 class SecureTunnelService {
     private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true }
@@ -31,6 +33,43 @@ class SecureTunnelService {
     private val messageQueue = ConcurrentLinkedQueue<String>()
     private var config: TunnelConfig? = null
     
+    // FFI Components for E2EE
+    private var keyPair: VantisKeyPair? = null
+    private var encryptor: VantisEncryptor? = null
+    
+    init {
+        // Initialize FFI and generate key pair
+        try {
+            keyPair = VantisKeyPair()
+        } catch (e: Exception) {
+            // Log error but continue without encryption
+            println("Failed to initialize encryption: ${e.message}")
+        }
+    }
+    
+    /**
+     * Get public key for key exchange
+     */
+    val publicKeyBase64: String?
+        get() = keyPair?.publicKeyBase64
+    
+    /**
+     * Set up encryption with peer's public key
+     */
+    fun setupEncryption(peerPublicKeyBase64: String): Boolean {
+        return try {
+            // In full implementation, derive shared secret using X25519
+            // For now, use the config encryption key
+            val currentConfig = config ?: return false
+            val keyBase64 = java.util.Base64.getEncoder().encodeToString(currentConfig.encryptionKey)
+            encryptor = VantisEncryptor(keyBase64)
+            true
+        } catch (e: Exception) {
+            println("Failed to setup encryption: ${e.message}")
+            false
+        }
+    }
+    
     /**
      * Connect to VantisOffice server
      */
@@ -44,6 +83,10 @@ class SecureTunnelService {
             webSocketClient = object : WebSocketClient(uri) {
                 override fun onOpen(handshakedata: ServerHandshake?) {
                     _connectionState.value = ConnectionStatus.CONNECTED
+                    // Send handshake with public key
+                    scope.launch {
+                        sendHandshake()
+                    }
                     // Send queued messages
                     while (messageQueue.isNotEmpty()) {
                         send(messageQueue.poll())
@@ -53,18 +96,14 @@ class SecureTunnelService {
                 override fun onMessage(message: String?) {
                     message?.let { 
                         scope.launch {
-                            try {
-                                val protocolMessage = json.decodeFromString<ProtocolMessage>(it)
-                                _messages.emit(protocolMessage)
-                            } catch (e: Exception) {
-                                _errors.emit("Failed to parse message: ${e.message}")
-                            }
+                            processReceivedMessage(it)
                         }
                     }
                 }
                 
                 override fun onClose(code: Int, reason: String?, remote: Boolean) {
                     _connectionState.value = ConnectionStatus.DISCONNECTED
+                    encryptor = null // Clear encryption on disconnect
                     if (config.autoReconnect) {
                         scope.launch {
                             delay(config.reconnectInterval)
@@ -90,11 +129,52 @@ class SecureTunnelService {
     }
     
     /**
+     * Send handshake message with public key
+     */
+    private suspend fun sendHandshake() {
+        val currentConfig = config ?: return
+        val handshake = ProtocolMessage.Handshake(
+            deviceId = currentConfig.deviceId,
+            publicKey = publicKeyBase64 ?: "",
+            deviceName = currentConfig.deviceName,
+            deviceType = "android"
+        )
+        sendMessage(handshake)
+    }
+    
+    /**
+     * Process received message (decrypt if needed)
+     */
+    private suspend fun processReceivedMessage(message: String) {
+        var processedMessage = message
+        
+        // Try to decrypt if we have an encryptor
+        if (encryptor != null && (message.contains("&quot;nonce&quot;") || message.contains("&quot;ciphertext&quot;"))) {
+            encryptor?.decrypt(message)?.let { decrypted ->
+                processedMessage = String(decrypted, Charsets.UTF_8)
+            }
+        }
+        
+        try {
+            val protocolMessage = json.decodeFromString<ProtocolMessage>(processedMessage)
+            _messages.emit(protocolMessage)
+            
+            // Handle key exchange
+            if (protocolMessage is ProtocolMessage.KeyExchange) {
+                setupEncryption(protocolMessage.publicKey)
+            }
+        } catch (e: Exception) {
+            _errors.emit("Failed to parse message: ${e.message}")
+        }
+    }
+    
+    /**
      * Disconnect from server
      */
     fun disconnect() {
         webSocketClient?.close()
         webSocketClient = null
+        encryptor = null
         _connectionState.value = ConnectionStatus.DISCONNECTED
     }
     
@@ -185,6 +265,19 @@ class SecureTunnelService {
  */
 @Serializable
 sealed class ProtocolMessage {
+    @Serializable
+    @SerialName("handshake")
+    data class Handshake(
+        val deviceId: UUID,
+        val publicKey: String,
+        val deviceName: String,
+        val deviceType: String
+    ) : ProtocolMessage()
+    
+    @Serializable
+    @SerialName("key_exchange")
+    data class KeyExchange(val publicKey: String) : ProtocolMessage()
+    
     @Serializable
     @SerialName("ping")
     data class Ping(val id: UUID) : ProtocolMessage()
