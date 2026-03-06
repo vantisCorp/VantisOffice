@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VantisMobile</string>
+    <string name="home">Home</string>
+    <string name="documents">Documents</string>
+    <string name="notifications">Notifications</string>
+    <string name="settings">Settings</string>
+    
+    <!-- Connection -->
+    <string name="connection_status">Connection Status</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="connecting">Connecting…</string>
+    <string name="error">Error</string>
+    
+    <!-- Quick Actions -->
+    <string name="sync">Sync</string>
+    <string name="sync_documents">Sync Documents</string>
+    <string name="connect">Connect</string>
+    <string name="connect_to_desktop">Connect to Desktop</string>
+    <string name="share">Share</string>
+    <string name="share_document">Share Document</string>
+    
+    <!-- Documents -->
+    <string name="search_documents">Search documents…</string>
+    <string name="no_documents_found">No Documents Found</string>
+    <string name="connect_to_vantis_office">Connect to VantisOffice to sync your documents</string>
+    
+    <!-- Notifications -->
+    <string name="no_notifications">No Notifications</string>
+    <string name="all_caught_up">You\'re all caught up!</string>
+    <string name="mark_all_as_read">Mark all as read</string>
+    <string name="unread_only">Unread only</string>
+    
+    <!-- Settings -->
+    <string name="security">Security</string>
+    <string name="biometric_authentication">Biometric Authentication</string>
+    <string name="use_fingerprint_face">Use fingerprint or face to unlock</string>
+    <string name="push_notifications">Push Notifications</string>
+    <string name="receive_notifications">Receive notifications from VantisOffice</string>
+    <string name="sign_out">Sign Out</string>
+    
+    <!-- Permissions -->
+    <string name="camera_permission_required">Camera permission is required for QR scanning</string>
+    <string name="biometric_permission_required">Biometric permission is required for secure authentication</string>
+</resources>
