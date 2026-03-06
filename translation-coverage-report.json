@@ -1,0 +1,22 @@
+[
+  {
+    "lang": "en",
+    "langName": "English",
+    "nativeName": "English",
+    "totalKeys": 37,
+    "translatedKeys": 37,
+    "untranslatedKeys": 0,
+    "coverage": 100,
+    "fileSizeKB": 1
+  },
+  {
+    "lang": "pl",
+    "langName": "Polish",
+    "nativeName": "Polski",
+    "totalKeys": 37,
+    "translatedKeys": 37,
+    "untranslatedKeys": 0,
+    "coverage": 100,
+    "fileSizeKB": 1
+  }
+]
