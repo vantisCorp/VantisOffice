@@ -12,7 +12,7 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use tokio::sync::{mpsc, RwLock};
 use tokio_tungstenite::{connect_async, tungstenite::Message, WebSocketStream};
-use futures_util::{SinkExt, StreamExt};
+use futures_util::SinkExt;
 
 /// Tunnel configuration
 #[derive(Debug, Clone)]

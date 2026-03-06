@@ -551,6 +551,149 @@ session_timeout = 3600
 - Protocol Buffers
 - OpenSSL
 
+## FFI Bindings API
+
+The `vantis-mobile` library provides C-compatible FFI bindings for integration with iOS (Swift) and Android (Kotlin/JNI) applications.
+
+### Key Features
+
+- **Cross-platform FFI**: C-compatible interface for mobile platforms
+- **End-to-end encryption**: ChaCha20-Poly1305 with X25519 key exchange
+- **JSON-based messages**: Encrypted messages serialized as JSON for easy handling
+- **Safe wrappers**: Swift and Kotlin wrappers provide memory-safe, idiomatic APIs
+
+### C Header API
+
+```c
+// Key Pair Operations
+VantisKeyPair* vantis_keypair_generate(void);
+void vantis_keypair_free(VantisKeyPair* keypair);
+VantisResult vantis_keypair_public_key_base64(const VantisKeyPair* keypair, char* out, unsigned int out_len);
+
+// Encryption Operations
+VantisEncryptor* vantis_encryptor_create(const char* shared_secret_base64);
+void vantis_encryptor_free(VantisEncryptor* encryptor);
+int vantis_encrypt(VantisEncryptor* encryptor, const unsigned char* plaintext, unsigned int plaintext_len, char* json_out, unsigned int* json_out_len);
+int vantis_decrypt(VantisEncryptor* encryptor, const char* json_encrypted, unsigned char* plaintext_out, unsigned int* plaintext_len_out);
+
+// Device Info
+typedef enum { VANTIS_DEVICE_IOS = 0, VANTIS_DEVICE_ANDROID = 1, VANTIS_DEVICE_DESKTOP = 2, VANTIS_DEVICE_LAPTOP = 3, VANTIS_DEVICE_TABLET = 4 } VantisDeviceType;
+VantisDeviceInfo* vantis_device_info_create(const char* name, int device_type, const char* os_version, const char* app_version);
+void vantis_device_info_free(VantisDeviceInfo* info);
+VantisResult vantis_device_info_to_json(const VantisDeviceInfo* info, char* out, unsigned int out_len);
+
+// Protocol Messages
+VantisResult vantis_message_ping(char* out, unsigned int out_len);
+VantisResult vantis_message_sync_request(unsigned long last_sync_timestamp, char* out, unsigned int out_len);
+VantisResult vantis_message_notification(const char* title, const char* body, const char* notification_type, int priority, char* out, unsigned int out_len);
+```
+
+### Swift Usage
+
+```swift
+import VantisMobileFFI
+
+// Generate key pair
+let keyPair = VantisMobileFFI.KeyPair()!
+let publicKey = keyPair.publicKeyBase64
+
+// Create encryptor from base64 key
+let encryptor = VantisMobileFFI.Encryptor(sharedSecretBase64: "your-base64-key")!
+
+// Encrypt data - returns JSON string
+let plaintext = "Hello, World!".data(using: .utf8)!
+let encryptedJSON = encryptor.encrypt(plaintext)
+
+// Decrypt data
+if let json = encryptedJSON {
+    let decrypted = encryptor.decrypt(json)
+    print(String(data: decrypted!, encoding: .utf8)!) // "Hello, World!"
+}
+
+// Create device info
+let deviceInfo = VantisMobileFFI.DeviceInfo(
+    name: "My iPhone",
+    deviceType: .ios,
+    osVersion: "17.0",
+    appVersion: "1.0.0"
+)
+print(deviceInfo.json!)
+```
+
+### Kotlin Usage
+
+```kotlin
+import com.vantiscorp.vantismobile.ffi.*
+
+// Generate key pair
+val keyPair = VantisKeyPair()
+val publicKey = keyPair.publicKeyBase64
+
+// Create encryptor from base64 key
+val encryptor = VantisEncryptor("your-base64-key")
+
+// Encrypt data - returns JSON string
+val plaintext = "Hello, World!".toByteArray()
+val encryptedJSON = encryptor.encrypt(plaintext)
+
+// Decrypt data
+encryptedJSON?.let { json ->
+    val decrypted = encryptor.decrypt(json)
+    println(String(decrypted!!)) // "Hello, World!"
+}
+
+// Create device info
+val deviceInfo = VantisDeviceInfo(
+    name = "My Android",
+    deviceType = VantisDeviceType.ANDROID,
+    osVersion = "14",
+    appVersion = "1.0.0"
+)
+println(deviceInfo.json)
+```
+
+### Build Scripts
+
+The library includes build scripts for cross-compilation:
+
+```bash
+# Build iOS XCFramework
+./build-ios.sh
+
+# Build Android libraries (multiple ABIs)
+./build-android.sh
+```
+
+### Error Handling
+
+Both Swift and Kotlin wrappers provide typed error handling:
+
+```swift
+// Swift
+do {
+    let encryptor = try VantisMobileFFI.Encryptor(sharedSecretBase64: key)
+} catch let error as VantisError {
+    switch error {
+    case .invalidData: print("Invalid key")
+    case .encryptionError: print("Encryption failed")
+    default: print("Unknown error")
+    }
+}
+```
+
+```kotlin
+// Kotlin
+try {
+    val encryptor = VantisEncryptor(key)
+} catch (e: VantisError) {
+    when (e) {
+        is VantisError.InvalidData -> println("Invalid key")
+        is VantisError.EncryptionError -> println("Encryption failed")
+        else -> println("Unknown error")
+    }
+}
+```
+
 ---
 
 **Part of VantisOffice Pillar IV - Critical Tools**

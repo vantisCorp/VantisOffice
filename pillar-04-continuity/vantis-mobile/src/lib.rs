@@ -34,6 +34,7 @@ pub mod crypto;
 pub mod models;
 pub mod protocol;
 pub mod error;
+pub mod ffi;
 
 pub use crypto::*;
 pub use models::*;
