@@ -9,7 +9,11 @@
     "format": "prettier --write &quot;**/*.{js,ts,tsx,json,md}&quot;",
     "format:check": "prettier --check &quot;**/*.{js,ts,tsx,json,md}&quot;",
     "prepare": "husky install",
-    "commitlint": "commitlint --edit"
+    "commitlint": "commitlint --edit",
+    "i18n:validate": "node scripts/validate-translations.js",
+    "i18n:stats": "node scripts/generate-translation-stats.js",
+    "i18n:check-coverage": "node scripts/check-translation-coverage.js",
+    "i18n:sync": "npm run i18n:validate && npm run i18n:stats && npm run i18n:check-coverage"
   },
   "repository": {
     "type": "git",
@@ -37,6 +41,7 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^8.0.3",
+    "jq": "^1.7.2",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
     "typescript": "^5.3.3"

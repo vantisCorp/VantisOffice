@@ -1,0 +1,51 @@
+{
+  "common": {
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "close": "Zamknij",
+    "open": "Otwórz",
+    "new": "Nowy",
+    "export": "Eksportuj",
+    "import": "Importuj"
+  },
+  "editor": {
+    "newDocument": "Nowy dokument",
+    "openDocument": "Otwórz dokument",
+    "saveDocument": "Zapisz dokument",
+    "exportPDF": "Eksportuj jako PDF",
+    "undo": "Cofnij",
+    "redo": "Ponów",
+    "find": "Znajdź",
+    "replace": "Zamień"
+  },
+  "format": {
+    "bold": "Pogrubienie",
+    "italic": "Kursywa",
+    "underline": "Podkreślenie",
+    "strikethrough": "Przekreślenie",
+    "alignLeft": "Wyrównaj do lewej",
+    "alignCenter": "Wyrównaj do środka",
+    "alignRight": "Wyrównaj do prawej"
+  },
+  "toolbar": {
+    "fileMenu": "Plik",
+    "editMenu": "Edycja",
+    "viewMenu": "Widok",
+    "formatMenu": "Format",
+    "toolsMenu": "Narzędzia"
+  },
+  "dialog": {
+    "confirmDelete": "Czy na pewno chcesz usunąć ten element?",
+    "unsavedChanges": "Masz niezapisane zmiany. Czy chcesz je zapisać?",
+    "errorOccurred": "Wystąpił błąd: {message}",
+    "successMessage": "Operacja zakończona pomyślnie"
+  },
+  "statusBar": {
+    "wordCount": "Słowa: {count}",
+    "charCount": "Znaki: {count}",
+    "lineCount": "Linie: {count}",
+    "pageCount": "Strony: {count}"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "open": "Open",
+    "new": "New",
+    "export": "Export",
+    "import": "Import"
+  },
+  "editor": {
+    "newDocument": "New Document",
+    "openDocument": "Open Document",
+    "saveDocument": "Save Document",
+    "exportPDF": "Export as PDF",
+    "undo": "Undo",
+    "redo": "Redo",
+    "find": "Find",
+    "replace": "Replace"
+  },
+  "format": {
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "strikethrough": "Strikethrough",
+    "alignLeft": "Align Left",
+    "alignCenter": "Align Center",
+    "alignRight": "Align Right"
+  },
+  "toolbar": {
+    "fileMenu": "File",
+    "editMenu": "Edit",
+    "viewMenu": "View",
+    "formatMenu": "Format",
+    "toolsMenu": "Tools"
+  },
+  "dialog": {
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "unsavedChanges": "You have unsaved changes. Do you want to save them?",
+    "errorOccurred": "An error occurred: {message}",
+    "successMessage": "Operation completed successfully"
+  },
+  "statusBar": {
+    "wordCount": "Words: {count}",
+    "charCount": "Characters: {count}",
+    "lineCount": "Lines: {count}",
+    "pageCount": "Pages: {count}"
+  }
+}
