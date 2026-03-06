@@ -213,3 +213,20 @@
 - serde for serialization
 - chrono for timestamps
 - uuid for unique identifiers
+
+## ✅ Phase 31: iOS Application - IN PROGRESS 🚧
+
+- [x] Create iOS app structure (apps/ios/)
+- [x] Implement Swift models (Device, Document, Notification, Connection)
+- [x] Implement Swift services (SecureTunnelService, BiometricAuthService)
+- [x] Create UI views (ContentView, HomeView, DocumentsView, NotificationsView, SettingsView, ConnectView)
+- [x] Create App.swift main entry point
+- [x] Add Info.plist and project configuration files
+- [x] Add Assets.xcassets for app icons
+- [x] Create Package.swift for Swift Package Manager
+- [x] Create LaunchScreen.storyboard
+- [x] Create iOS application tests
+- [x] Create iOS README documentation
+- [ ] Integrate with vantis-mobile Rust library via FFI
+- [ ] Test on iOS Simulator
+- [ ] Commit and push changes
