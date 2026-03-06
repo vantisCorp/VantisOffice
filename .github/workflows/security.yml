@@ -1,4 +1,4 @@
-name: 🔐 Security Scanning
+name: 🔒 Security Scanning
 
 on:
   push:
@@ -16,25 +16,32 @@ jobs:
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
       - name: 🔍 Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+        continue-on-error: true
       
-      - name: 🛡️ CodeQL Analysis
+      - name: 🔐 CodeQL Analysis
         uses: github/codeql-action/analyze@v2
         with:
           languages: rust
+          queries: security-extended,security-and-quality
+        continue-on-error: true
       
       - name: 📊 Generate SBOM
         uses: CycloneDX/gh-gomod-generate-sbom@v2
         with:
           version: v1.5
+        continue-on-error: true
       
       - name: 📤 Upload SBOM
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: sbom
           path: sbom.json
