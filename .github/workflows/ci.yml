@@ -22,11 +22,8 @@ jobs:
         fetch-depth: 0
     
     - name: Install Rust toolchain
-      uses: actions-rs/toolchain@v1
+      uses: dtolnay/rust-toolchain@stable
       with:
-        profile: minimal
-        toolchain: stable
-        override: true
         components: rustfmt, clippy
     
     - name: Cache cargo registry
@@ -81,11 +78,9 @@ jobs:
         fetch-depth: 0
     
     - name: Install Rust toolchain
-      uses: actions-rs/toolchain@v1
+      uses: dtolnay/rust-toolchain@stable
       with:
-        profile: release
         toolchain: stable
-        override: true
     
     - name: Cache cargo build
       uses: actions/cache@v3
@@ -122,11 +117,7 @@ jobs:
         fetch-depth: 0
     
     - name: Install Rust toolchain
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        override: true
+      uses: dtolnay/rust-toolchain@stable
     
     - name: Run cargo audit
       uses: actions-rs/audit-check@v1
@@ -151,11 +142,7 @@ jobs:
         fetch-depth: 0
     
     - name: Install Rust toolchain
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        override: true
+      uses: dtolnay/rust-toolchain@stable
     
     - name: Install tarpaulin
       run: cargo install cargo-tarpaulin
