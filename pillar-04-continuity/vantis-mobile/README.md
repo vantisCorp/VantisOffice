@@ -533,6 +533,22 @@ session_timeout = 3600
 - [ ] Advanced offline editing
 - [ ] Multiple device support
 
+## Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- **[Integration Guide](docs/mobile/INTEGRATION_GUIDE.md)** - Complete step-by-step instructions for integrating VantisMobile FFI into iOS and Android applications
+- **[API Reference](docs/api/API_REFERENCE.md)** - Complete API documentation for C, Swift, and Kotlin bindings
+- **[Security Considerations](docs/mobile/SECURITY.md)** - Security best practices, threat model, and compliance guidelines
+- **[Deployment Guide](docs/deployment/DEPLOYMENT.md)** - Deployment procedures for iOS App Store and Google Play Store
+
+### Quick Links
+
+- [Building from Source](#build-requirements)
+- [iOS Integration](docs/mobile/INTEGRATION_GUIDE.md#ios-integration)
+- [Android Integration](docs/mobile/INTEGRATION_GUIDE.md#android-integration)
+- [API Documentation](docs/api/API_REFERENCE.md)
+
 ## Build Requirements
 
 ### iOS
