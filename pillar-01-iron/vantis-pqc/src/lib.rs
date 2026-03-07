@@ -1,54 +1,54 @@
-// VantisOffice Post-Quantum Cryptography Module
-// Provides quantum-resistant cryptographic algorithms for future-proof security
+//! VantisOffice Post-Quantum Cryptography Module
+//!
+//! This module provides quantum-resistant cryptographic operations using:
+//! - **Kyber** for key encapsulation (KEM)
+//! - **Dilithium** for digital signatures
+//!
+//! # Features
+//! - Hybrid encryption combining classical and post-quantum algorithms
+//! - Streaming encryption for large files
+//! - HSM integration support
+//! - Multi-party encryption for group collaboration
+//! - Cross-platform support (Windows, macOS, Linux)
 
-pub mod kyber;
 pub mod error;
-pub mod key_management;
-pub mod hybrid;
+pub mod kyber;
 pub mod dilithium;
-pub mod kdf;
-pub mod rotation;
+pub mod hybrid;
+pub mod streaming;
+pub mod hsm;
 pub mod secure_memory;
-pub mod performance;
-pub mod ffi;
+pub mod kdf;
+pub mod multi_party;
+pub mod platform;
 
 // Re-exports for convenience
 pub use error::{PQCError, Result};
-pub use kyber::{KyberKeyPair, KyberSecurityLevel, encapsulate, decapsulate};
-pub use key_management::{KeyManager, KeyStorage};
-pub use hybrid::{hybrid_key_exchange, HybridAlgorithm};
-pub use dilithium::{DilithiumKeyPair, DilithiumSecurityLevel, sign, verify};
-pub use kdf::{Hkdf, Pbkdf2, Argon2Kdf, Argon2Config, HashAlgorithm, derive_keys_from_shared_secret};
-pub use rotation::{KeyRotationManager, RotationPolicy, KeyState, KeyVersion, MigrationPlan};
-pub use secure_memory::{SecureBox, SecureVec, SecureAllocator, constant_time_eq, secure_zero, wipe, secure_random_bytes};
-pub use performance::{BatchKyberGenerator, BatchDilithiumGenerator, BatchEncapsulator, BatchSigner, PerformanceBenchmark};
+pub use kyber::{KyberKeyPair, KyberSecurityLevel};
+pub use dilithium::{DilithiumKeyPair, DilithiumSecurityLevel};
+pub use streaming::{StreamingEncryptor, StreamingDecryptor, StreamingHeader};
+pub use hsm::{HsmConfig, HsmSession, HsmKeyHandle, HsmType};
+pub use multi_party::{MultiPartyManager, GroupState, GroupMember, AccessLevel, MultiRecipientMessage};
+pub use platform::{PlatformInfo, SecureStorage, get_secure_storage};
 
-// Version information
+/// Module version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
-pub const NAME: &str = env!("CARGO_PKG_NAME");
 
-/// Initialize the PQC module
-pub fn init() -> Result<()> {
-    // Initialize any required state
-    Ok(())
+/// Security levels for PQC operations
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SecurityLevel {
+    /// NIST Level 1 (equivalent to AES-128)
+    Level1,
+    /// NIST Level 3 (equivalent to AES-192)
+    Level3,
+    /// NIST Level 5 (equivalent to AES-256)
+    Level5,
 }
 
-/// Check if PQC is available and working
-pub fn is_available() -> bool {
-    true // PQC is always available in this implementation
-}
-
-/// Get supported algorithms
-pub fn supported_algorithms() -> Vec<String> {
-    vec![
-        "kyber512".to_string(),
-        "kyber768".to_string(),
-        "kyber1024".to_string(),
-        "dilithium2".to_string(),
-        "dilithium3".to_string(),
-        "dilithium5".to_string(),
-        "hybrid_x25519_kyber768".to_string(),
-    ]
+impl Default for SecurityLevel {
+    fn default() -> Self {
+        SecurityLevel::Level3
+    }
 }
 
 #[cfg(test)]
@@ -56,19 +56,12 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_module_init() {
-        assert!(init().is_ok());
+    fn test_version() {
+        assert!(!VERSION.is_empty());
     }
 
     #[test]
-    fn test_pqc_available() {
-        assert!(is_available());
-    }
-
-    #[test]
-    fn test_supported_algorithms() {
-        let algorithms = supported_algorithms();
-        assert!(!algorithms.is_empty());
-        assert!(algorithms.contains(&"kyber768".to_string()));
+    fn test_security_level_default() {
+        assert_eq!(SecurityLevel::default(), SecurityLevel::Level3);
     }
 }

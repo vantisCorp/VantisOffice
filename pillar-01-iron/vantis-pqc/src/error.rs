@@ -1,4 +1,4 @@
-// Error handling for PQC operations
+//! Error handling for PQC operations
 
 use thiserror::Error;
 
@@ -68,6 +68,22 @@ pub enum PQCError {
     #[error("Deserialization error: {0}")]
     DeserializationError(String),
 
+    /// Encryption failed
+    #[error("Encryption failed: {0}")]
+    EncryptionFailed(String),
+
+    /// Decryption failed
+    #[error("Decryption failed: {0}")]
+    DecryptionFailed(String),
+
+    /// I/O error
+    #[error("I/O error: {0}")]
+    IoError(String),
+
+    /// Permission denied
+    #[error("Permission denied: {0}")]
+    PermissionDenied(String),
+
     /// Library error
     #[error("PQC library error: {0}")]
     LibraryError(String),
@@ -87,6 +103,12 @@ impl PQCError {
 impl From<anyhow::Error> for PQCError {
     fn from(err: anyhow::Error) -> Self {
         PQCError::Generic(err.to_string())
+    }
+}
+
+impl From<std::io::Error> for PQCError {
+    fn from(err: std::io::Error) -> Self {
+        PQCError::IoError(err.to_string())
     }
 }
 
