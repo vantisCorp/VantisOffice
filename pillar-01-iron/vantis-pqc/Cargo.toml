@@ -36,6 +36,9 @@ blake3 = "1.5"
 pbkdf2 = { version = "0.12", features = ["simple"] }
 argon2 = "0.5"
 
+# Performance
+num_cpus = "1.16"
+
 # Dilithium signatures
 pqcrypto-dilithium = { version = "0.5", features = ["serialization"] }
 

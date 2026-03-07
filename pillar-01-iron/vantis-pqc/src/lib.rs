@@ -9,6 +9,7 @@ pub mod dilithium;
 pub mod kdf;
 pub mod rotation;
 pub mod secure_memory;
+pub mod performance;
 pub mod ffi;
 
 // Re-exports for convenience
@@ -20,6 +21,7 @@ pub use dilithium::{DilithiumKeyPair, DilithiumSecurityLevel, sign, verify};
 pub use kdf::{Hkdf, Pbkdf2, Argon2Kdf, Argon2Config, HashAlgorithm, derive_keys_from_shared_secret};
 pub use rotation::{KeyRotationManager, RotationPolicy, KeyState, KeyVersion, MigrationPlan};
 pub use secure_memory::{SecureBox, SecureVec, SecureAllocator, constant_time_eq, secure_zero, wipe};
+pub use performance::{BatchKyberGenerator, BatchDilithiumGenerator, BatchEncapsulator, BatchSigner, PerformanceBenchmark};
 
 // Version information
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
