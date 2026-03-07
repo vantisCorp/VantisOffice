@@ -45,6 +45,6 @@ pqcrypto-dilithium = { version = "0.5", features = ["serialization"] }
 [dev-dependencies]
 criterion = "0.5"
 
-# [[bench]]
-# name = "pqc_bench"
-# harness = false
+[[bench]]
+name = "pqc_benchmark"
+harness = false

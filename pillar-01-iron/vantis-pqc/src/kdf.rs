@@ -480,12 +480,13 @@ pub fn derive_keys_from_shared_secret(
     let total_length = key_count * key_length;
     let info = context.as_bytes();
     
-    // Use a random salt for each derivation
-    use rand::RngCore;
-    let mut salt = vec![0u8; 32];
-    rand::thread_rng().fill_bytes(&mut salt);
+    // Use a deterministic derivation by using the context as part of the salt
+    // This ensures the same shared secret + context always produces the same keys
+    // For additional security in production, consider including a stored salt
+    let salt = blake3::hash(context.as_bytes());
+    let salt_bytes = salt.as_bytes();
     
-    let derived = Hkdf::derive(HashAlgorithm::Blake3, shared_secret, Some(&salt), Some(info), total_length)?;
+    let derived = Hkdf::derive(HashAlgorithm::Blake3, shared_secret, Some(salt_bytes), Some(info), total_length)?;
     
     let mut keys = Vec::new();
     for i in 0..key_count {

@@ -433,4 +433,319 @@ mod tests {
         assert_eq!(ct_size, 1088);
         assert_eq!(ss_size, 32);
     }
+
+    // ========================================================================
+    // Cross-Platform FFI Integration Tests
+    // ========================================================================
+
+    #[test]
+    fn test_ffi_kyber_full_roundtrip() {
+        // Test all three Kyber security levels
+        for level in [1, 2, 3].iter() {
+            // Get key sizes
+            let mut pk_size: size_t = 0;
+            let mut sk_size: size_t = 0;
+            let mut ct_size: size_t = 0;
+            let mut ss_size: size_t = 0;
+
+            let result = pqc_kyber_get_key_sizes(
+                *level,
+                &mut pk_size,
+                &mut sk_size,
+                &mut ct_size,
+                &mut ss_size,
+            );
+            assert_eq!(result, FFIResult::Success as c_int);
+
+            // Allocate buffers
+            let mut public_key = vec![0u8; pk_size];
+            let mut private_key = vec![0u8; sk_size];
+            let mut actual_pk_len = pk_size;
+            let mut actual_sk_len = sk_size;
+
+            // Generate keypair
+            let result = pqc_kyber_generate_keypair(
+                *level,
+                public_key.as_mut_ptr(),
+                &mut actual_pk_len,
+                private_key.as_mut_ptr(),
+                &mut actual_sk_len,
+            );
+            assert_eq!(result, FFIResult::Success as c_int);
+            assert_eq!(actual_pk_len, pk_size);
+            assert_eq!(actual_sk_len, sk_size);
+
+            // Encapsulate
+            let mut ciphertext = vec![0u8; ct_size];
+            let mut shared_secret1 = vec![0u8; ss_size];
+            let mut actual_ct_len = ct_size;
+            let mut actual_ss_len = ss_size;
+
+            let result = pqc_kyber_encapsulate(
+                public_key.as_ptr(),
+                pk_size,
+                ciphertext.as_mut_ptr(),
+                &mut actual_ct_len,
+                shared_secret1.as_mut_ptr(),
+                &mut actual_ss_len,
+            );
+            assert_eq!(result, FFIResult::Success as c_int);
+            assert_eq!(actual_ct_len, ct_size);
+            assert_eq!(actual_ss_len, ss_size);
+
+            // Decapsulate
+            let mut shared_secret2 = vec![0u8; ss_size];
+            let mut actual_ss2_len = ss_size;
+
+            let result = pqc_kyber_decapsulate(
+                private_key.as_ptr(),
+                sk_size,
+                ciphertext.as_ptr(),
+                ct_size,
+                shared_secret2.as_mut_ptr(),
+                &mut actual_ss2_len,
+            );
+            assert_eq!(result, FFIResult::Success as c_int);
+            assert_eq!(actual_ss2_len, ss_size);
+
+            // Verify shared secrets match
+            assert_eq!(shared_secret1, shared_secret2);
+        }
+    }
+
+    #[test]
+    fn test_ffi_dilithium_full_roundtrip() {
+        // Test all three Dilithium security levels
+        for level in [2, 3, 5].iter() {
+            // Get key sizes
+            let mut pk_size: size_t = 0;
+            let mut sk_size: size_t = 0;
+            let mut sig_size: size_t = 0;
+
+            let result = pqc_dilithium_get_key_sizes(
+                *level,
+                &mut pk_size,
+                &mut sk_size,
+                &mut sig_size,
+            );
+            assert_eq!(result, FFIResult::Success as c_int);
+
+            // Allocate buffers
+            let mut public_key = vec![0u8; pk_size];
+            let mut private_key = vec![0u8; sk_size];
+            let mut actual_pk_len = pk_size;
+            let mut actual_sk_len = sk_size;
+
+            // Generate keypair
+            let result = pqc_dilithium_generate_keypair(
+                *level,
+                public_key.as_mut_ptr(),
+                &mut actual_pk_len,
+                private_key.as_mut_ptr(),
+                &mut actual_sk_len,
+            );
+            assert_eq!(result, FFIResult::Success as c_int);
+            assert_eq!(actual_pk_len, pk_size);
+            assert_eq!(actual_sk_len, sk_size);
+
+            // Sign a message - use a buffer large enough for any signature
+            // Dilithium signatures can vary slightly in size
+            let message = b"Test message for Dilithium signing";
+            let mut signature = vec![0u8; 5000]; // Large buffer for any signature
+            let mut actual_sig_len: size_t = 5000;
+
+            let result = pqc_dilithium_sign(
+                private_key.as_ptr(),
+                sk_size,
+                message.as_ptr(),
+                message.len(),
+                signature.as_mut_ptr(),
+                &mut actual_sig_len,
+            );
+            assert_eq!(result, FFIResult::Success as c_int, "Sign failed for level {} with sig_len {}, expected {} max", level, actual_sig_len, sig_size);
+            assert!(actual_sig_len <= 5000);
+
+            // Truncate signature to actual size
+            signature.truncate(actual_sig_len);
+
+            // Verify signature
+            let result = pqc_dilithium_verify(
+                public_key.as_ptr(),
+                pk_size,
+                message.as_ptr(),
+                message.len(),
+                signature.as_ptr(),
+                actual_sig_len,
+            );
+            assert_eq!(result, FFIResult::Success as c_int);
+        }
+    }
+
+    #[test]
+    fn test_ffi_kyber_buffer_too_small() {
+        let mut pk_size: size_t = 0;
+        let mut sk_size: size_t = 0;
+        let mut ct_size: size_t = 0;
+        let mut ss_size: size_t = 0;
+
+        pqc_kyber_get_key_sizes(2, &mut pk_size, &mut sk_size, &mut ct_size, &mut ss_size);
+
+        // Try with too small buffers
+        let mut public_key = vec![0u8; 10]; // Too small
+        let mut private_key = vec![0u8; 10]; // Too small
+        let mut actual_pk_len = 10usize;
+        let mut actual_sk_len = 10usize;
+
+        let result = pqc_kyber_generate_keypair(
+            2,
+            public_key.as_mut_ptr(),
+            &mut actual_pk_len,
+            private_key.as_mut_ptr(),
+            &mut actual_sk_len,
+        );
+
+        assert_eq!(result, FFIResult::ErrorBufferTooSmall as c_int);
+        // Should return required sizes
+        assert_eq!(actual_pk_len, pk_size);
+        assert_eq!(actual_sk_len, sk_size);
+    }
+
+    #[test]
+    fn test_ffi_kyber_null_pointers() {
+        let mut len: size_t = 100;
+
+        // Null public key
+        let result = pqc_kyber_generate_keypair(
+            2,
+            std::ptr::null_mut(),
+            &mut len,
+            vec![0u8; 100].as_mut_ptr(),
+            &mut len,
+        );
+        assert_eq!(result, FFIResult::ErrorInvalidInput as c_int);
+
+        // Null private key
+        let result = pqc_kyber_generate_keypair(
+            2,
+            vec![0u8; 100].as_mut_ptr(),
+            &mut len,
+            std::ptr::null_mut(),
+            &mut len,
+        );
+        assert_eq!(result, FFIResult::ErrorInvalidInput as c_int);
+    }
+
+    #[test]
+    fn test_ffi_dilithium_verify_wrong_signature() {
+        let mut pk_size: size_t = 0;
+        let mut sk_size: size_t = 0;
+        let mut sig_size: size_t = 0;
+
+        pqc_dilithium_get_key_sizes(3, &mut pk_size, &mut sk_size, &mut sig_size);
+
+        // Generate keypair
+        let mut public_key = vec![0u8; pk_size];
+        let mut private_key = vec![0u8; sk_size];
+        let mut actual_pk_len = pk_size;
+        let mut actual_sk_len = sk_size;
+
+        pqc_dilithium_generate_keypair(
+            3,
+            public_key.as_mut_ptr(),
+            &mut actual_pk_len,
+            private_key.as_mut_ptr(),
+            &mut actual_sk_len,
+        );
+
+        let message = b"Original message";
+        let wrong_message = b"Different message";
+
+        // Sign original message
+        let mut signature = vec![0u8; sig_size * 2];
+        let mut actual_sig_len = sig_size * 2;
+
+        pqc_dilithium_sign(
+            private_key.as_ptr(),
+            sk_size,
+            message.as_ptr(),
+            message.len(),
+            signature.as_mut_ptr(),
+            &mut actual_sig_len,
+        );
+
+        // Verify with wrong message
+        let result = pqc_dilithium_verify(
+            public_key.as_ptr(),
+            pk_size,
+            wrong_message.as_ptr(),
+            wrong_message.len(),
+            signature.as_ptr(),
+            actual_sig_len,
+        );
+
+        assert_eq!(result, FFIResult::ErrorVerification as c_int);
+    }
+
+    #[test]
+    fn test_ffi_invalid_security_levels() {
+        // Invalid Kyber security level
+        let result = pqc_kyber_get_key_sizes(99, &mut 0, &mut 0, &mut 0, &mut 0);
+        assert_eq!(result, FFIResult::ErrorInvalidInput as c_int);
+
+        // Invalid Dilithium security level
+        let result = pqc_dilithium_get_key_sizes(99, &mut 0, &mut 0, &mut 0);
+        assert_eq!(result, FFIResult::ErrorInvalidInput as c_int);
+    }
+
+    #[test]
+    fn test_ffi_cross_platform_consistency() {
+        // This test verifies that the FFI produces consistent results
+        // across multiple calls, simulating cross-platform behavior
+
+        // Generate keypair
+        let mut pk_size: size_t = 1184;
+        let mut sk_size: size_t = 2400;
+        let mut public_key = vec![0u8; pk_size];
+        let mut private_key = vec![0u8; sk_size];
+
+        pqc_kyber_generate_keypair(
+            2,
+            public_key.as_mut_ptr(),
+            &mut pk_size,
+            private_key.as_mut_ptr(),
+            &mut sk_size,
+        );
+
+        // Multiple encapsulations should produce different ciphertexts
+        // but decapsulation should always work
+        for _ in 0..5 {
+            let mut ct_size: size_t = 1088;
+            let mut ss_size: size_t = 32;
+            let mut ciphertext = vec![0u8; ct_size];
+            let mut shared_secret1 = vec![0u8; ss_size];
+
+            pqc_kyber_encapsulate(
+                public_key.as_ptr(),
+                pk_size,
+                ciphertext.as_mut_ptr(),
+                &mut ct_size,
+                shared_secret1.as_mut_ptr(),
+                &mut ss_size,
+            );
+
+            let mut shared_secret2 = vec![0u8; 32];
+            let mut ss2_len: size_t = 32;
+
+            pqc_kyber_decapsulate(
+                private_key.as_ptr(),
+                sk_size,
+                ciphertext.as_ptr(),
+                ct_size,
+                shared_secret2.as_mut_ptr(),
+                &mut ss2_len,
+            );
+
+            assert_eq!(shared_secret1, shared_secret2);
+        }
+    }
 }

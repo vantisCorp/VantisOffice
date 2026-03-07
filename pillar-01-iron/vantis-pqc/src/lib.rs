@@ -20,7 +20,7 @@ pub use hybrid::{hybrid_key_exchange, HybridAlgorithm};
 pub use dilithium::{DilithiumKeyPair, DilithiumSecurityLevel, sign, verify};
 pub use kdf::{Hkdf, Pbkdf2, Argon2Kdf, Argon2Config, HashAlgorithm, derive_keys_from_shared_secret};
 pub use rotation::{KeyRotationManager, RotationPolicy, KeyState, KeyVersion, MigrationPlan};
-pub use secure_memory::{SecureBox, SecureVec, SecureAllocator, constant_time_eq, secure_zero, wipe};
+pub use secure_memory::{SecureBox, SecureVec, SecureAllocator, constant_time_eq, secure_zero, wipe, secure_random_bytes};
 pub use performance::{BatchKyberGenerator, BatchDilithiumGenerator, BatchEncapsulator, BatchSigner, PerformanceBenchmark};
 
 // Version information

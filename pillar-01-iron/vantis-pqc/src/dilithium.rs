@@ -31,9 +31,9 @@ impl DilithiumSecurityLevel {
     /// Get the private key size for this security level
     pub fn private_key_size(&self) -> usize {
         match self {
-            DilithiumSecurityLevel::Level2 => 2528,
-            DilithiumSecurityLevel::Level3 => 4000,
-            DilithiumSecurityLevel::Level5 => 4864,
+            DilithiumSecurityLevel::Level2 => 2560,
+            DilithiumSecurityLevel::Level3 => 4032,
+            DilithiumSecurityLevel::Level5 => 4896,
         }
     }
 
@@ -41,8 +41,8 @@ impl DilithiumSecurityLevel {
     pub fn signature_size(&self) -> usize {
         match self {
             DilithiumSecurityLevel::Level2 => 2420,
-            DilithiumSecurityLevel::Level3 => 3293,
-            DilithiumSecurityLevel::Level5 => 4595,
+            DilithiumSecurityLevel::Level3 => 3309,
+            DilithiumSecurityLevel::Level5 => 4627,
         }
     }
 }
@@ -161,11 +161,10 @@ impl DilithiumSignature {
 /// Sign a message using Dilithium private key
 pub fn sign(private_key: &[u8], message: &[u8]) -> Result<DilithiumSignature> {
     // Determine security level based on private key size
-    // Note: Actual sizes from pqcrypto-dilithium may differ
     let security_level = match private_key.len() {
-        _ if private_key.len() >= 2528 && private_key.len() <= 2600 => DilithiumSecurityLevel::Level2,
-        _ if private_key.len() >= 4000 && private_key.len() <= 4100 => DilithiumSecurityLevel::Level3,
-        _ if private_key.len() >= 4864 && private_key.len() <= 5000 => DilithiumSecurityLevel::Level5,
+        2560 => DilithiumSecurityLevel::Level2,
+        4032 => DilithiumSecurityLevel::Level3,
+        4896 => DilithiumSecurityLevel::Level5,
         _ => return Err(PQCError::InvalidPrivateKey),
     };
 
@@ -198,9 +197,9 @@ pub fn sign(private_key: &[u8], message: &[u8]) -> Result<DilithiumSignature> {
 pub fn verify(public_key: &[u8], message: &[u8], signature: &[u8]) -> Result<bool> {
     // Determine security level based on public key size
     let security_level = match public_key.len() {
-        _ if public_key.len() >= 1312 && public_key.len() <= 1350 => DilithiumSecurityLevel::Level2,
-        _ if public_key.len() >= 1952 && public_key.len() <= 2000 => DilithiumSecurityLevel::Level3,
-        _ if public_key.len() >= 2592 && public_key.len() <= 2650 => DilithiumSecurityLevel::Level5,
+        1312 => DilithiumSecurityLevel::Level2,
+        1952 => DilithiumSecurityLevel::Level3,
+        2592 => DilithiumSecurityLevel::Level5,
         _ => return Err(PQCError::InvalidPublicKey),
     };
 

@@ -13,6 +13,9 @@ uuid = { version = "1.0", features = ["v4", "serde"] }
 chrono = { version = "0.4", features = ["serde"] }
 openssl = "0.10"
 
+# Post-quantum cryptography
+vantis-pqc = { path = "../vantis-pqc" }
+
 [dev-dependencies]
 criterion = "0.5"
 
