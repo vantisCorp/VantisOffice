@@ -9,6 +9,7 @@
 //! - Streaming encryption for large files
 //! - HSM integration support
 //! - Multi-party encryption for group collaboration
+//! - Cross-platform support (Windows, macOS, Linux)
 
 pub mod error;
 pub mod kyber;
@@ -19,6 +20,7 @@ pub mod hsm;
 pub mod secure_memory;
 pub mod kdf;
 pub mod multi_party;
+pub mod platform;
 
 // Re-exports for convenience
 pub use error::{PQCError, Result};
@@ -27,6 +29,7 @@ pub use dilithium::{DilithiumKeyPair, DilithiumSecurityLevel};
 pub use streaming::{StreamingEncryptor, StreamingDecryptor, StreamingHeader};
 pub use hsm::{HsmConfig, HsmSession, HsmKeyHandle, HsmType};
 pub use multi_party::{MultiPartyManager, GroupState, GroupMember, AccessLevel, MultiRecipientMessage};
+pub use platform::{PlatformInfo, SecureStorage, get_secure_storage};
 
 /// Module version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
