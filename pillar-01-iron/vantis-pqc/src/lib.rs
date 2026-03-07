@@ -6,6 +6,7 @@ pub mod error;
 pub mod key_management;
 pub mod hybrid;
 pub mod dilithium;
+pub mod ffi;
 
 // Re-exports for convenience
 pub use error::{PQCError, Result};
