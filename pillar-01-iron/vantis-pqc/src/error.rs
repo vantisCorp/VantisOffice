@@ -80,6 +80,10 @@ pub enum PQCError {
     #[error("I/O error: {0}")]
     IoError(String),
 
+    /// Permission denied
+    #[error("Permission denied: {0}")]
+    PermissionDenied(String),
+
     /// Library error
     #[error("PQC library error: {0}")]
     LibraryError(String),

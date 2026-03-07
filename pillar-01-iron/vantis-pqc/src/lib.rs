@@ -18,6 +18,7 @@ pub mod streaming;
 pub mod hsm;
 pub mod secure_memory;
 pub mod kdf;
+pub mod multi_party;
 
 // Re-exports for convenience
 pub use error::{PQCError, Result};
@@ -25,6 +26,7 @@ pub use kyber::{KyberKeyPair, KyberSecurityLevel};
 pub use dilithium::{DilithiumKeyPair, DilithiumSecurityLevel};
 pub use streaming::{StreamingEncryptor, StreamingDecryptor, StreamingHeader};
 pub use hsm::{HsmConfig, HsmSession, HsmKeyHandle, HsmType};
+pub use multi_party::{MultiPartyManager, GroupState, GroupMember, AccessLevel, MultiRecipientMessage};
 
 /// Module version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
