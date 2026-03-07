@@ -1,0 +1,49 @@
+title = "VantisOffice Gitleaks Configuration"
+
+# Extend the default allowlist with additional patterns
+[allowlist]
+description = "Global allowlist"
+paths = [
+  '''vendor''',
+  '''test''',
+  '''examples''',
+  '''\.git''',
+  '''node_modules''',
+  '''target''',
+]
+
+# AWS keys
+[[rules]]
+id = "aws-access-key"
+regex = '''(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}'''
+tags = ["key", "AWS"]
+
+# GitHub tokens
+[[rules]]
+id = "github-token"
+regex = '''ghp_[a-zA-Z0-9]{36}'''
+tags = ["key", "GitHub"]
+
+# Slack tokens
+[[rules]]
+id = "slack-token"
+regex = '''xox[baprs]-[a-zA-Z0-9-]+'''
+tags = ["key", "Slack"]
+
+# Generic API keys
+[[rules]]
+id = "generic-api-key"
+regex = '''(?i)(api[_-]?key|apikey|key|secret|token)['"]?\s*[:=]\s*['"]?[a-zA-Z0-9_\-]{20,}'''
+tags = ["key", "API"]
+
+# Private keys
+[[rules]]
+id = "private-key"
+regex = '''-----BEGIN ((RSA |EC |DSA |OPENSSH |PGP )?)PRIVATE KEY-----'''
+tags = ["key", "PrivateKey"]
+
+# Passwords
+[[rules]]
+id = "password"
+regex = '''(?i)(password|passwd|pwd)['"]?\s*[:=]\s*['"][^'""]{4,}['"]'''
+tags = ["secret", "password"]
