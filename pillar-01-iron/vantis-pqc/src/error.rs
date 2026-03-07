@@ -44,6 +44,14 @@ pub enum PQCError {
     #[error("Invalid signature: {0}")]
     InvalidSignature(String),
 
+    /// Invalid key material
+    #[error("Invalid key material: {0}")]
+    InvalidKeyMaterial(String),
+
+    /// Key derivation failed
+    #[error("Key derivation failed: {0}")]
+    KeyDerivationFailed(String),
+
     /// Algorithm not supported
     #[error("Algorithm not supported: {0}")]
     AlgorithmNotSupported(String),
