@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anon/ReTest-VantisOffice.git"
+    "url": "git+https://github.com/vantisCorp/VantisOffice.git"
   },
   "keywords": [
     "office-suite",
@@ -30,9 +30,9 @@
   "author": "VantisCorp",
   "license": "AGPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/anon/ReTest-VantisOffice/issues"
+    "url": "https://github.com/vantisCorp/VantisOffice/issues"
   },
-  "homepage": "https://github.com/anon/ReTest-VantisOffice#readme",
+  "homepage": "https://github.com/vantisCorp/VantisOffice#readme",
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",

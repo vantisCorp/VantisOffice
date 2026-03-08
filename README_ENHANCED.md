@@ -26,8 +26,8 @@
 
 ![VantisOffice Banner](https://img.shields.io/badge/VantisOffice-Quantum%20Safe-black?style=for-the-badge&logo=rust&logoColor=%23E50914&labelColor=%23141414)
 
-[![GitHub release](https://img.shields.io/github/v/release/anon/ReTest-VantisOffice?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice/releases)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/anon/ReTest-VantisOffice/ci.yml?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice/actions)
+[![GitHub release](https://img.shields.io/github/v/release/vantisCorp/VantisOffice?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/vantisCorp/VantisOffice/releases)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/vantisCorp/VantisOffice/ci.yml?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/vantisCorp/VantisOffice/actions)
 [![License](https://img.shields.io/badge/License-AGPLv3%20%2B%20Commercial-%23141414?style=for-the-badge&logoColor=%23E50914)](LICENSE)
 [![Rust Version](https://img.shields.io/badge/Rust-1.80.0-%23141414?style=for-the-badge&logo=rust&logoColor=%23E50914)](https://www.rust-lang.org)
 [![Zero Trust](https://img.shields.io/badge/Architecture-Zero%20Trust-%23141414?style=for-the-badge&logoColor=%23E50914)](docs/ARCHITECTURE.md)
@@ -84,21 +84,21 @@
 
 ## 🛡️ Security & Quality Badges
 
-[![CodeQL](https://img.shields.io/badge/Security-CodeQL-%23141414?style=for-the-badge&logoColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice/security/code-scanning)
-[![Dependabot](https://img.shields.io/badge/Dependencies-Dependabot-%23141414?style=for-the-badge&logoColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice/network/updates)
-[![SBOM](https://img.shields.io/badge/SBOM-Generated-%23141414?style=for-the-badge&logoColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice/actions)
-[![GPG Signed](https://img.shields.io/badge/Commits-GPG%20Signed-%23141414?style=for-the-badge&logoColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice/commits/main)
+[![CodeQL](https://img.shields.io/badge/Security-CodeQL-%23141414?style=for-the-badge&logoColor=%23E50914)](https://github.com/vantisCorp/VantisOffice/security/code-scanning)
+[![Dependabot](https://img.shields.io/badge/Dependencies-Dependabot-%23141414?style=for-the-badge&logoColor=%23E50914)](https://github.com/vantisCorp/VantisOffice/network/updates)
+[![SBOM](https://img.shields.io/badge/SBOM-Generated-%23141414?style=for-the-badge&logoColor=%23E50914)](https://github.com/vantisCorp/VantisOffice/actions)
+[![GPG Signed](https://img.shields.io/badge/Commits-GPG%20Signed-%23141414?style=for-the-badge&logoColor=%23E50914)](https://github.com/vantisCorp/VantisOffice/commits/main)
 [![End-to-End](https://img.shields.io/badge/Encryption-End--to--End-%23141414?style=for-the-badge&logoColor=%23E50914)](docs/mobile/SECURITY.md)
 [![Censorship Resistant](https://img.shields.io/badge/Network-Censorship%20Resistant-%23141414?style=for-the-badge&logoColor=%23E50914)](docs/ARCHITECTURE.md)
 
 ## 📊 Project Statistics
 
-[![GitHub stars](https://img.shields.io/github/stars/anon/ReTest-VantisOffice?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/anon/ReTest-VantisOffice?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice/network/members)
-[![GitHub issues](https://img.shields.io/github/issues/anon/ReTest-VantisOffice?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice/issues)
-[![GitHub contributors](https://img.shields.io/github/contributors/anon/ReTest-VantisOffice?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice/graphs/contributors)
-[![Lines of Code](https://img.shields.io/badge/Code-144%20Rust%2C%2034%20Mobile-%23141414?style=for-the-badge&logoColor=%23E50914)](https://github.com/anon/ReTest-VantisOffice)
-[![Documentation](https://img.shields.io/badge/Docs-World%20Class-%23141414?style=for-the-badge&logoColor=%23E50914)](https://anon.github.io/ReTest-VantisOffice/)
+[![GitHub stars](https://img.shields.io/github/stars/vantisCorp/VantisOffice?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/vantisCorp/VantisOffice/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/vantisCorp/VantisOffice?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/vantisCorp/VantisOffice/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/vantisCorp/VantisOffice?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/vantisCorp/VantisOffice/issues)
+[![GitHub contributors](https://img.shields.io/github/contributors/vantisCorp/VantisOffice?style=for-the-badge&color=%23141414&labelColor=%23E50914)](https://github.com/vantisCorp/VantisOffice/graphs/contributors)
+[![Lines of Code](https://img.shields.io/badge/Code-144%20Rust%2C%2034%20Mobile-%23141414?style=for-the-badge&logoColor=%23E50914)](https://github.com/vantisCorp/VantisOffice)
+[![Documentation](https://img.shields.io/badge/Docs-World%20Class-%23141414?style=for-the-badge&logoColor=%23E50914)](https://vantiscorp.github.io/VantisOffice/)
 
 ---
 
@@ -113,8 +113,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/anon/ReTest-VantisOffice.git
-cd ReTest-VantisOffice
+git clone https://github.com/vantisCorp/VantisOffice.git
+cd VantisOffice
 
 # Install Rust if needed
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -298,8 +298,8 @@ graph LR
 
 ```bash
 # Clone the repository
-git clone https://github.com/anon/ReTest-VantisOffice.git
-cd ReTest-VantisOffice
+git clone https://github.com/vantisCorp/VantisOffice.git
+cd VantisOffice
 
 # Build in release mode
 cargo build --release
@@ -371,7 +371,7 @@ cargo doc --open
 
 ### Comprehensive Documentation
 
-- [📖 Full Documentation](https://anon.github.io/ReTest-VantisOffice/)
+- [📖 Full Documentation](https://vantiscorp.github.io/VantisOffice/)
 - [🏗️ Architecture](docs/ARCHITECTURE.md)
 - [📋 API Reference](docs/api/API_REFERENCE.md)
 - [🔒 Security Guide](docs/mobile/SECURITY.md)
@@ -445,7 +445,7 @@ git clone https://github.com/YOUR_USERNAME/VantisOffice.git
 cd VantisOffice
 
 # Add upstream remote
-git remote add upstream https://github.com/anon/ReTest-VantisOffice.git
+git remote add upstream https://github.com/vantisCorp/VantisOffice.git
 
 # Create a feature branch
 git checkout -b feature/your-feature-name
@@ -521,15 +521,15 @@ For commercial licensing, please contact us at:
 ### 📧 Support
 
 - 📧 Email: support@vantiscorp.com
-- 🐛 Issues: [GitHub Issues](https://github.com/anon/ReTest-VantisOffice/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/anon/ReTest-VantisOffice/discussions)
+- 🐛 Issues: [GitHub Issues](https://github.com/vantisCorp/VantisOffice/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/vantisCorp/VantisOffice/discussions)
 
 ---
 
 ## 🎉 Star History
 
-<a href="https://github.com/anon/ReTest-VantisOffice/stargazers">
-  <img src="https://api.star-history.com/svg?repos=anon/ReTest-VantisOffice&type=Date" alt="Star History Chart">
+<a href="https://github.com/vantisCorp/VantisOffice/stargazers">
+  <img src="https://api.star-history.com/svg?repos=vantisCorp/VantisOffice&type=Date" alt="Star History Chart">
 </a>
 
 ---
