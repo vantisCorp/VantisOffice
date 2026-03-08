@@ -1,0 +1,26 @@
+# CODEOWNERS - VantisOffice
+# This file defines the code owners for the repository
+
+# Default owners for everything in the repo
+* @vantisCorp
+
+# Rust code
+*.rs @vantisCorp
+Cargo.toml @vantisCorp
+Cargo.lock @vantisCorp
+
+# Documentation
+*.md @vantisCorp
+docs/ @vantisCorp
+
+# CI/CD workflows
+.github/workflows/ @vantisCorp
+
+# Security-related files
+deny.toml @vantisCorp
+.gitleaks.toml @vantisCorp
+
+# Configuration files
+.cargo/ @vantisCorp
+.editorconfig @vantisCorp
+.eslintrc.json @vantisCorp

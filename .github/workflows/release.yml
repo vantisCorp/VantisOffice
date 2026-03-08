@@ -47,8 +47,8 @@ jobs:
             target: x86_64-pc-windows-msvc
             artifact: vantisoffice-windows-x64
           - os: macos-latest
-            target: x86_64-apple-darwin
-            artifact: vantisoffice-macos-x64
+            target: aarch64-apple-darwin
+            artifact: vantisoffice-macos-arm64
     
     steps:
     - name: Checkout code
@@ -68,7 +68,15 @@ jobs:
     - name: Install dependencies (macOS)
       if: matrix.os == 'macos-latest'
       run: |
-        brew install cmake openssl pkg-config
+        brew install cmake openssl pkg-config || true
+    
+    - name: Set OpenSSL environment variables (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        echo "OPENSSL_DIR=$(brew --prefix openssl@3)" >> $GITHUB_ENV
+        echo "OPENSSL_INCLUDE_DIR=$(brew --prefix openssl@3)/include" >> $GITHUB_ENV
+        echo "OPENSSL_LIB_DIR=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
+        echo "PKG_CONFIG_PATH=$(brew --prefix openssl@3)/lib/pkgconfig" >> $GITHUB_ENV
     
     - name: Build release
       run: cargo build --workspace --release --target ${{ matrix.target }}
