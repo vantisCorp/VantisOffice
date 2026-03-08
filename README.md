@@ -79,9 +79,9 @@
 
 ### 🛡️ Security & Quality Badges
 
-![GitHub release](https://img.shields.io/github/v/release/vantisoffice/vantisoffice?style=for-the-badge&color=black&labelColor=red)
-![Build Status](https://img.shields.io/github/actions/workflow/status/vantisoffice/vantisoffice/rust.yml?style=for-the-badge&color=black&labelColor=red)
-![Coverage](https://img.shields.io/codecov/c/github/vantisoffice/vantisoffice?style=for-the-badge&color=black&labelColor=red)
+![GitHub release](https://img.shields.io/github/v/release/vantisCorp/VantisOffice?style=for-the-badge&color=black&labelColor=red)
+![Build Status](https://img.shields.io/github/actions/workflow/status/vantisCorp/VantisOffice/rust.yml?style=for-the-badge&color=black&labelColor=red)
+![Coverage](https://img.shields.io/codecov/c/github/vantisCorp/VantisOffice?style=for-the-badge&color=black&labelColor=red)
 ![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge&logoColor=red)
 ![Rust Version](https://img.shields.io/badge/Rust-1.80.0-black?style=for-the-badge&logo=rust&logoColor=red)
 ![CodeQL](https://img.shields.io/badge/Security-CodeQL-black?style=for-the-badge&logoColor=red)
@@ -89,11 +89,11 @@
 
 ### 📊 Project Statistics
 
-![GitHub stars](https://img.shields.io/github/stars/vantisoffice/vantisoffice?style=for-the-badge&color=black&labelColor=red)
-![GitHub forks](https://img.shields.io/github/forks/vantisoffice/vantisoffice?style=for-the-badge&color=black&labelColor=red)
-![GitHub issues](https://img.shields.io/github/issues/vantisoffice/vantisoffice?style=for-the-badge&color=black&labelColor=red)
-![GitHub pull requests](https://img.shields.io/github/pulls/vantisoffice/vantisoffice?style=for-the-badge&color=black&labelColor=red)
-![GitHub contributors](https://img.shields.io/github/contributors/vantisoffice/vantisoffice?style=for-the-badge&color=black&labelColor=red)
+![GitHub stars](https://img.shields.io/github/stars/vantisCorp/VantisOffice?style=for-the-badge&color=black&labelColor=red)
+![GitHub forks](https://img.shields.io/github/forks/vantisCorp/VantisOffice?style=for-the-badge&color=black&labelColor=red)
+![GitHub issues](https://img.shields.io/github/issues/vantisCorp/VantisOffice?style=for-the-badge&color=black&labelColor=red)
+![GitHub pull requests](https://img.shields.io/github/pulls/vantisCorp/VantisOffice?style=for-the-badge&color=black&labelColor=red)
+![GitHub contributors](https://img.shields.io/github/contributors/vantisCorp/VantisOffice?style=for-the-badge&color=black&labelColor=red)
 
 </div>
 
@@ -136,7 +136,7 @@ fn ninja_mode() {
 
 ```bash
 # Clone the repository
-git clone https://github.com/vantisoffice/vantisoffice.git
+git clone https://github.com/vantisCorp/VantisOffice.git
 cd vantisoffice
 
 # Install Rust if needed
@@ -346,7 +346,7 @@ timeline
 
 ```bash
 # Klonowanie repozytorium
-git clone https://github.com/vantisoffice/vantisoffice.git
+git clone https://github.com/vantisCorp/VantisOffice.git
 cd vantisoffice
 
 # Instalacja Rust (jeśli potrzebna)
@@ -366,7 +366,7 @@ cargo run --release
 
 ```powershell
 # Pobierz instalator
-Invoke-WebRequest -Uri "https://github.com/vantisoffice/vantisoffice/releases/latest" -OutFile "installer.exe"
+Invoke-WebRequest -Uri "https://github.com/vantisCorp/VantisOffice/releases/latest" -OutFile "installer.exe"
 
 # Uruchom instalator
 .\installer.exe
@@ -383,7 +383,7 @@ brew install vantisoffice
 
 # LUB zbuduj ze źródła
 brew install rust
-git clone https://github.com/vantisoffice/vantisoffice.git
+git clone https://github.com/vantisCorp/VantisOffice.git
 cd vantisoffice
 cargo build --release
 ```
@@ -395,7 +395,7 @@ cargo build --release
 
 ```bash
 # Pobierz pakiet .deb
-wget https://github.com/vantisoffice/vantisoffice/releases/latest/download/vantisoffice_amd64.deb
+wget https://github.com/vantisCorp/VantisOffice/releases/latest/download/vantisoffice_amd64.deb
 
 # Zainstaluj
 sudo dpkg -i vantisoffice_amd64.deb
@@ -602,7 +602,7 @@ SOFTWARE.
 
 Jeśli podoba Ci się VantisOffice, proszę **daj nam gwiazdkę** na GitHubie! ⭐
 
-[![GitHub stars](https://img.shields.io/github/stars/vantisoffice/vantisoffice?style=social)](https://github.com/vantisoffice/vantisoffice/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/vantisCorp/VantisOffice?style=social)](https://github.com/vantisCorp/VantisOffice/stargazers)
 
 </div>
 
@@ -638,7 +638,7 @@ Made with ❤️ by NinjaTech AI
 ## 🗺️ World Map of Visitors
 
 <!-- M: WORLD MAP -->
-[![VantisOffice World Map](https://img.shields.io/badge/World_Map-Click_to_View-black?style=for-the-badge)](https://clustrmaps.com/maps/p/pages.github.io/vantisoffice/vantisoffice/index.html)
+[![VantisOffice World Map](https://img.shields.io/badge/World_Map-Click_to_View-black?style=for-the-badge)](https://clustrmaps.com/maps/p/pages.github.io/vantisCorp/VantisOffice/index.html)
 
 </div>
 
@@ -685,8 +685,8 @@ v0.3.0
 
 | Platform | Link | Status |
 |----------|------|--------|
-| 🟢 **GitHub** | [github.com/vantisoffice/vantisoffice](https://github.com/vantisoffice/vantisoffice) | ✅ Active |
-| 🔵 **GitLab** | [gitlab.com/vantisoffice/vantisoffice](https://gitlab.com/vantisoffice/vantisoffice) | ✅ Mirror |
+| 🟢 **GitHub** | [github.com/vantisCorp/VantisOffice](https://github.com/vantisCorp/VantisOffice) | ✅ Active |
+| 🔵 **GitLab** | [gitlab.com/vantisCorp/VantisOffice](https://gitlab.com/vantisCorp/VantisOffice) | ✅ Mirror |
 | 🟣 **Codespace** | [codespaces.new/vantisoffice](https://codespaces.new/vantisoffice) | ✅ Available |
 | 🟠 **Crates.io** | [crates.io/vantisoffice](https://crates.io/vantisoffice) | 📦 Coming Soon |
 | 🔴 **Docker Hub** | [hub.docker.com/vantisoffice](https://hub.docker.com/vantisoffice) | 📦 Coming Soon |
@@ -877,7 +877,7 @@ flow_benchmark_task_management                 150.0 ops/s   ✓
 
 ```bash
 # Clone the repository
-git clone https://github.com/vantisoffice/vantisoffice.git
+git clone https://github.com/vantisCorp/VantisOffice.git
 cd vantisoffice
 
 # Install Rust if needed
@@ -917,7 +917,7 @@ cargo run --release
 
 <div align="center">
 
-[![GitHub Contributors](https://img.shields.io/github/contributors/vantisoffice/vantisoffice?style=for-the-badge)](https://github.com/vantisoffice/vantisoffice/graphs/contributors)
+[![GitHub Contributors](https://img.shields.io/github/contributors/vantisCorp/VantisOffice?style=for-the-badge)](https://github.com/vantisCorp/VantisOffice/graphs/contributors)
 
 </div>
 
@@ -953,7 +953,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you like VantisOffice, please **give us a star** on GitHub! ⭐
 
-[![GitHub stars](https://img.shields.io/github/stars/vantisoffice/vantisoffice?style=social)](https://github.com/vantisoffice/vantisoffice/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/vantisCorp/VantisOffice?style=social)](https://github.com/vantisCorp/VantisOffice/stargazers)
 
 </div>
 
@@ -1010,7 +1010,7 @@ If you like VantisOffice, please **give us a star** on GitHub! ⭐
 
 ```bash
 # Repository klonen
-git clone https://github.com/vantisoffice/vantisoffice.git
+git clone https://github.com/vantisCorp/VantisOffice.git
 cd vantisoffice
 
 # Rust installieren (falls erforderlich)
@@ -1075,7 +1075,7 @@ cargo run --release
 
 ```bash
 # 克隆仓库
-git clone https://github.com/vantisoffice/vantisoffice.git
+git clone https://github.com/vantisCorp/VantisOffice.git
 cd vantisoffice
 
 # 安装Rust（如果需要）
@@ -1140,7 +1140,7 @@ cargo run --release
 
 ```bash
 # Клонирование репозитория
-git clone https://github.com/vantisoffice/vantisoffice.git
+git clone https://github.com/vantisCorp/VantisOffice.git
 cd vantisoffice
 
 # Установка Rust (если необходимо)
@@ -1205,7 +1205,7 @@ cargo run --release
 
 ```bash
 # 저장소 복제
-git clone https://github.com/vantisoffice/vantisoffice.git
+git clone https://github.com/vantisCorp/VantisOffice.git
 cd vantisoffice
 
 # Rust 설치 (필요한 경우)
@@ -1270,7 +1270,7 @@ cargo run --release
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/vantisoffice/vantisoffice.git
+git clone https://github.com/vantisCorp/VantisOffice.git
 cd vantisoffice
 
 # Instalar Rust si es necesario
@@ -1335,7 +1335,7 @@ cargo run --release
 
 ```bash
 # Cloner le dépôt
-git clone https://github.com/vantisoffice/vantisoffice.git
+git clone https://github.com/vantisCorp/VantisOffice.git
 cd vantisoffice
 
 # Installer Rust si nécessaire
@@ -1374,7 +1374,7 @@ Made with ❤️ by NinjaTech AI
 
 ### ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=vantisoffice/vantisoffice&type=Date)](https://star-history.com/#vantisoffice/vantisoffice&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=vantisCorp/VantisOffice&type=Date)](https://star-history.com/#vantisCorp/VantisOffice&Date)
 
 </div>
 
@@ -1386,7 +1386,7 @@ Made with ❤️ by NinjaTech AI
 
 ### 👥 Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=vantisoffice/vantisoffice)](https://github.com/vantisoffice/vantisoffice/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=vantisCorp/VantisOffice)](https://github.com/vantisCorp/VantisOffice/graphs/contributors)
 
 ### 🎨 Code Examples
 
@@ -1415,8 +1415,8 @@ fn main() {
 ### 📊 Live Counters
 
 ![Profile Views](https://visitor-badge.laobi.icu/badge?page_id=vantisoffice.vantisoffice)
-![GitHub repo size](https://img.shields.io/github/repo-size/vantisoffice/vantisoffice?style=for-the-badge)
-![GitHub last commit](https://img.shields.io/github/last-commit/vantisoffice/vantisoffice?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/vantisCorp/VantisOffice?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/vantisCorp/VantisOffice?style=for-the-badge)
 
 </div>
 
@@ -2042,9 +2042,9 @@ edition = "2021"
 
 ## 🎯 ⭐ Star Us on GitHub! ⭐
 
-[![GitHub stars](https://img.shields.io/github/stars/vantisoffice/vantisoffice?style=social)](https://github.com/vantisoffice/vantisoffice/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/vantisCorp/VantisOffice?style=social)](https://github.com/vantisCorp/VantisOffice/stargazers)
 
-[![GitHub forks](https://img.shields.io/github/forks/vantisoffice/vantisoffice?style=social)](https://github.com/vantisoffice/vantisoffice/network/members)
+[![GitHub forks](https://img.shields.io/github/forks/vantisCorp/VantisOffice?style=social)](https://github.com/vantisCorp/VantisOffice/network/members)
 
 ## 🔗 Connect With Us
 
@@ -2076,11 +2076,11 @@ Made with ❤️ by the NinjaTech AI Team
 
 <div align="center">
 
-[![Commit Activity](https://img.shields.io/badge/Commits-Active-black?style=for-the-badge)](https://github.com/vantisoffice/vantisoffice/commits)
+[![Commit Activity](https://img.shields.io/badge/Commits-Active-black?style=for-the-badge)](https://github.com/vantisCorp/VantisOffice/commits)
 
-[![Last Update](https://img.shields.io/badge/Last_Update-2025--03--03-black?style=for-the-badge)](https://github.com/vantisoffice/vantisoffice/commits)
+[![Last Update](https://img.shields.io/badge/Last_Update-2025--03--03-black?style=for-the-badge)](https://github.com/vantisCorp/VantisOffice/commits)
 
-[![Repo Size](https://img.shields.io/badge/Size-50MB-black?style=for-the-badge)](https://github.com/vantisoffice/vantisoffice)
+[![Repo Size](https://img.shields.io/badge/Size-50MB-black?style=for-the-badge)](https://github.com/vantisCorp/VantisOffice)
 
 </div>
 
@@ -2152,7 +2152,7 @@ Made with ❤️ by [NinjaTech AI](https://ninjatech.ai)
 
 ### License
 
-MIT License © 2025 [VantisOffice](https://github.com/vantisoffice/vantisoffice)
+MIT License © 2025 [VantisOffice](https://github.com/vantisCorp/VantisOffice)
 
 ---
 

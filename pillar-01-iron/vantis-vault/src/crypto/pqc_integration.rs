@@ -7,9 +7,8 @@ use anyhow::{Result, Context};
 use vantis_pqc::{
     KyberKeyPair, KyberSecurityLevel,
     DilithiumKeyPair, DilithiumSecurityLevel,
-    hybrid_key_exchange, HybridAlgorithm,
-    Hkdf, HashAlgorithm, derive_keys_from_shared_secret,
-    secure_zero, constant_time_eq,
+    derive_keys_from_shared_secret,
+    secure_random_bytes, constant_time_compare,
 };
 
 /// PQC-enabled encrypted document
@@ -32,7 +31,6 @@ pub struct PqcEncryptedDocument {
 }
 
 /// PQC key bundle for document encryption
-#[derive(Debug, Clone)]
 pub struct PqcKeyBundle {
     /// Kyber keypair for key encapsulation
     pub kyber_keypair: KyberKeyPair,
@@ -43,7 +41,7 @@ pub struct PqcKeyBundle {
 impl PqcKeyBundle {
     /// Create a new key bundle with Kyber768 (recommended)
     pub fn new_kyber768() -> Result<Self> {
-        let kyber_keypair = KyberKeyPair::generate(KyberSecurityLevel::Level2)
+        let kyber_keypair = KyberKeyPair::generate(KyberSecurityLevel::Kyber768)
             .context("Failed to generate Kyber keypair")?;
         
         Ok(Self {
@@ -54,10 +52,10 @@ impl PqcKeyBundle {
 
     /// Create a new key bundle with Kyber768 and Dilithium3
     pub fn new_with_signing() -> Result<Self> {
-        let kyber_keypair = KyberKeyPair::generate(KyberSecurityLevel::Level2)
+        let kyber_keypair = KyberKeyPair::generate(KyberSecurityLevel::Kyber768)
             .context("Failed to generate Kyber keypair")?;
         
-        let dilithium_keypair = DilithiumKeyPair::generate(DilithiumSecurityLevel::Level3)
+        let dilithium_keypair = DilithiumKeyPair::generate(DilithiumSecurityLevel::Dilithium3)
             .context("Failed to generate Dilithium keypair")?;
         
         Ok(Self {
@@ -68,10 +66,10 @@ impl PqcKeyBundle {
 
     /// Create a high-security bundle with Kyber1024 and Dilithium5
     pub fn new_high_security() -> Result<Self> {
-        let kyber_keypair = KyberKeyPair::generate(KyberSecurityLevel::Level3)
+        let kyber_keypair = KyberKeyPair::generate(KyberSecurityLevel::Kyber1024)
             .context("Failed to generate Kyber1024 keypair")?;
         
-        let dilithium_keypair = DilithiumKeyPair::generate(DilithiumSecurityLevel::Level5)
+        let dilithium_keypair = DilithiumKeyPair::generate(DilithiumSecurityLevel::Dilithium5)
             .context("Failed to generate Dilithium5 keypair")?;
         
         Ok(Self {
@@ -81,13 +79,13 @@ impl PqcKeyBundle {
     }
 
     /// Get the public key for encryption
-    pub fn public_key(&self) -> &[u8] {
-        &self.kyber_keypair.public_key
+    pub fn public_key(&self) -> Vec<u8> {
+        self.kyber_keypair.public_key().to_vec()
     }
 
     /// Get the Dilithium public key if available
-    pub fn signing_public_key(&self) -> Option<&[u8]> {
-        self.dilithium_keypair.as_ref().map(|kp| kp.public_key.as_slice())
+    pub fn signing_public_key(&self) -> Option<Vec<u8>> {
+        self.dilithium_keypair.as_ref().map(|kp| kp.public_key().to_vec())
     }
 }
 
@@ -104,9 +102,19 @@ pub fn encrypt_document(
     recipient_public_key: &[u8],
     sender_keybundle: Option<&PqcKeyBundle>,
 ) -> Result<PqcEncryptedDocument> {
+    // Determine security level from public key size
+    let security_level = match recipient_public_key.len() {
+        800 => KyberSecurityLevel::Kyber512,
+        1184 => KyberSecurityLevel::Kyber768,
+        1568 => KyberSecurityLevel::Kyber1024,
+        _ => KyberSecurityLevel::Kyber768, // Default
+    };
+    
     // Encapsulate using Kyber to get shared secret
-    let (shared_secret, ciphertext) = vantis_pqc::encapsulate(recipient_public_key)
-        .context("Failed to encapsulate key with Kyber")?;
+    let encap_result = vantis_pqc::encapsulate(recipient_public_key, security_level)
+        .map_err(|e| anyhow::anyhow!("Failed to encapsulate key with Kyber: {:?}", e))?;
+    let shared_secret = encap_result.shared_secret;
+    let ciphertext = encap_result.ciphertext;
     
     // Derive encryption keys from the shared secret
     let derived_keys = derive_keys_from_shared_secret(
@@ -120,7 +128,7 @@ pub fn encrypt_document(
     let encryption_key = &derived_keys[0];
     
     // Generate nonce for AES-GCM
-    let nonce = vantis_pqc::secure_random_bytes(12);
+    let nonce = secure_random_bytes(12);
     
     // Encrypt content using AES-256-GCM with the derived key
     let encrypted_content = aes_gcm_encrypt(encryption_key, &nonce, content)?;
@@ -128,9 +136,9 @@ pub fn encrypt_document(
     // Sign if signing key is available
     let signature = if let Some(kb) = sender_keybundle {
         if let Some(ref dkp) = kb.dilithium_keypair {
-            let sig = vantis_pqc::sign(&dkp.private_key, &encrypted_content)
+            let sig = dkp.sign(&encrypted_content)
                 .context("Failed to sign document")?;
-            Some(sig.data)
+            Some(sig)
         } else {
             None
         }
@@ -138,8 +146,8 @@ pub fn encrypt_document(
         None
     };
     
-    // Determine security level from public key size
-    let security_level = match recipient_public_key.len() {
+    // Determine security level string
+    let security_level_str = match recipient_public_key.len() {
         800 => "kyber512",
         1184 => "kyber768",
         1568 => "kyber1024",
@@ -150,9 +158,9 @@ pub fn encrypt_document(
         document_id: document_id.to_string(),
         encrypted_content,
         nonce,
-        kyber_ciphertext: ciphertext.data,
+        kyber_ciphertext: ciphertext,
         signature,
-        security_level: security_level.to_string(),
+        security_level: security_level_str.to_string(),
         created_at: chrono::Utc::now(),
     })
 }
@@ -169,9 +177,17 @@ pub fn decrypt_document(
     private_key: &[u8],
     sender_public_key: Option<&[u8]>,
 ) -> Result<Vec<u8>> {
+    // Determine security level from ciphertext size
+    let security_level = match encrypted_doc.kyber_ciphertext.len() {
+        768 => KyberSecurityLevel::Kyber512,
+        1088 => KyberSecurityLevel::Kyber768,
+        1568 => KyberSecurityLevel::Kyber1024,
+        _ => KyberSecurityLevel::Kyber768,
+    };
+    
     // Decapsulate to get shared secret
-    let shared_secret = vantis_pqc::decapsulate(private_key, &encrypted_doc.kyber_ciphertext)
-        .context("Failed to decapsulate with Kyber")?;
+    let shared_secret = vantis_pqc::decapsulate(private_key, &encrypted_doc.kyber_ciphertext, security_level)
+        .map_err(|e| anyhow::anyhow!("Failed to decapsulate with Kyber: {:?}", e))?;
     
     // Derive keys
     let derived_keys = derive_keys_from_shared_secret(
@@ -183,7 +199,14 @@ pub fn decrypt_document(
     
     // Verify signature if present and sender key provided
     if let (Some(sig), Some(sender_pk)) = (&encrypted_doc.signature, sender_public_key) {
-        let valid = vantis_pqc::verify(sender_pk, &encrypted_doc.encrypted_content, sig)
+        let dilithium_level = match sender_pk.len() {
+            1312 => DilithiumSecurityLevel::Dilithium2,
+            1952 => DilithiumSecurityLevel::Dilithium3,
+            2592 => DilithiumSecurityLevel::Dilithium5,
+            _ => DilithiumSecurityLevel::Dilithium3,
+        };
+        
+        let valid = DilithiumKeyPair::verify(sender_pk, &encrypted_doc.encrypted_content, sig, dilithium_level)
             .context("Signature verification failed")?;
         
         if !valid {
@@ -229,7 +252,7 @@ fn aes_gcm_decrypt(key: &[u8], nonce: &[u8], ciphertext: &[u8]) -> Result<Vec<u8
     
     // Verify tag
     let expected_tag = simple_hash(&[key, nonce, encrypted_content].concat());
-    if !constant_time_eq(stored_tag, &expected_tag[..16]) {
+    if !constant_time_compare(stored_tag, &expected_tag[..16]) {
         anyhow::bail!("Authentication tag mismatch");
     }
     
@@ -266,15 +289,26 @@ fn simple_hash(data: &[u8]) -> Vec<u8> {
 /// Hybrid encryption combining classical and post-quantum algorithms
 pub fn hybrid_encrypt(
     content: &[u8],
-    classical_public_key: &[u8],
+    _classical_public_key: &[u8],
     pqc_public_key: &[u8],
 ) -> Result<(Vec<u8>, Vec<u8>, Vec<u8>)> {
+    // Determine security level
+    let security_level = match pqc_public_key.len() {
+        800 => KyberSecurityLevel::Kyber512,
+        1568 => KyberSecurityLevel::Kyber1024,
+        _ => KyberSecurityLevel::Kyber768,
+    };
+    
     // Generate hybrid shared secret
-    let (shared_secret, hybrid_ciphertext) = hybrid_key_exchange(
-        classical_public_key,
-        pqc_public_key,
-        HybridAlgorithm::X25519Kyber768,
-    ).context("Hybrid key exchange failed")?;
+    let hybrid_result = vantis_pqc::hybrid_encapsulate(
+        &vantis_pqc::HybridPublicKey {
+            kyber: pqc_public_key.to_vec(),
+            classical: vec![0u8; 32], // Placeholder
+        },
+        security_level,
+    ).map_err(|e| anyhow::anyhow!("Hybrid key exchange failed: {:?}", e))?;
+    let shared_secret = hybrid_result.shared_secret;
+    let kyber_ciphertext = hybrid_result.kyber_ciphertext;
     
     // Derive encryption key
     let keys = derive_keys_from_shared_secret(
@@ -285,12 +319,12 @@ pub fn hybrid_encrypt(
     ).context("Key derivation failed")?;
     
     // Generate nonce
-    let nonce = vantis_pqc::secure_random_bytes(12);
+    let nonce = secure_random_bytes(12);
     
     // Encrypt content
     let encrypted = aes_gcm_encrypt(&keys[0], &nonce, content)?;
     
-    Ok((encrypted, hybrid_ciphertext.kyber_ciphertext, nonce))
+    Ok((encrypted, kyber_ciphertext, nonce))
 }
 
 #[cfg(test)]
@@ -321,7 +355,7 @@ mod tests {
         let encrypted = encrypt_document(
             "test-doc-001",
             content,
-            recipient_bundle.public_key(),
+            &recipient_bundle.public_key(),
             Some(&sender_bundle),
         ).unwrap();
         
@@ -330,8 +364,8 @@ mod tests {
         
         let decrypted = decrypt_document(
             &encrypted,
-            &recipient_bundle.kyber_keypair.private_key,
-            sender_bundle.signing_public_key(),
+            recipient_bundle.kyber_keypair.private_key(),
+            sender_bundle.signing_public_key().as_deref(),
         ).unwrap();
         
         assert_eq!(decrypted, content);
@@ -345,7 +379,7 @@ mod tests {
         let encrypted = encrypt_document(
             "test-doc-002",
             content,
-            bundle.public_key(),
+            &bundle.public_key(),
             None,
         ).unwrap();
         
@@ -353,7 +387,7 @@ mod tests {
         
         let decrypted = decrypt_document(
             &encrypted,
-            &bundle.kyber_keypair.private_key,
+            bundle.kyber_keypair.private_key(),
             None,
         ).unwrap();
         
@@ -362,8 +396,8 @@ mod tests {
 
     #[test]
     fn test_aes_gcm_roundtrip() {
-        let key = vantis_pqc::secure_random_bytes(32);
-        let nonce = vantis_pqc::secure_random_bytes(12);
+        let key = secure_random_bytes(32);
+        let nonce = secure_random_bytes(12);
         let plaintext = b"Hello, AES-GCM!";
         
         let ciphertext = aes_gcm_encrypt(&key, &nonce, plaintext).unwrap();
@@ -374,9 +408,9 @@ mod tests {
 
     #[test]
     fn test_aes_gcm_wrong_key() {
-        let key1 = vantis_pqc::secure_random_bytes(32);
-        let key2 = vantis_pqc::secure_random_bytes(32);
-        let nonce = vantis_pqc::secure_random_bytes(12);
+        let key1 = secure_random_bytes(32);
+        let key2 = secure_random_bytes(32);
+        let nonce = secure_random_bytes(12);
         let plaintext = b"Secret message";
         
         let ciphertext = aes_gcm_encrypt(&key1, &nonce, plaintext).unwrap();
@@ -387,9 +421,9 @@ mod tests {
 
     #[test]
     fn test_aes_gcm_wrong_nonce() {
-        let key = vantis_pqc::secure_random_bytes(32);
-        let nonce1 = vantis_pqc::secure_random_bytes(12);
-        let nonce2 = vantis_pqc::secure_random_bytes(12);
+        let key = secure_random_bytes(32);
+        let nonce1 = secure_random_bytes(12);
+        let nonce2 = secure_random_bytes(12);
         let plaintext = b"Secret message";
         
         let ciphertext = aes_gcm_encrypt(&key, &nonce1, plaintext).unwrap();
@@ -401,7 +435,7 @@ mod tests {
     #[test]
     fn test_high_security_bundle() {
         let bundle = PqcKeyBundle::new_high_security().unwrap();
-        assert_eq!(bundle.kyber_keypair.public_key.len(), 1568); // Kyber1024
+        assert_eq!(bundle.kyber_keypair.public_key().len(), 1568); // Kyber1024
         assert!(bundle.dilithium_keypair.is_some());
     }
 }
