@@ -31,6 +31,7 @@ jobs:
       
       - name: 🏷️ Semantic Release
         uses: cycjimmy/semantic-release-action@v4
+        continue-on-error: true
         with:
           semantic_version: 22
           extra_plugins: |
