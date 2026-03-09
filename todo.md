@@ -26,6 +26,6 @@
 ## Faza 4: Porządkowanie i Finalizacja
 - [x] Wypchnąć wszystkie zmiany
 - [x] Stworzyć szczegółowy plan ukończenia projektu (docs/PROJECT_COMPLETION_PLAN.md)
-- [ ] Zweryfikować workflow'y
-- [ ] Wypchnąć plan i todo
-- [ ] Finalna weryfikacja
+- [x] Zweryfikować workflow'y
+- [x] Wypchnąć plan i todo
+- [x] Finalna weryfikacja
