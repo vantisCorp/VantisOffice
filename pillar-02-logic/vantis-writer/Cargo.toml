@@ -11,7 +11,7 @@ anyhow = "1.0"
 tokio = { version = "1.35", features = ["full"] }
 uuid = { version = "1.0", features = ["v4", "serde"] }
 chrono = { version = "0.4", features = ["serde"] }
-pulldown-cmark = "0.9"
+pulldown-cmark = "0.13"
 
 [dev-dependencies]
 criterion = "0.5"
