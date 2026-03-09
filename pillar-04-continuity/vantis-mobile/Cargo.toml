@@ -53,3 +53,7 @@ criterion = "0.5"
 [features]
 default = ["openssl-vendored"]
 openssl-vendored = ["tokio-tungstenite/native-tls-vendored"]
+
+[[bench]]
+name = "mobile_benchmark"
+harness = false
