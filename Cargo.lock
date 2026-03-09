@@ -1198,7 +1198,7 @@ dependencies = [
 
 [[package]]
 name = "flux-vector-engine"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -1209,7 +1209,7 @@ dependencies = [
  "nalgebra-glm",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
  "tracing",
  "tracing-subscriber",
@@ -4094,7 +4094,7 @@ checksum = "ba73ea9cf16a25df0c8caa16c51acb937d5712a8429db78a3ee29d5dcacd3a65"
 
 [[package]]
 name = "vantis-ark"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "criterion",
@@ -4102,31 +4102,31 @@ dependencies = [
  "rand 0.8.5",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "uuid",
 ]
 
 [[package]]
 name = "vantis-bridge"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "criterion",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "uuid",
 ]
 
 [[package]]
 name = "vantis-canvas"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "criterion",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
  "tokio-test",
  "uuid",
@@ -4134,20 +4134,20 @@ dependencies = [
 
 [[package]]
 name = "vantis-chronos"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "base64",
  "chrono",
  "criterion",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "uuid",
 ]
 
 [[package]]
 name = "vantis-core-io"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -4155,26 +4155,26 @@ dependencies = [
  "serde",
  "serde_json",
  "sha3",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
  "uuid",
 ]
 
 [[package]]
 name = "vantis-flow"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "criterion",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "uuid",
 ]
 
 [[package]]
 name = "vantis-grid"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "aes",
  "chrono",
@@ -4186,7 +4186,7 @@ dependencies = [
  "serde_json",
  "sha2",
  "statrs",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
  "tokio-test",
  "uuid",
@@ -4194,13 +4194,13 @@ dependencies = [
 
 [[package]]
 name = "vantis-lens"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "criterion",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
  "tokio-test",
  "uuid",
@@ -4208,7 +4208,7 @@ dependencies = [
 
 [[package]]
 name = "vantis-link"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "argon2",
  "chacha20poly1305",
@@ -4217,7 +4217,7 @@ dependencies = [
  "openssl",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
  "tokio-test",
  "uuid",
@@ -4225,7 +4225,7 @@ dependencies = [
 
 [[package]]
 name = "vantis-mobile"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "base64",
@@ -4238,7 +4238,7 @@ dependencies = [
  "ring",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
  "tokio-test",
  "tokio-tungstenite",
@@ -4249,13 +4249,13 @@ dependencies = [
 
 [[package]]
 name = "vantis-office-tests"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "criterion",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
 ]
 
@@ -4272,14 +4272,14 @@ dependencies = [
  "serde",
  "serde_json",
  "sha3",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "uuid",
  "zeroize",
 ]
 
 [[package]]
 name = "vantis-vault"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -4287,7 +4287,7 @@ dependencies = [
  "openssl",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
  "uuid",
  "vantis-pqc",
@@ -4295,7 +4295,7 @@ dependencies = [
 
 [[package]]
 name = "vantis-writer"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -4303,7 +4303,7 @@ dependencies = [
  "pulldown-cmark",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
  "uuid",
 ]
@@ -4550,14 +4550,14 @@ dependencies = [
 
 [[package]]
 name = "wasm-sandbox"
-version = "0.1.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "chrono",
  "criterion",
  "serde",
  "serde_json",
- "thiserror 1.0.69",
+ "thiserror 2.0.18",
  "tokio",
  "uuid",
  "wasmtime",
