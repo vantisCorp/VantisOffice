@@ -11,7 +11,7 @@ thiserror = "1.0"
 anyhow = "1.0"
 
 # Graphics and Vulkan
-vulkano = "0.34"
+vulkano = "0.35"
 vulkano-win = "0.34"
 vulkano-shaders = "0.34"
 image = "0.24"

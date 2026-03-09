@@ -47,7 +47,7 @@ async-trait = "0.1"
 
 # UI
 winit = "0.29"
-vulkano = "0.34"
+vulkano = "0.35"
 
 # WASM
 wasmtime = "15.0"
