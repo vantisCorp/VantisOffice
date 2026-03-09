@@ -31,7 +31,7 @@ statrs = "0.16"
 # Replaced rust-crypto (deprecated) with RustCrypto
 sha2 = "0.10"
 aes = "0.8"
-rand = "0.8"
+rand = "0.9"
 
 [dev-dependencies]
 tokio-test = "0.4"
