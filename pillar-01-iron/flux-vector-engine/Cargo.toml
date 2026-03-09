@@ -33,7 +33,7 @@ tracing = "0.1"
 tracing-subscriber = "0.3"
 
 [dev-dependencies]
-criterion = "0.5"
+criterion = "0.8"
 
 [[bin]]
 name = "flux-demo"

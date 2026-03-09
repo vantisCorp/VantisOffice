@@ -17,7 +17,7 @@ openssl = "0.10"
 vantis-pqc = { path = "../vantis-pqc" }
 
 [dev-dependencies]
-criterion = "0.5"
+criterion = "0.8"
 
 [[bench]]
 name = "vault_benchmark"

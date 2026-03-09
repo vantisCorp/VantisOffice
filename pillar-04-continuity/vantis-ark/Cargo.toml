@@ -17,7 +17,7 @@ md5 = "0.7"
 rand = "0.8"
 
 [dev-dependencies]
-criterion = "0.5"
+criterion = "0.8"
 
 [[bench]]
 name = "ark_benchmark"
