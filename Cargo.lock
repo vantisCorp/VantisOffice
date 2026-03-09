@@ -262,6 +262,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
 
 [[package]]
+name = "base64"
+version = "0.22.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
+
+[[package]]
 name = "base64ct"
 version = "1.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4534,7 +4540,7 @@ dependencies = [
 name = "vantis-chronos"
 version = "0.5.0"
 dependencies = [
- "base64",
+ "base64 0.22.1",
  "chrono",
  "criterion",
  "serde",
@@ -4626,7 +4632,7 @@ name = "vantis-mobile"
 version = "0.5.0"
 dependencies = [
  "anyhow",
- "base64",
+ "base64 0.22.1",
  "chacha20poly1305",
  "chrono",
  "criterion",
@@ -5136,7 +5142,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "267e8394a7f1dba500f25cc9146fb2e52aa67f908a59a2aaddbaa487765a79cc"
 dependencies = [
  "anyhow",
- "base64",
+ "base64 0.21.7",
  "directories-next",
  "log",
  "postcard",
