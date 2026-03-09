@@ -19,7 +19,7 @@ winit = "0.29"
 
 # Math
 nalgebra = "0.32"
-nalgebra-glm = "0.18"
+nalgebra-glm = "0.20"
 
 # Async
 tokio = { version = "1.35", features = ["full"] }
