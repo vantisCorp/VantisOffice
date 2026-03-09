@@ -13,7 +13,7 @@ anyhow = "1.0"
 # Graphics and Vulkan
 vulkano = "0.34"
 vulkano-win = "0.34"
-vulkano-shaders = "0.34"
+vulkano-shaders = "0.35"
 image = "0.24"
 winit = "0.29"
 
