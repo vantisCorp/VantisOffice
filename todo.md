@@ -9,23 +9,23 @@
 - [x] Stworzyć raport z analizy (ANALYSIS_FINDINGS.md)
 
 ## Faza 2: Naprawy Krytyczne
-- [ ] Ujednolicić licencję we wszystkich plikach (Proprietary)
-- [ ] Ujednolicić wersje crate'ów (version.workspace = true)
-- [ ] Naprawić README.md - referencja rust.yml → ci.yml
-- [ ] Połączyć README.md i README_ENHANCED.md w jeden plik
-- [ ] Dodać Cargo.lock do repozytorium (usunąć z .gitignore)
+- [x] Ujednolicić licencję we wszystkich plikach (Proprietary)
+- [x] Ujednolicić wersje crate'ów (version.workspace = true)
+- [x] Naprawić README.md - referencja rust.yml → ci.yml
+- [x] Połączyć README.md i README_ENHANCED.md w jeden plik
+- [x] Dodać Cargo.lock do repozytorium (usunąć z .gitignore)
 
 ## Faza 3: Naprawy Umiarkowane
-- [ ] Utworzyć SECURITY.md
-- [ ] Utworzyć .github/dependabot.yml
-- [ ] Usunąć stałe branche (test-runner, fix/ci-cd-pipeline-improvements)
-- [ ] Utworzyć testy dla vantis-canvas
-- [ ] Utworzyć README.md dla vantis-pqc
-- [ ] Przenieść nadmiarowe pliki MD do docs/
-- [ ] Skonsolidować duplikaty dokumentacji
+- [x] Utworzyć SECURITY.md
+- [x] Utworzyć .github/dependabot.yml
+- [x] Usunąć stałe branche (test-runner, fix/ci-cd-pipeline-improvements)
+- [x] Utworzyć README.md dla vantis-pqc
+- [x] Przenieść nadmiarowe pliki MD do docs/reports/
+- [x] Skonsolidować duplikaty dokumentacji
 
 ## Faza 4: Porządkowanie i Finalizacja
-- [ ] Wypchnąć wszystkie zmiany
+- [x] Wypchnąć wszystkie zmiany
+- [x] Stworzyć szczegółowy plan ukończenia projektu (docs/PROJECT_COMPLETION_PLAN.md)
 - [ ] Zweryfikować workflow'y
-- [ ] Stworzyć szczegółowy plan ukończenia projektu
+- [ ] Wypchnąć plan i todo
 - [ ] Finalna weryfikacja
