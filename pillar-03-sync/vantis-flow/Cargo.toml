@@ -1,6 +1,6 @@
 [package]
 name = "vantis-flow"
-version = "0.1.0"
+version.workspace = true
 edition = "2021"
 authors = ["Vantis Team"]
 description = "Planning and diagrams module for VantisOffice"

@@ -20,37 +20,58 @@ Opisz szczegóły techniczne wprowadzonych zmian:
 
 ## Testowanie
 
-- [ ] Kod został przetestowany ręcznie
-- [ ] Dodano testy jednostkowe
-- [ ] Dodano testy integracyjne
-- [ ] Testy przechodzą pomyślnie
-- [ ] Brak regresji w istniejącej funkcjonalności
+- [ ] Dodano/aktualizowano testy jednostkowe
+- [ ] Dodano/aktualizowano testy integracyjne
+- [ ] Przeprowadzono testy manualne
+- [ ] Wszystkie testy przechodzą (`npm test`)
+
+### Instrukcje testowania
+
+Opisz jak przetestować wprowadzone zmiany:
+```bash
+# Przykładowe kroki testowania
+npm install
+npm test
+npm run build
+```
 
 ## Wpływ na system
 
-Opisz wpływ wprowadzonych zmian na:
-- **Wydajność**: [wpis]
-- **Bezpieczeństwo**: [wpis]
-- **Kompatybilność**: [wpis]
-- **UX**: [wpis]
+- [ ] Wpływ na wydajność: Tak/Nie (jeśli tak, opisz)
+- [ ] Wpływ na bezpieczeństwo: Tak/Nie (jeśli tak, opisz)
+- [ ] Zgodność z poprzednimi wersjami: Tak/Nie
+- [ ] Wymaga migracji danych: Tak/Nie
+- [ ] Wymaga aktualizacji konfiguracji: Tak/Nie
 
-## Checklist jakości
+## Dokumentacja
 
-- [ ] Kod spełnia standardy stylu projektu
-- [ ] Komentarze są jasne i aktualne
-- [ ] Dokumentacja została zaktualizowana
-- [ ] Commity są zgodne z Conventional Commits
-- [ ] PR ma opisowy tytuł
-- [ ] Wszystkie pliki zostały sformatowane (Prettier)
-- [ ] Brak ostrzeżeń ESLinta
+- [ ] Zaktualizowano README.md
+- [ ] Zaktualizowano dokumentację API
+- [ ] Dodano/aktualizowano komentarze w kodzie
+- [ ] Dodano przykłady użycia
 
-## Zrzuty ekranu / Demo
+## Zrzuty ekranu (jeśli dotyczy)
 
-Jeśli dotyczy:
-- Dodaj zrzuty ekranu
-- Dodaj link do demo
-- Dodaj screencast
+Dodaj zrzuty ekranu dla zmian wizualnych:
+- Przed zmianami
+- Po zmianach
 
 ## Dodatkowe informacje
 
-Wszelkie dodatkowe informacje kontekstowe, które mogą pomóc w code review.
+Wszelkie inne istotne informacje:
+- znane problemy
+- planowane przyszłe prace
+- odniesienia do powiązanych issue
+
+## Checklist
+
+- [ ] Kod jest zgodny z standardami projektu (ESLint, Prettier)
+- [ ] Commity są poprawnie opisane i sformatowane
+- [ ] Branch jest aktualny względem `main`
+- [ ] Wszystkie testy przechodzą w CI
+- [ ] Przeanalizowano wpływ na wydajność i bezpieczeństwo
+- [ ] Dokumentacja została zaktualizowana
+
+## Recenzenci
+
+@mention recenzentów, którzy powinni przejrzeć te zmiany.

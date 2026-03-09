@@ -1,6 +1,6 @@
 [package]
 name = "vantis-grid"
-version = "0.1.0"
+version.workspace = true
 edition = "2021"
 authors = ["Vantis Team"]
 description = "AI-powered spreadsheet application for VantisOffice"
