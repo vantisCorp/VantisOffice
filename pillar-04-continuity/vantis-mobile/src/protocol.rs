@@ -306,7 +306,7 @@ impl SecureTunnel {
         // Send via WebSocket
         let mut conn_guard = self.connection.write().await;
         if let Some(ws) = conn_guard.as_mut() {
-            ws.send(Message::Binary(final_message))
+            ws.send(Message::Binary(final_message.into()))
                 .await
                 .map_err(|e| MobileError::Network(e.to_string()))?;
         }

@@ -1,9 +1,13 @@
 //! Vantis Writer: Advanced word processor for VantisOffice
 //!
-//! Features Babel Typography, Deep Focus Mode, and native Markdown support.
+//! Features Babel Typography, Deep Focus Mode, native Markdown support,
+//! post-quantum document encryption via Vantis Vault integration,
+//! and real-time collaboration via Vantis Link integration.
 
 pub mod ai;
+pub mod collaboration;
 pub mod core;
+pub mod encryption;
 pub mod focus;
 pub mod markdown;
 pub mod typography;

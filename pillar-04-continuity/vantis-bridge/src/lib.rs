@@ -7,6 +7,7 @@
 //! - Macro/script removal
 //! - Format validation
 
+pub mod collaborative;
 pub mod converters;
 pub mod core;
 pub mod export;
@@ -17,6 +18,7 @@ pub use converters::{Converter, DocxConverter, PptxConverter, XlsxConverter};
 pub use core::{ConversionConfig, ConversionResult, Document, DocumentType, SanitizationResult};
 pub use export::{ExportFormat, ExportResult, VantisExporter};
 pub use parsers::{DocxParser, Parser, PptxParser, XlsxParser};
+pub use collaborative::{CollaborativeConversionManager, CollaborativeConfig, ConversionJob, JobStatus};
 pub use sanitization::{SanitizationConfig, Sanitizer};
 
 /// Vantis Bridge version

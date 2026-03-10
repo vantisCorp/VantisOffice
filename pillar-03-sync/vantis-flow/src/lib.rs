@@ -1,10 +1,13 @@
 //! Vantis Flow - Planning and Diagrams Module
+//!
+//! Features planning, diagrams, and scheduling integration with Vantis Chronos.
 
 pub mod collaboration;
 pub mod core;
 pub mod diagram;
 pub mod export;
 pub mod planning;
+pub mod scheduling;
 
 pub use core::{Canvas, Color, Connection, ConnectionType, Element, ElementType, Stroke, Style};
 
@@ -21,6 +24,8 @@ pub use planning::{
 pub use collaboration::{ConflictResolver, FlowCRDT, FlowChange, FlowSession, FlowUser};
 
 pub use export::{export_to_json, export_to_svg, ExportFormat, FlowExporter};
+
+pub use scheduling::FlowSchedulingManager;
 
 use thiserror::Error;
 
@@ -44,6 +49,9 @@ pub enum FlowError {
 
     #[error("Collaboration error: {0}")]
     CollaborationError(String),
+
+    #[error("Scheduling error: {0}")]
+    SchedulingError(String),
 
     #[error("Export error: {0}")]
     ExportError(String),

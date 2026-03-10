@@ -46,6 +46,9 @@ uuid = { version = "1.6", features = ["v4", "serde"] }
 # Time handling
 chrono = { version = "0.4", features = ["serde"] }
 
+# Cross-pillar integration: Pillar 03 (Sync) -> Pillar 04 (Continuity)
+vantis-link = { path = "../../pillar-03-sync/vantis-link" }
+
 [dev-dependencies]
 tokio-test = "0.4"
 criterion = "0.5"
