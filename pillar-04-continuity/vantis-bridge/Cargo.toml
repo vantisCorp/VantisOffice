@@ -14,6 +14,9 @@ uuid = { version = "1.0", features = ["v4", "serde"] }
 chrono = { version = "0.4", features = ["serde"] }
 thiserror = "1.0"
 
+# Cross-pillar integration: Pillar 03 (Sync) -> Pillar 04 (Continuity)
+vantis-link = { path = "../../pillar-03-sync/vantis-link" }
+
 [dev-dependencies]
 criterion = "0.5"
 

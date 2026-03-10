@@ -11,6 +11,7 @@ pub mod core;
 pub mod distribution;
 pub mod encryption;
 pub mod scheduler;
+pub mod session_backup;
 pub mod shamir;
 pub mod ui;
 
@@ -29,6 +30,7 @@ pub use scheduler::{
     TaskConfig, TaskResult,
 };
 pub use shamir::{BackupPart, PartVerifier, RecoverConfig, SecretSharing, SplitConfig, Weekday};
+pub use session_backup::{SessionBackupManager, SessionBackupConfig, SessionSnapshot, SnapshotType};
 pub use ui::{BackupStatus, Dashboard, RecoveryStatusUI, RecoveryUI, SettingsUI, StatusDisplay};
 
 /// Vantis Ark version

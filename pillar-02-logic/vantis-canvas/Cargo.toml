@@ -17,8 +17,8 @@ thiserror = "1.0"
 # Async runtime
 tokio = { version = "1.35", features = ["full"] }
 
-# Graphics (placeholder - would use Vulkan in production)
-# vulkano = "0.34"
+# Cross-pillar integration: Pillar 01 (Iron) -> Pillar 02 (Logic)
+flux-vector-engine = { path = "../../pillar-01-iron/flux-vector-engine" }
 
 [dev-dependencies]
 tokio-test = "0.4"

@@ -2,7 +2,7 @@
 //!
 //! Features:
 //! - Infinite Canvas for non-linear navigation
-//! - GPU-accelerated rendering (Vulkan-based)
+//! - GPU-accelerated rendering via Flux Vector Engine (Pillar 01)
 //! - Real-time collaboration
 //! - Advanced animations and transitions
 //! - Support for 4K and 8K resolutions
@@ -11,12 +11,14 @@ pub mod animation;
 pub mod collaboration;
 pub mod core;
 pub mod export;
+pub mod gpu_rendering;
 pub mod rendering;
 
 pub use animation::{Animation, AnimationManager, Timeline, Transition};
 pub use collaboration::{CanvasCollaboration, Cursor, User};
-pub use core::{Canvas, Image, Layer, Shape, Slide, Text};
+pub use core::{Canvas, Fill, Image, Layer, Shape, ShapeType, Slide, Stroke, Text};
 pub use export::{CanvasExporter, ExportFormat};
+pub use gpu_rendering::{GpuCanvasRenderer, GpuRenderConfig, RenderQuality};
 pub use rendering::{RenderContext, RenderTarget, Renderer};
 
 /// Vantis Canvas version
@@ -46,6 +48,9 @@ pub enum CanvasError {
 
     #[error("Collaboration error: {0}")]
     Collaboration(String),
+
+    #[error("GPU rendering error: {0}")]
+    GpuRendering(String),
 
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),

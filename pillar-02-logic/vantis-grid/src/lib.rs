@@ -6,18 +6,23 @@
 //! - Real-time collaboration
 //! - Advanced formulas and functions
 //! - GPU-accelerated calculations
+//! - Post-quantum security via vantis-pqc integration
 
 pub mod collaboration;
 pub mod core;
 pub mod engine;
 pub mod export;
 pub mod formulas;
+pub mod realtime_sync;
+pub mod security;
 
 pub use collaboration::{ChangeTracker, CollaborationManager};
 pub use core::{Cell, CellValue, Column, Grid, Row, Workbook, Worksheet};
 pub use engine::{NeuralEngine, PredictionModel, TrendAnalysis};
 pub use export::{ExportFormat, Exporter};
 pub use formulas::{FormulaEngine, FunctionRegistry};
+pub use security::{SpreadsheetSecurityLevel, SpreadsheetSecurityManager};
+pub use realtime_sync::GridSyncSession;
 
 /// Vantis Grid version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -52,6 +57,9 @@ pub enum GridError {
 
     #[error("Collaboration error: {0}")]
     Collaboration(String),
+
+    #[error("Encryption error: {0}")]
+    Encryption(String),
 
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),

@@ -32,6 +32,7 @@
 
 pub mod crypto;
 pub mod models;
+pub mod offline_sync;
 pub mod protocol;
 pub mod error;
 pub mod ffi;
