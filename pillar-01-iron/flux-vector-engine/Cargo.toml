@@ -18,7 +18,7 @@ image = "0.24"
 winit = "0.30"
 
 # Math
-nalgebra = "0.32"
+nalgebra = "0.33"
 nalgebra-glm = "0.18"
 
 # Async
