@@ -25,7 +25,7 @@ jobs:
       run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
     
     - name: Create Release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       with:
         name: VantisOffice ${{ steps.version.outputs.VERSION }}
         draft: false
@@ -96,12 +96,12 @@ jobs:
     
     - name: Upload release asset (Unix)
       if: matrix.os != 'windows-latest'
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       with:
         files: target/${{ matrix.target }}/release/${{ matrix.artifact }}.tar.gz
     
     - name: Upload release asset (Windows)
       if: matrix.os == 'windows-latest'
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       with:
         files: target/${{ matrix.target }}/release/${{ matrix.artifact }}.zip
